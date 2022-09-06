@@ -1,10 +1,5 @@
 # Fasten your seatbelts
 
-#Koen
-Mijn naam is Koen, ik heb geen ervaring met programmeren en werk in een cafe.
-verder ben ik 17 jaar oud en kan ik wel genieten van een biertje. Nu heb ik geen
-Ideeen meer dus sluit ik hier bij af
-
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.

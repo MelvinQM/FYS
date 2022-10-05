@@ -31,3 +31,5 @@ except KeyboardInterrupt:
     pass
 #zorgen dat de servo weer naar het 0 punt beweegt
 wpi.pwmWrite(servoPin, minMove)
+
+#kijk het even door als je het niet begrijp

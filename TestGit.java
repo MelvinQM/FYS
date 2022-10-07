@@ -6,3 +6,5 @@ public class TestGit {
         System.out.ptintln(jeMama);
     }
 }
+
+System.out.println("ben je bitch?!")

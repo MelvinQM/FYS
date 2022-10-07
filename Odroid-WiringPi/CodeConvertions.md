@@ -2,24 +2,20 @@ Node.js bindings to [wiringPi](https://projects.drogon.net/raspberry-pi/wiringpi
 
 ## Install
 
-    > npm install wiring-pi
+    pip install odroid-wiringpi
 
 ## Use
-
-```javascript
-
-var wpi = require('wiring-pi');
-
-```
 
 ### `wpi.setup([mode])`
 
 ```javascript
-wpi.setup();
+wpi.<setup>;
 ```
 
 ```javascript
-wpi.setup('gpio');
+wpi.wiringPiSetup;
+wpi.wiringPiSetupGpio;
+wpi.wiringPiSetupSys;
 ```
 
 Valid Modes:
@@ -33,11 +29,11 @@ See [wiringPi Pins](http://wiringpi.com/pins/) for the differences in Pin number
 ### `wpi.pinMode(pin, mode)`
 
 ```javascript
-wpi.pinMode(0, wpi.modes.OUTPUT);
+wpi.pinMode(0, wpi.OUTPUT);
 ```
 
 - `pin`: pin number
-- `mode`: `wpi.modes.INPUT`, `wpi.modes.OUTPUT`, or `wpi.modes.PWM_OUTPUT`
+- `mode`: `wpi.INPUT`, `wpi.OUTPUT`, or `wpi.PWM_OUTPUT`
 
 ### `wpi.digitalWrite(pin, value)`
 

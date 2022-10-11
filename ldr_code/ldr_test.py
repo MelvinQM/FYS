@@ -14,8 +14,6 @@ wpi.pinMode(LASER_PIN, wpi.OUTPUT)
 output = 0
 outputOld = 0
 
-
-
 # def gpio_callback():
 #    print ("GPIO_CALLBACK!")
 

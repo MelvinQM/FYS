@@ -7,3 +7,5 @@ Dit is de officiele documentatie voor project Shansen
 ## Installeren Python en alle libraries
 
 ## Fysieke installatie
+
+## Code

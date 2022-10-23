@@ -1,17 +1,24 @@
-# Importere van alle python packages
-from flask import Flask, render_template, request
+# Importeren van alle python packages
+from flask import Flask, render_template, request, redirect
 import sys
 import odroid_wiringpi as wpi
 import time
-
-# Appenden van andere scripts
-sys.path.append("/root/fasten-your-seatbelts/ldr_code")
+import subprocess
+# import threading
 import ldr
-import ldr_test
 
+is_gestart = False
+
+# Main flask code stuk
 app = Flask(__name__, template_folder=".")
 
 
+def spel():
+    if is_gestart == true:
+        pass
+
+
+# Home Page
 @app.route("/")
 def home():
     head = "Welkom bij robothockey"
@@ -19,12 +26,12 @@ def home():
     return render_template("index.html", head=head, greet=greet)
 
 
-@app.route("/maingameloop")
+# Start de game loop
+@app.route("/start")
 def page1():
-    ldr.ldr_func()
-    pagina1 = "Main Game Loop"
-    return render_template("page2.html", page2=pagina1)
+    wpi.wiringPiSetup()
+    readldr = wpi.digitalRead(9)
+    return render_template("maingameloop.html", readldr=readldr)
 
 
-if 0 == 0:
-    app.run(host="0.0.0.0", port=80, debug=True)
+app.run(host="0.0.0.0", port=80, debug=True)

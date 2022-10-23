@@ -1,7 +1,9 @@
 import odroid_wiringpi as wpi
 import time
 
+
 def ldr_func():
+
     LDR_PIN = 9
     # verbind + met pin 1 (3.3 Volt)
     # verbind - met pin 5 ground (0 Volt)
@@ -19,6 +21,7 @@ def ldr_func():
     #    print ("GPIO_CALLBACK!")
 
     wpi.digitalWrite(LASER_PIN, wpi.HIGH)
+    #return wpi.digitalRead(LDR_PIN)
 
     while True:
         # Varuiabele
@@ -31,5 +34,3 @@ def ldr_func():
 
         outputOld = output
         time.sleep(0.05)
-
-ldr_func()

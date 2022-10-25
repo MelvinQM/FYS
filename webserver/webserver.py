@@ -12,12 +12,6 @@ is_gestart = False
 # Main flask code stuk
 app = Flask(__name__, template_folder=".")
 
-
-def spel():
-    if is_gestart == true:
-        pass
-
-
 # Home Page
 @app.route("/")
 def home():

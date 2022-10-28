@@ -7,6 +7,9 @@ import threading
 import logging
 import odroid_wiringpi as wpi
 
+# Zorgen dat de wpi pins worden gebruikt
+wpi.wiringPiSetup()
+
 # Servo pin aanwijzen en instellen
 servoPin = 1
 servoDelay = 0.5
@@ -22,8 +25,6 @@ oldSound = 1460
 minMove = 0
 maxMove = 180
 
-# Zorgen dat de wpi pins worden gebruikt
-wpi.wiringPiSetup()
 
 # Function for usage of Sound Sensor
 def soundSensor():

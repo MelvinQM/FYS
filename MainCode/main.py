@@ -84,26 +84,7 @@ soundThread = threading.Thread(target=soundSensor)
 servoThread = threading.Thread(target=servoMovement)
 ldrThread = threading.Thread(target=ldr_func)
 # Start threading
-#soundThread.start()
-#servoThread.start()
+soundThread.start()
+servoThread.start()
 ldrThread.start()
-
-
-
-""" 
-# Loop die zorgt voor functionaliteit servo en soundsensor
-while True:
-    try:
-        # user input beweging optie
-        # angle = float(input('Enter angle between 0 & 180: '))
-        # move = ((angle/18)+2)*45
-        move = random.randint(int((minMove / 18) + 2) * 45, int((maxMove / 18) + 2) * 45)
-        wpi.pwmWrite(servoPin, int(move))
-        time.sleep(0.5)
-
-    # Reset by pressing CTRL + C
-    except KeyboardInterrupt:
-        wpi.digitalWrite(LED_PIN, wpi.LOW)
-        print("Measurement stopped by User")
-"""
 

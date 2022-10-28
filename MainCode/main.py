@@ -4,8 +4,6 @@
 import random
 import time
 import odroid_wiringpi as wpi
-#import sys
-#from time import sleep
 
 # Zorgen dat de wpi pins worden gebruikt
 wpi.wiringPiSetup()

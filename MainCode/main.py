@@ -16,7 +16,7 @@ servoDelay = 0.5
 wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
 
 # De pin van de sound sensor
-soundSensor_PIN = 37
+soundSensor_PIN = 25 # physical 37
 LED_PIN = 9
 wpi.pinMode(LED_PIN, wpi.OUTPUT)
 

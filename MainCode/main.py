@@ -6,7 +6,7 @@ import time
 import odroid_wiringpi as wpi
 #import sys
 #from time import sleep
-
+#TESTING YES
 # Zorgen dat de wpi pins worden gebruikt
 wpi.wiringPiSetup()
 

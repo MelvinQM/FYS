@@ -12,7 +12,6 @@ wpi.wiringPiSetup()
 
 # Servo pin aanwijzen en instellen
 servoPin = 1
-servoDelay = 0.5
 wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
 
 # De pin van de sound sensor
@@ -23,6 +22,9 @@ wpi.pinMode(LED_PIN, wpi.OUTPUT)
 
 # Thresholds instellen voor soundsensor en Servo beweging
 thresholdSound = 1700
+servoDelay = 0.5
+soundDelay = 0.1
+ldrDelay - 0.1
 minMove = 0
 maxMove = 180
 
@@ -45,7 +47,7 @@ def soundSensor():
         else:
             wpi.digitalWrite(LED_PIN, wpi.LOW)
             print("Below Threshold")
-        time.sleep(0.2)
+        time.sleep(soundDelay)
 
 
 
@@ -78,7 +80,7 @@ def ldr_func():
         """
         print(output)
         outputOld = output
-        time.sleep(0.1)
+        time.sleep(ldrDelay)
 # Thread aangemaakt
 soundThread = threading.Thread(target=soundSensor)
 servoThread = threading.Thread(target=servoMovement)

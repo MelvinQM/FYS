@@ -18,13 +18,18 @@ wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
 # De pin van de sound sensor
 soundSensor_PIN = 25 # physical 37
 LED_PIN = 9
+LDR_PIN = 3
 wpi.pinMode(LED_PIN, wpi.OUTPUT)
 
 # Thresholds instellen voor soundsensor en Servo beweging
-oldSound = 1460
+thresholdSound = 1700
 minMove = 0
 maxMove = 180
+
 sound = 0
+
+wpi.pinMode(LDR_PIN, wpi.INPUT)
+#wpi.pinMode(LASER_PIN, wpi.OUTPUT)
 
 # Function for usage of Sound Sensor
 def soundSensor():
@@ -32,14 +37,15 @@ def soundSensor():
         global sound
         # analogRead leest een float value van de sensor af (Geluid dus)
         sound = wpi.analogRead(soundSensor_PIN)
-        print(sound)
+        print("Sound value:", sound)
         # Vergelijk het gelezen value met een preset value die je kan instellen bij oldSound
-        if sound > oldSound:
+        if sound > thresholdSound:
             wpi.digitalWrite(LED_PIN, wpi.HIGH)
-            print("wpi.HIGH")
+            print("Threshold Exceeded")
         else:
             wpi.digitalWrite(LED_PIN, wpi.LOW)
-            print("wpi.LOW")
+            print("Below Threshold")
+        time.sleep(0.2)
 
 
 
@@ -58,12 +64,29 @@ def servoMovement():
             print("Measurement stopped by User")
 
 
+def ldr_func():
+    while True:
+        # Varuiabele
+        output = wpi.digitalRead(3)
+        """
+        outputOld = 0
+        # print(output, outputOld)
+        if output > outputOld:
+            print("Lichtje Uit")
+        elif output < outputOld:
+            print("Lichtje Aan")
+        """
+        print(output)
+        outputOld = output
+        time.sleep(0.1)
 # Thread aangemaakt
 soundThread = threading.Thread(target=soundSensor)
 servoThread = threading.Thread(target=servoMovement)
+ldrThread = threading.Thread(target=ldr_func)
 # Start threading
-soundThread.start()
-servoThread.start()
+#soundThread.start()
+#servoThread.start()
+ldrThread.start()
 
 
 

@@ -15,7 +15,7 @@ servoPin = 1
 wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
 
 # De pin van de sound sensor
-soundSensor_PIN = 25 # physical 37
+soundSensor_PIN = 25 # Physical 37
 LED_PIN = 9
 LDR_PIN = 3
 wpi.pinMode(LED_PIN, wpi.OUTPUT)
@@ -24,10 +24,11 @@ wpi.pinMode(LED_PIN, wpi.OUTPUT)
 thresholdSound = 1700
 servoDelay = 0.5
 soundDelay = 0.1
-ldrDelay - 0.1
+ldrDelay = 0.1
 minMove = 0
 maxMove = 180
 
+# Variabel initialiseren voor de functie
 sound = 0
 
 wpi.pinMode(LDR_PIN, wpi.INPUT)
@@ -50,7 +51,6 @@ def soundSensor():
         time.sleep(soundDelay)
 
 
-
 def servoMovement():
     while True:
         try:
@@ -68,7 +68,7 @@ def servoMovement():
 
 def ldr_func():
     while True:
-        # Varuiabele
+        # Variabele
         output = wpi.digitalRead(3)
         """
         outputOld = 0
@@ -81,10 +81,12 @@ def ldr_func():
         print(output)
         outputOld = output
         time.sleep(ldrDelay)
+
 # Thread aangemaakt
 soundThread = threading.Thread(target=soundSensor)
 servoThread = threading.Thread(target=servoMovement)
 ldrThread = threading.Thread(target=ldr_func)
+
 # Start threading
 soundThread.start()
 servoThread.start()

@@ -24,11 +24,12 @@ wpi.pinMode(LED_PIN, wpi.OUTPUT)
 oldSound = 1460
 minMove = 0
 maxMove = 180
-
+sound = 0
 
 # Function for usage of Sound Sensor
 def soundSensor():
     while True:
+        global sound
         # analogRead leest een float value van de sensor af (Geluid dus)
         sound = wpi.analogRead(soundSensor_PIN)
         print(sound)

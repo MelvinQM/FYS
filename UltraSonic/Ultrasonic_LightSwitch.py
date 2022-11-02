@@ -13,7 +13,6 @@ LED_PIN = 9
 # set GPIO direction (IN / OUT)
 GPIO.pinMode(GPIO_TRIGGER, GPIO.OUTPUT)
 GPIO.pinMode(GPIO_ECHO, GPIO.INPUT)
-
 GPIO.pinMode(LED_PIN, GPIO.OUTPUT)
 
 

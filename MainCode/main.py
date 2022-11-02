@@ -10,21 +10,23 @@ import odroid_wiringpi as wpi
 # Zorgen dat de wpi pins worden gebruikt
 wpi.wiringPiSetup()
 
-# Servo pin aanwijzen en instellen
+# De pins aanwijzen en instellen
 servoPin = 1
-wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
-
-# De pin van de sound sensor
-soundSensor_PIN = 25 # Physical 37
+soundSensor_PIN = 25
 LED_PIN = 9
 LDR_PIN = 3
+wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
 wpi.pinMode(LED_PIN, wpi.OUTPUT)
 
-# Thresholds instellen voor soundsensor en Servo beweging
+# Thresholds instellingen voor soundsensor
 thresholdSound = 1700
+
+# Delays
 servoDelay = 0.5
 soundDelay = 0.1
 ldrDelay = 0.1
+
+# Servo min en max
 minMove = 0
 maxMove = 180
 

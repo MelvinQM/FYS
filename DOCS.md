@@ -1,5 +1,5 @@
-# Officiele documentatie voor project FYS: Shansen
-Dit is de officiele documentatie voor project Shansen
+# Officiele documentatie voor project FYS: Shansen(robohockey)
+Dit is de officiele documentatie voor project Shansen (nee het heet robohockey)
 
 ## Installeren van de Odroid
 

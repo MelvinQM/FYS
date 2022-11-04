@@ -6,8 +6,27 @@
     <body>
         <h1>{{head}}</h1>
         <h2 style="font-family:verdana,serif">{{greet}}</h2>
+        <a href="/start">
+            <button>Start Playing</button>
+        </a>
+        <script>
+            async function fetchJson() {
+                /*
+                fetch('https://jsonplaceholder.typicode.com/todos/1')
+                .then(response => response.json())
+                .then(data => console.log(data))
+                document.getElementById()
+                */
+                let response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+                let data = await response.json();
+                let userId = data.userId;
+                console.log(data);
+                console.log(userId);
+            }
+
+            fetchJson()
+        </script>
+        <h1>fetchjson()</h1>
     </body>
-    <a href="/start">
-        <button>Start Playing</button>
-    </a>
+
 </html>

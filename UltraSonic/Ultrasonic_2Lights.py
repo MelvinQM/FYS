@@ -19,7 +19,7 @@ GPIO.pinMode(LED_PIN, GPIO.OUTPUT)
 
 
 def distance():
-    # set Trigger to HIGH
+# set Trigger to HIGH
     GPIO.digitalWrite(GPIO_TRIGGER, GPIO.HIGH)
 
     # set Trigger after 0.01ms to LOW

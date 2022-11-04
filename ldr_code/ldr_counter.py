@@ -1,10 +1,10 @@
 import time
 import odroid_wiringpi as wpi
 
-# LDR_PIN = 3
-# LDR_DELAY = 0.1
+LDR_PIN = 3
+LDR_DELAY = 0.1
 
-wpi.pinMode(3, wpi.INPUT)
+wpi.pinMode(LDR_PIN, wpi.INPUT)
 outputOld = 0
 
 while True:
@@ -15,4 +15,4 @@ while True:
         print("Lichtje Aan")
     print(output)
     outputOld = output
-    time.sleep(0.1)
+    time.sleep(LDR_DELAY)

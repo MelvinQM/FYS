@@ -95,7 +95,7 @@ def ldr_func():
         outputOld = output
         time.sleep(ldrDelay)
 
-
+# Function for usage of ultrasonic
 def ultrasonic():
     while True:
         # dist is a variable made for distance()

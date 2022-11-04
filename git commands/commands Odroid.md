@@ -5,6 +5,10 @@ Hier vind je de commands voor git op de odroid. Je kan deze commands gebruiken o
 git gelijk op de odroid te laten werken in plaats van eerst de files te moeten verplaatsen
 naar je computer.
 
+Met clone kan je alles van git op je computer zetten.
+## Clone
+    git clone
+
 ## Pull
 
     git pull
@@ -40,6 +44,12 @@ Om te commiten moet je eerst een branch uploaden in gitlab en vervolgens een mer
 aan maken. Deze moet dan geaccepteerd worden door een ander om zeker te zijn dat de code
 is gecontrolleerd.
 
+## SSH key krijgen
+Genereert de key
+
+    ssh-keygen
+    
+    klik enter meerdere keren geef het geen wachtwoord
 
 ## Push
 

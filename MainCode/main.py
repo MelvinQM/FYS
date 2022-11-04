@@ -4,7 +4,6 @@
 import random
 import time
 import threading
-import logging
 import odroid_wiringpi as wpi
 
 # Zorgen dat de wpi pins worden gebruikt

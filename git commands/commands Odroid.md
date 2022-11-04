@@ -7,6 +7,7 @@ naar je computer.
 
 Met clone kan je alles van git op je computer zetten.
 ## Clone
+
     git clone
 
 ## Pull

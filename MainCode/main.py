@@ -63,7 +63,7 @@ def soundsensor():
             print("Below Threshold")
         time.sleep(soundDelay)
 
-
+# Function for usage of servo
 def servomovement():
     while True:
         try:
@@ -78,7 +78,7 @@ def servomovement():
             wpi.digitalWrite(LED_PIN, wpi.LOW)
             print("Measurement stopped by User")
 
-
+# Function for usage of ldr
 def ldr_func():
     while True:
         # Variabele

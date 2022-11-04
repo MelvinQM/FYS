@@ -1,7 +1,6 @@
 import odroid_wiringpi as wpi
 import time
 
-
 LDR_PIN = 9
 # + op pin 1 (3.3v)
 # - op pin 5 (ground)

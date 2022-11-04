@@ -4,7 +4,7 @@ import time
 
 def ldr_func():
 
-    LDR_PIN = 9
+    LDR_PIN = 15
     # verbind + met pin 1 (3.3 Volt)
     # verbind - met pin 5 ground (0 Volt)
     # verbind S met pin 6 (ALT1 Output)
@@ -24,13 +24,20 @@ def ldr_func():
     #return wpi.digitalRead(LDR_PIN)
 
     while True:
+
         # Varuiabele
+
         output = wpi.digitalRead(LDR_PIN)
+        """
         # print(output, outputOld)
         if output > outputOld:
             print("Lichtje Uit")
         elif output < outputOld:
             print("Lichtje Aan")
-
+        """
         outputOld = output
-        time.sleep(0.05)
+        print(output)
+        time.sleep(0.1)
+
+if __name__ == '__main__':
+    ldr_func()

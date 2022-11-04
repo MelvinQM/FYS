@@ -14,9 +14,10 @@ wpi.wiringPiSetup()
 servoPin = 1
 soundSensor_PIN = 25
 LED_PIN = 9
-LDR_PIN = 3
+LDR_PIN = 24
 wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
 wpi.pinMode(LED_PIN, wpi.OUTPUT)
+wpi.pinMode(LDR_PIN, wpi.INPUT)
 
 # set GPIO Pins
 triggerPin = 7
@@ -44,7 +45,7 @@ maxMove = 180
 # Variabel initialiseren voor de functie
 sound = 0
 
-wpi.pinMode(LDR_PIN, wpi.INPUT)
+
 #wpi.pinMode(LASER_PIN, wpi.OUTPUT)
 
 # Function for usage of Sound Sensor
@@ -81,8 +82,9 @@ def servomovement():
 
 def ldr_func():
     while True:
+        global LDR_PIN
         # Variabele
-        output = wpi.digitalRead(3)
+        output = wpi.digitalRead(LDR_PIN)
         """
         outputOld = 0
         # print(output, outputOld)
@@ -140,8 +142,8 @@ ldrThread = threading.Thread(target=ldr_func)
 ultraSonicThread = threading.Thread(target=ultrasonic)
 
 # Start threading
-soundThread.start()
-servoThread.start()
+#soundThread.start()
+#servoThread.start()
 ldrThread.start()
-ultraSonicThread.start()
+#ultraSonicThread.start()
 

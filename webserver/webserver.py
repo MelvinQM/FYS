@@ -1,11 +1,12 @@
 # Importeren van alle python packages
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 import sys
 import odroid_wiringpi as wpi
 import time
 import subprocess
 # import threading
 import ldr
+import json
 
 is_gestart = False
 
@@ -21,11 +22,12 @@ def home():
 
 
 # Start de game loop
-@app.route("/start")
+@app.route("/api")
 def page1():
     wpi.wiringPiSetup()
     readldr = wpi.digitalRead(9)
-    return render_template("maingameloop.html", readldr=readldr)
-
+    return jsonify({'name': 'alice',
+                    'email': 'alice@outlook.com',
+                    'Yomamma': 69})
 
 app.run(host="0.0.0.0", port=80, debug=True)

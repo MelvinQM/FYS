@@ -10,28 +10,17 @@
             <button>Start Playing</button>
         </a>
         <script>
-            async function fetchJson() {
-                /*
-                fetch('https://jsonplaceholder.typicode.com/todos/1')
-                .then(response => response.json())
-                .then(data => console.log(data))
-                document.getElementById()
-                */
-                let response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-                let data = await response.json();
-                let displayvalue = data.userId;
-                let displayname = data.title;
-                console.log(data);
-                console.log(displayvalue);
-                console.log(displayname);
-                document.getElementById("displaynameHTML").innerHTML = displayname
-                document.getElementById("displayvalueHTML").innerHTML = displayvalue
-
+            var returnValue = function () {
+                fetch('/api')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        document.getElementById("displayID").innerHTML = data.Yomamma;
+                    })
             }
-            fetchJson()
+            setInterval(returnValue, 5000)
         </script>
-        <p>Name: <p id="displaynameHTML"></p>
-        <p>Value: <p id="displayvalueHTML"></p>
+        <h1>De waarde: <span id="displayID">#</span></h1>
     </body>
 
 </html>

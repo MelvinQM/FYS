@@ -28,6 +28,6 @@ def page1():
     readldr = wpi.digitalRead(9)
     return jsonify({'name': 'alice',
                     'email': 'alice@outlook.com',
-                    'Yomamma': 69})
+                    'Yomamma': readldr})
 
 app.run(host="0.0.0.0", port=80, debug=True)

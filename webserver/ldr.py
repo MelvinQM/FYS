@@ -4,7 +4,7 @@ import time
 
 def ldr_func():
 
-    LDR_PIN = 15
+    LDR_PIN = 9
     # verbind + met pin 1 (3.3 Volt)
     # verbind - met pin 5 ground (0 Volt)
     # verbind S met pin 6 (ALT1 Output)
@@ -13,14 +13,6 @@ def ldr_func():
     wpi.wiringPiSetup()
 
     wpi.pinMode(LDR_PIN, wpi.INPUT)
-    wpi.pinMode(LASER_PIN, wpi.OUTPUT)
-    output = 0
-    outputOld = 0
-
-    # def gpio_callback():
-    #    print ("GPIO_CALLBACK!")
-
-    wpi.digitalWrite(LASER_PIN, wpi.HIGH)
     #return wpi.digitalRead(LDR_PIN)
 
     while True:
@@ -37,7 +29,7 @@ def ldr_func():
         """
         outputOld = output
         print(output)
-        time.sleep(0.1)
+        time.sleep(0.5)
 
 if __name__ == '__main__':
     ldr_func()

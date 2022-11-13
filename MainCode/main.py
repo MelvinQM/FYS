@@ -36,6 +36,7 @@ thresholdSound = 1700
 servoDelay = 0.5
 soundDelay = 0.1
 ldrDelay = 0.1
+ultraSoundDelay = 0.00001
 
 # Servo min en max
 minMove = 0
@@ -104,7 +105,7 @@ def ultrasonic():
         wpi.digitalWrite(triggerPin, wpi.HIGH)
 
         # set Trigger after 0.01ms to LOW
-        time.sleep(0.00001)
+        time.sleep(ultraSoundDelay)
         wpi.digitalWrite(triggerPin, wpi.LOW)
 
         StartTime = time.time()

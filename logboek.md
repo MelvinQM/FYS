@@ -150,3 +150,15 @@ Vakantie
 - Jurrien
 - Nick
 
+---
+## Week 10:
+### Wat hebben we gedaan
+- Toetsweek
+
+### Wie waren aanwezig
+- Melvin
+- Koen
+- Simon
+- Jayden
+- Jurrien
+- Nick

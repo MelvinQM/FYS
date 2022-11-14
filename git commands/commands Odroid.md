@@ -55,3 +55,7 @@ Genereert de key
 ## Push
 
     git push
+
+## Git Documentation 
+https://www.atlassian.com/git/glossary
+

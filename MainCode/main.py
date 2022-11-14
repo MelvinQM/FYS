@@ -32,6 +32,9 @@ wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
 # Thresholds instellingen voor soundsensor
 thresholdSound = 1700
 
+# Game timer
+gameCountdown = 120
+
 # Delays
 servoDelay = 0.5
 soundDelay = 0.1
@@ -45,8 +48,17 @@ maxMove = 180
 # Variabel initialiseren voor de functie
 sound = 0
 
-
 #wpi.pinMode(LASER_PIN, wpi.OUTPUT)
+
+# Countdown for the gameloop
+def countdown(t):
+    while t:
+        mins, secs = divmod(t, 60)
+        timer = '{:02d}:{:02d}'.format(mins, secs)
+        print(timer, end="\r")
+        time.sleep(1)
+        t -= 1
+        print(timer)
 
 # Function for usage of Sound Sensor
 def soundsensor():
@@ -136,14 +148,24 @@ def ultrasonic():
 
 
 # Thread aangemaakt
+countdownThread = threading.Thread(target=countdown(gameCountdown(gameCountdown)))
 soundThread = threading.Thread(target=soundsensor)
 servoThread = threading.Thread(target=servomovement)
 ldrThread = threading.Thread(target=ldr_func)
 ultraSonicThread = threading.Thread(target=ultrasonic)
 
 # Start threading
-#soundThread.start()
-#servoThread.start()
+countdownThread.start()
+soundThread.start()
+servoThread.start()
 ldrThread.start()
-#ultraSonicThread.start()
+ultraSonicThread.start()
+
+# Check for game end
+while true:
+  if gameCountdown == 0:
+      servoThread.stop()
+  time.sleep(0.5)
+
+
 

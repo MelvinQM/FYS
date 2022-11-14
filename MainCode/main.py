@@ -51,13 +51,14 @@ sound = 0
 #wpi.pinMode(LASER_PIN, wpi.OUTPUT)
 
 # Countdown for the gameloop
-def countdown(t):
-    while t:
-        mins, secs = divmod(t, 60)
+def countdown():
+    global gameCountdown
+    while gameCountdown:
+        mins, secs = divmod(gameCountdown, 60)
         timer = '{:02d}:{:02d}'.format(mins, secs)
         print(timer, end="\r")
         time.sleep(1)
-        t -= 1
+        gameCountdown -= 1
         print(timer)
 
 # Function for usage of Sound Sensor
@@ -78,7 +79,9 @@ def soundsensor():
 
 # Function for usage of servo
 def servomovement():
-    while True:
+    global gameCountdown
+    killTimer = gameCountdown
+    while killTimer > 0:
         try:
             # user input beweging optie
             # angle = float(input('Enter angle between 0 & 180: '))
@@ -86,6 +89,7 @@ def servomovement():
             move = random.randint(int((minMove / 18) + 2) * 45, int((maxMove / 18) + 2) * 45)
             wpi.pwmWrite(servoPin, int(move))
             time.sleep(servoDelay)
+            killTimer -= 0.5
 
         except KeyboardInterrupt:
             wpi.digitalWrite(LED_PIN, wpi.LOW)
@@ -148,7 +152,7 @@ def ultrasonic():
 
 
 # Thread aangemaakt
-countdownThread = threading.Thread(target=countdown(gameCountdown(gameCountdown)))
+countdownThread = threading.Thread(target=countdown)
 soundThread = threading.Thread(target=soundsensor)
 servoThread = threading.Thread(target=servomovement)
 ldrThread = threading.Thread(target=ldr_func)
@@ -160,12 +164,6 @@ soundThread.start()
 servoThread.start()
 ldrThread.start()
 ultraSonicThread.start()
-
-# Check for game end
-while true:
-  if gameCountdown == 0:
-      servoThread.stop()
-  time.sleep(0.5)
 
 
 

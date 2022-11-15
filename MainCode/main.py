@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 ## Project FYS
 ## This is the main code with all the sensors combined
 ## @author Koen, Melvin, Simon, Jayden
@@ -46,6 +44,7 @@ ultraSoundDelay = 0.00001
 # Servo min en max
 minMove = 0
 maxMove = 180
+resetMove = 90
 
 # Variabel initialiseren voor de functie
 sound = 0
@@ -83,8 +82,9 @@ def soundsensor():
 def servomovement():
     global gameCountdown
     killTimer = gameCountdown
+    # Start program at 90 degrees
+    wpi.pwmWrite(servoPin, resetMove)
     while killTimer > 0:
-        try:
             # user input beweging optie
             # angle = float(input('Enter angle between 0 & 180: '))
             # move = ((angle/18)+2)*45
@@ -92,10 +92,8 @@ def servomovement():
             wpi.pwmWrite(servoPin, int(move))
             time.sleep(servoDelay)
             killTimer -= 0.5
-
-        except KeyboardInterrupt:
-            wpi.digitalWrite(LED_PIN, wpi.LOW)
-            print("Measurement stopped by User")
+    # End program on 90
+    wpi.pwmWrite(servoPin, resetMove)
 
 # Function for usage of ldr
 def ldr_func():

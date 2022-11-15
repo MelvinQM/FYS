@@ -18,13 +18,13 @@ wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
 wpi.pinMode(LED_PIN, wpi.OUTPUT)
 wpi.pinMode(LDR_PIN, wpi.INPUT)
 
-# set GPIO Pins
+# set WPI Pins
 triggerPin = 7
 echoPin = 0
 ultraLedStrip = 9
 
 
-# set GPIO direction (IN / OUT)
+# set WPI direction (IN / OUT)
 wpi.pinMode(triggerPin, wpi.OUTPUT)
 wpi.pinMode(echoPin, wpi.INPUT)
 wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
@@ -49,7 +49,7 @@ resetMove = 90
 # Variabel initialiseren voor de functie
 sound = 0
 
-#wpi.pinMode(LASER_PIN, wpi.OUTPUT)
+# wpi.pinMode(LASER_PIN, wpi.OUTPUT)
 
 # Countdown for the gameloop
 def countdown():
@@ -151,14 +151,14 @@ def ultrasonic():
         time.sleep(1)
 
 
-# Thread aangemaakt
+# Making the threads
 countdownThread = threading.Thread(target=countdown)
 soundThread = threading.Thread(target=soundsensor)
 servoThread = threading.Thread(target=servomovement)
 ldrThread = threading.Thread(target=ldr_func)
 ultraSonicThread = threading.Thread(target=ultrasonic)
 
-# Start threading
+# Starting the threading
 countdownThread.start()
 soundThread.start()
 servoThread.start()

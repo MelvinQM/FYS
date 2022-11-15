@@ -162,3 +162,9 @@ Vakantie
 - Jayden
 - Jurrien
 - Nick
+
+## Week 11
+### Wat hebben we gedaan
+-Servo code verbeterd (Kill timer, begin en eindstand)
+-Servo arm geprint
+-aan Admin webserver gewerkt

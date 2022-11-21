@@ -56,7 +56,7 @@ def countdown():
     global gameCountdown
     while gameCountdown:
         mins, secs = divmod(gameCountdown, 60)
-        timer = '{:02d}:{:02d}'.format(mins, secs)
+        timer = '{:02d}:{:02d}'.format(mins, secs) 
         print(timer, end="\r")
         time.sleep(1)
         gameCountdown -= 1
@@ -86,8 +86,8 @@ def servomovement():
     wpi.pwmWrite(servoPin, resetMove)
     while killTimer > 0:
             # user input beweging optie
-            # angle = float(input('Enter angle between 0 & 180: '))
-            # move = ((angle/18)+2)*45
+            #angle = float(input('Enter angle between 0 & 180: '))
+            #move = ((angle/18)+2)*45
             move = random.randint(int((minMove / 18) + 2) * 45, int((maxMove / 18) + 2) * 45)
             wpi.pwmWrite(servoPin, int(move))
             time.sleep(servoDelay)
@@ -158,13 +158,17 @@ servoThread = threading.Thread(target=servomovement)
 ldrThread = threading.Thread(target=ldr_func)
 ultraSonicThread = threading.Thread(target=ultrasonic)
 
+<<<<<<< HEAD
+# Start threading
+#countdownThread.start()
+#soundThread.start()
+=======
 # Starting the threading
 countdownThread.start()
 soundThread.start()
+>>>>>>> 334746e2a3713efa05ea618e9eb15a99b16057e2
 servoThread.start()
-ldrThread.start()
-ultraSonicThread.start()
+#ldrThread.start()
+#ultraSonicThread.start()
 
 
-
->>>>>>> 58babd4804e2b5396d704e49a34b399ac64918b7

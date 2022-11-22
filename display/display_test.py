@@ -9,4 +9,4 @@ SEGMENT_PINS = (7, 0, 1, 2, 3, 4, 11, 21)
 
 for segment in SEGMENT_PINS:
     wpi.pinMode(segment, wpi.OUTPUT)
-    wpi.digitalWrite(segment, wpi.LOW)
+    wpi.digitalWrite(segment, wpi.HIGH)

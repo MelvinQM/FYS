@@ -11,7 +11,7 @@
   </head>
   <body>
     <div class="background">
-        <img src="../Ontwerp Eindproduct.gif" alt="Robohockey">
+        <img src="./Ontwerp Eindproduct.gif" alt="Robohockey">
     </div>
 
     <nav class="navbar">
@@ -27,5 +27,22 @@
         <h1>Welcome to the Sensors Page</h1>
     </div>
 
+        <table class="table">
+
+            <tr>
+                <th>ID</th>
+                <th>Sound</th>
+                <th>ultrasonic</th>
+                <th>servo</th>
+            </tr>
+             {% for row in value %}
+                    <tr>
+                        <td>{{row[0]}}</td>
+                        <td>{{row[1]}}</td>
+                        <td>{{row[2]}}</td>
+                        <td>{{row[3]}}</td>
+                    </tr>
+             {% endfor %}
+        </table>
    </body>
 </html>

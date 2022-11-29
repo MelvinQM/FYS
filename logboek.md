@@ -165,6 +165,17 @@ Vakantie
 
 ## Week 11
 ### Wat hebben we gedaan
--Servo code verbeterd (Kill timer, begin en eindstand)
--Servo arm geprint
--aan Admin webserver gewerkt
+- Servo code verbeterd (Kill timer, begin en eindstand)
+- Servo arm geprint
+- aan Admin webserver gewerkt
+
+## Week 12
+### Wat hebben we gedaan
+- Data kan laten zien worden met een query (Nick)
+- Added main to webserver (Melvin)
+- Doel geprint voor prototype (Koen)
+
+## Week 13
+### Wat hebben we gedaan
+- Maandag was er geen internet op school dus niks gedaan(iedereen)
+- Logboek een beetje geupdate voor weken 12 & 13 (Melvin)

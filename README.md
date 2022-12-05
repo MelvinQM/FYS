@@ -1,26 +1,15 @@
 # Fasten your seatbelts
+In deze git vind je alles wat nodig is om een airhockey tafel te maken. Dit project is een onderdeel van de studie Techtnische Informatica op de HVA. Dit project is gemaakt door de volgende eerste jaars TI studenten: Koen Lammers, Melvin Moes, Jayden van Oorschot, Simmon Zweers, Nick schokker en Jurrien Simmons.
 
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.fdmci.hva.nl/moesmq/fasten-your-seatbelts.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.fdmci.hva.nl/moesmq/fasten-your-seatbelts/-/settings/integrations)
+## Benodigdheden
+- 1x Odroid N2+
+- 1x Servo sg90
+- 1x Afstand Sensor HC-SR04
+- 2x LDR and laser
+- 1x Sound sensor
+- 1x segment display
+- 1x airhockey tafel
+- 1x diverse 3d geprinte onderdelen
 
 ## Collaborate with your team
 
@@ -101,3 +90,6 @@ For open source projects, say how it is licensed.
 
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+
+## Bronnen
+https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d

@@ -2,6 +2,8 @@
 ![image](assets/images/printlogo.png)
 ### Concept logo
 ![image](assets/images/conceptlogo.png)
+Dit was ons eerste logo Idee: een robot met een airhockey pusher op zijn hoofd. We hebben ook een naam bedacht: Rob! Dat is een afkorting van ROBot. We zijn dit logo daarna gaan uitwerken en uiteindelijk is het ons uiteindelijke logo geworden:
+![image](assets/images/printlogo.png)
 
 ## Inleiding
 In deze git vind je alles wat nodig is om een airhockey tafel te maken. Dit project is een onderdeel van de studie Techtnische Informatica op de HVA. Dit project is gemaakt door de volgende eerste jaars TI studenten: Koen Lammers, Melvin Moes, Jayden van Oorschot, Simmon Zweers, Nick schokker en Jurrien Simmons.
@@ -48,4 +50,7 @@ Voor technische support kunt u altijd support vragen bij een van onze projectdee
 
 
 ## Bronnen
+- Database Flask
 https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d
+- Database Flask
+https://www.instructables.com/From-Data-to-Graph-a-Web-Jorney-With-Flask-and-SQL/

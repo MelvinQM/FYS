@@ -179,3 +179,10 @@ Vakantie
 ### Wat hebben we gedaan
 - Maandag was er geen internet op school dus niks gedaan(iedereen)
 - Logboek een beetje geupdate voor weken 12 & 13 (Melvin)
+
+## Week 14
+### Vergadering:
+### Wat hebben we gedaan
+- Begonnen aan documenatie echt te schrijven
+- Sensor naar database
+- Schakelschema maken

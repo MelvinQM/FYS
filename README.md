@@ -7,7 +7,7 @@
 In deze git vind je alles wat nodig is om een airhockey tafel te maken. Dit project is een onderdeel van de studie Techtnische Informatica op de HVA. Dit project is gemaakt door de volgende eerste jaars TI studenten: Koen Lammers, Melvin Moes, Jayden van Oorschot, Simmon Zweers, Nick schokker en Jurrien Simmons.
 
 ## Descriptie
-Het doel van het project is om een airhockey tafel te maken die werkend is met maar 1 deelnemer. U zal dan spelen tegen een automatische tegenstander die de puck terug zal kaatsen. De benodigdheden kunt u hieronder zien. Het prototype die gemaakt is een verkleind versie van onze echte visie. Dus de lijst zal in de realiteit wel kunnen variëren.
+Het doel van het project is om een airhockey tafel te maken die werkend is met maar 1 deelnemer. U zal dan spelen tegen een automatische tegenstander die de puck terug zal kaatsen. De benodigdheden kunt u hieronder zien. Het prototype die gemaakt is, is een verkleind versie van onze echte visie. Dus de lijst zal in de realiteit wel kunnen variëren.
 
 ## Benodigdheden
 - 1x Odroid N2+

@@ -158,17 +158,12 @@ servoThread = threading.Thread(target=servomovement)
 ldrThread = threading.Thread(target=ldr_func)
 ultraSonicThread = threading.Thread(target=ultrasonic)
 
-<<<<<<< HEAD
-# Start threading
-#countdownThread.start()
-#soundThread.start()
-=======
+
 # Starting the threading
 countdownThread.start()
 soundThread.start()
->>>>>>> 334746e2a3713efa05ea618e9eb15a99b16057e2
 servoThread.start()
-#ldrThread.start()
-#ultraSonicThread.start()
+ldrThread.start()
+ultraSonicThread.start()
 
 

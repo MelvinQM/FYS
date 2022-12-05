@@ -54,3 +54,5 @@ Voor technische support kunt u altijd support vragen bij een van onze projectdee
 https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d
 - Database Flask
 https://www.instructables.com/From-Data-to-Graph-a-Web-Jorney-With-Flask-and-SQL/
+- Markdown cheatsheet
+https://www.markdownguide.org/cheat-sheet/

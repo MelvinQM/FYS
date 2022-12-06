@@ -75,7 +75,7 @@ https://www.instructables.com/From-Data-to-Graph-a-Web-Jorney-With-Flask-and-SQL
 
     Stap 5-
     1.	CREATE DATABASE sensoren; // Creeerd een database ‘sensoren’
-    2.	 CREATE USER 'admin'@'localhost' IDENTIFIED by ‘odroid123’;  // Creeerd een gebruiker ‘admin’ met als wachtwoord odroid123. Hiermee loggen we in later in PHPMYADMIN
+    2.	CREATE USER 'admin'@'localhost' IDENTIFIED by ‘odroid123’;  // Creeerd een gebruiker ‘admin’ met als wachtwoord odroid123. Hiermee loggen we in later in PHPMYADMIN
     3.	GRANT ALL on sensoren.* to 'admin'@'localhost';  //Dit geeft account admin volledige rechten over de database sensoren.
     4.	flush privileges  //Dit zorgt ervoor dat alles wat we zojuist hebben aangepast word verwerkt in de server.
 

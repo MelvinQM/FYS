@@ -58,25 +58,32 @@ https://www.instructables.com/From-Data-to-Graph-a-Web-Jorney-With-Flask-and-SQL
 ## Documentatie Database
 MYSQL installatie;
 
-Stap 1.
-*sudo apt update*                  // Dit refresh apt zodat de source list up to date is.
+- **Stap 1**
+    `sudo apt update`
+    Dit refresh apt zodat de source list up to date is.
 
-Stap 2 –
-sudo apt install mysql-server         // Dit installeerd MYSQL op het systeem. Om vervolgens de MYSQL status te verkrijgen voer je “sudo systemctl status mysql” in.
+- **Stap 2**
+    `sudo apt install mysql-server`         // Dit installeerd MYSQL op het systeem. Om vervolgens de MYSQL status te verkrijgen voer je “sudo systemctl status mysql” in.
 
-Stap 3-
-sudo mysql_secure_installation         / /Dit zorgt ervoor dat MYSQL word beveiligd met een wac-htwoord. Hierin volgen een aantal stappen:
- Yes wanneer er word gevraagt om wachtwoord validatie.
-LOW (0) Wanneer er word gevraagd om welke niveau van wachtwoord validatie.
-Gebruikte password : odroid
+- **Stap 3**
+    `sudo mysql_secure_installation`
+    Dit zorgt ervoor dat MYSQL word beveiligd met een wac-htwoord. Hierin volgen een aantal stappen:
+    Yes wanneer er word gevraagt om wachtwoord validatie.
+    LOW (0) Wanneer er word gevraagd om welke niveau van wachtwoord validatie.
+    Gebruikte password : odroid
 
-Stap 4-
-mysql -u root -p           //Hiermee log je in met root rechten in MYSQL
+- **Stap 4**
+    `mysql -u root -p`
+    Hiermee log je in met root rechten in MYSQL
 
-Stap 5-
-1.	CREATE DATABASE sensoren;    // Creeerd een database ‘sensoren’
-2.	 CREATE USER 'admin'@'localhost' IDENTIFIED by ‘odroid123’;  // Creeerd een gebruiker ‘admin’ met als wachtwoord odroid123. Hiermee loggen we in later in PHPMYADMIN
-3.	GRANT ALL on sensoren.* to 'admin'@'localhost';  //Dit geeft account admin volledige rechten over de database sensoren.
-4.	flush privileges  //Dit zorgt ervoor dat alles wat we zojuist hebben aangepast word verwerkt in de server.
+- **Stap 5**
+    1.	`CREATE DATABASE sensoren;`
+    Creeerd een database ‘sensoren’
+    2.	 `CREATE USER 'admin'@'localhost' IDENTIFIED by ‘odroid123’;`
+    Creeerd een gebruiker ‘admin’ met als wachtwoord odroid123. Hiermee loggen we in later in PHPMYADMIN
+    3.	`GRANT ALL on sensoren.* to 'admin'@'localhost';`
+    Dit geeft account admin volledige rechten over de database sensoren.
+    4.	`flush privileges`
+    Dit zorgt ervoor dat alles wat we zojuist hebben aangepast word verwerkt in de server.
 
 

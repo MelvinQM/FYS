@@ -126,28 +126,26 @@ Deze functie is voor de LDR/lichtsensor die we gebruiken om doelpunten te detect
 ```python
 # Function for usage of ldr
 def ldr_func():
+    global LDR_PIN
+    global score
+    outputOld = 0
     while True:
-        global LDR_PIN
-        # Variabele
-        output = wpi.digitalRead(LDR_PIN)
-        """
-        outputOld = 0
-        # print(output, outputOld)
-        if output > outputOld:
-            print("Lichtje Uit")
-        elif output < outputOld:
-            print("Lichtje Aan")
-        """
+
+        output = wpi.digitalRead(9)
         print(output)
+
+        if output < outputOld:
+            score = score + 1
         outputOld = output
+
         time.sleep(ldrDelay)
 ```
 
-Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de vorige waarde. De LDR is een variabele weerstand, de output wordt hoger als er licht op schijnt. Door de output te vergelijken kunnen we aflezen of er wel of geen licht op schijnt, dus of de laser onderbroken wordt.
+Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de vorige waarde. De LDR is een variabele weerstand, de output wordt hoger als er licht op schijnt. Door de output te vergelijken kunnen we aflezen of er wel of geen licht op schijnt, dus of de laser onderbroken wordt. Wanneer er een onderbreking gedetecteerd wordt de globale variabele `score` met 1 verhoogd. Deze word met javascript fetch vanuit de html opgelaald om de halve seconde (Zie webserver uitleg).
 
 ### Ultrasonic
 
-Deze functie wordt gebruikt om de afstand te meten met de ultrasonic sensor. 
+Deze functie wordt gebruikt om de afstand te meten met de ultrasonic sensor.
 
 ```python
 # Function for usage of ultrasonic
@@ -192,9 +190,11 @@ De ultrasonic sensor kan afstand meten door pulsen van geluid uit te zenden en d
 
 Uiteindelijk gaan de lichten branden als de afstand minder is dan onze vastgestelde grens.
 
+### Score weergave op de website
+
 ## Threading
 
-Wij gebruiken threads in ons project om verschillende sensoren en motoren tegelijk aan te sturen/uit te lezen. Hieronder maken wij deze threads aan. De target voor deze threads zijn de hierboven beschreven functies.
+Wij gebruiken threads in ons project om verschillende sensoren en motoren tegelijk aan te sturen/uit te lezen. Hieronder maken wij deze threads aan. De target voor deze threads zijn de hierboven beschreven [functies](#functies).
 
 ```python
 # Making the threads
@@ -235,9 +235,9 @@ Gebruikte password : odroid
 
 ## Support
 
-Voor technische support kun je altijd support vragen bij een van onze projectdeelnemers. Zie autheuren voor contact informatie.
+Voor technische support kun je altijd support vragen bij een van onze projectdeelnemers. Zie [ontwikkelaars](#ontwikkelaars) voor contact informatie.
 
-## Authors
+## Ontwikkelaars
 
 - Koen Lammers        -   koen.lammers@hva.nl
 - Melvin Moes         -   melvin.moes@hva.nl

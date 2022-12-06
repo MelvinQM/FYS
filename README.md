@@ -57,7 +57,7 @@ https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-3984
 https://www.instructables.com/From-Data-to-Graph-a-Web-Jorney-With-Flask-and-SQL/
 
 ## Documentatie Database
-MYSQL installatie;
+    MYSQL installatie;
 
 - **Stap 1**
     `sudo apt update`

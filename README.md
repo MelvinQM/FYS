@@ -23,7 +23,8 @@ Het doel van het project is om een airhockey tafel te maken die werkend is met m
 
 ## Visuals
 > Hier onder is een animatie te zien van hoe het product er ongeveer uit moet gaan zien.
-![Ontwerp Eindproduct.gif](./Ontwerp Eindproduct.gif)
+
+![Ontwerp Eindproduct.gif](./assets/gif/OntwerpEindproduct.gif)
 > Hier onder is te zien hoe het prototype er in realiteit uit ziet.
 
 

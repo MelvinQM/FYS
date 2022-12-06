@@ -1,7 +1,8 @@
 # Fasten your seatbelts
 
 ![image](assets/images/printlogo.png)
-### Concept logo
+
+## Concept logo
 
 ![image](assets/images/conceptlogo.png)
 Dit was ons eerste logo Idee: een robot met een airhockey pusher op zijn hoofd. We hebben ook een naam bedacht: Rob! Dat is een afkorting van ROBot. We zijn dit logo daarna gaan uitwerken en uiteindelijk is het ons uiteindelijke logo geworden:
@@ -77,10 +78,11 @@ Yes wanneer er word gevraagt om wachtwoord validatie.
 LOW (0) Wanneer er word gevraagd om welke niveau van wachtwoord validatie.
 Gebruikte password : odroid
 4. mysql -u root -p //Hiermee log je in met root rechten in MYSQL
-5.  - CREATE DATABASE sensoren; // Creeerd een database ‘sensoren’
+5.  
+    - CREATE DATABASE sensoren; // Creeerd een database ‘sensoren’
     - CREATE USER 'admin'@'localhost' IDENTIFIED by ‘odroid123’;  // Creeerd een gebruiker ‘admin’ met als wachtwoord odroid123. Hiermee loggen we in later in PHPMYADMIN
-    -  GRANT ALL on sensoren.* to 'admin'@'localhost';  //Dit geeft account admin volledige rechten over de database sensoren.
-    -  flush privileges  //Dit zorgt ervoor dat alles wat we zojuist hebben aangepast word verwerkt in de server.
+    - GRANT ALL on sensoren.* to 'admin'@'localhost';  //Dit geeft account admin volledige rechten over de database sensoren.
+    - flush privileges  //Dit zorgt ervoor dat alles wat we zojuist hebben aangepast word verwerkt in de server.
 
 ## Support
 

@@ -1,68 +1,42 @@
 # Fasten your seatbelts
 
-## Getting started
+![image](assets/images/printlogo.png)
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Concept logo
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+![image](assets/images/conceptlogo.png)
+Dit was ons eerste logo Idee: een robot met een airhockey pusher op zijn hoofd. We hebben ook een naam bedacht: Rob! Dat is een afkorting van ROBot. We zijn dit logo daarna gaan uitwerken en uiteindelijk is het ons uiteindelijke logo geworden:
+![image](assets/images/printlogo.png)
 
-## Add your files
+## Inleiding
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na te maken. Dit project is een onderdeel van de studie Techtnische Informatica op de HVA. Dit project is gemaakt door de volgende eerste jaars TI studenten: Koen Lammers, Melvin Moes, Jayden van Oorschot, Simon Zweers, Nick schokker en Jurrien Simmons.
 
-```
-cd existing_repo
-git remote add origin https://gitlab.fdmci.hva.nl/moesmq/fasten-your-seatbelts.git
-git branch -M main
-git push -uf origin main
-```
+## Beschrijving
 
-## Integrate with your tools
+Het doel van het project is om een airhockey tafel te maken die werkt met maar 1 deelnemer. Je kan dan spelen tegen een automatische tegenstander die de puck terug zal kaatsen. De benodigdheden kan je hieronder zien. Het prototype dat gemaakt is, is een verkleinde versie van onze echte visie. Dus de lijst zal in de realiteit wel kunnen variëren.
 
-- [ ] [Set up project integrations](https://gitlab.fdmci.hva.nl/moesmq/fasten-your-seatbelts/-/settings/integrations)
+## Benodigdheden
 
-## Collaborate with your team
+- 1x Odroid N2+
+- 1x Servo SG90
+- 1x Afstand Sensor HC-SR04
+- 2x LDR and laser
+- 1x Sound sensor
+- 1x Segment display
+- 1x Airhockey tafel
+- 1x Diverse 3d geprinte onderdelen
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+## Beeldmateriaal
 
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
+> Hieronder is een animatie te zien van hoe het product er ongeveer uit moet gaan zien.
 ![Ontwerp Eindproduct.gif](./Ontwerp Eindproduct.gif)
-Hier boven is een animatie te zien van hoe het product er ongeveer uit moet gaan zien.
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+> Hieronder is te zien hoe het prototype er in realiteit uit ziet.
+> Hieronder is het aansluitschema te zien. Dit is hoe we alle onderdelen aan de Odroid hebben aangesloten.
+![image](assets/images/aansluitschema.png)
+
+## Installatie
+
 - Fetch uitleg
 - Threading uitleg
 - Bekabeling Uitleg
@@ -72,32 +46,207 @@ Within a particular ecosystem, there may be a common way of installing things, s
 - Technisch ontwerp
 - Gebruik
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+## Functies
+
+Om de verschillende onderdelen en sensoren aan te sturen of af te lezen hebben we voor elk onderdeel een aparte functie aangemaakt, die we later allemaal samen kunnen voegen in één bestand.
+
+### Countdown
+
+De eerste functie is voor het aftellen van de tijd tijdens het spelen en het printen van de timer.
+
+```python
+# Countdown for the gameloop
+def countdown():
+    global gameCountdown
+    while gameCountdown:
+        mins, secs = divmod(gameCountdown, 60)
+        timer = '{:02d}:{:02d}'.format(mins, secs) 
+        print(timer, end="\r")
+        time.sleep(1)
+        gameCountdown -= 1
+        print(timer)
+```
+
+Deze functie telt af van 60, elke seconde -1. De timer wordt geprint in het formaat (minuten:seconden).
+
+### Soundsensor
+
+Deze functie is voor de geluidssensor/soundsensor, om het omgevingsgeluid te meten tijdens het spelen.
+
+```python
+# Function for usage of Sound Sensor
+def soundsensor():
+    while True:
+        global sound
+        # analogRead leest een float value van de sensor af (Geluid dus)
+        sound = wpi.analogRead(soundSensor_PIN)
+        print("Sound value:", sound)
+        # Vergelijk het gelezen value met een preset value die je kan instellen bij oldSound
+        if sound > thresholdSound:
+            wpi.digitalWrite(LED_PIN, wpi.HIGH)
+            print("Threshold Exceeded")
+        else:
+            wpi.digitalWrite(LED_PIN, wpi.LOW)
+            print("Below Threshold")
+        time.sleep(soundDelay)
+```
+
+De soundsensor geeft een waarde terug, hoe hoger de waarde hoe meer geluid hij opvangt. We blijven deze waarde om de zo veel tijd (soundDelay) opvragen en we vergelijken hem elke keer met de vooraf bepaalde grens (thresholdSound). Als het geluid boven de grens komt, gaat er een led branden.
+
+soundSensor_PIN, thresholdSound en soundDelay zijn buiten deze functie al gedefiniëerd.
+
+### Servo
+
+Deze functie is voor het aansturen van de servo, die de arm laat bewegen.
+
+```python
+# Function for usage of servo
+def servomovement():
+    global gameCountdown
+    killTimer = gameCountdown
+    # Start program at 90 degrees
+    wpi.pwmWrite(servoPin, resetMove)
+    while killTimer > 0:
+            move = random.randint(int((minMove / 18) + 2) * 45, int((maxMove / 18) + 2) * 45)
+            wpi.pwmWrite(servoPin, int(move))
+            time.sleep(servoDelay)
+            killTimer -= 0.5
+    # End program on 90
+    wpi.pwmWrite(servoPin, resetMove)
+```
+
+Deze functie blijft doorgaan zolang de timer uit de eerste functie nog geen 0 is. De functie berekent de variabele move, dit is een random getal tussen minMove en maxMove (die buiten de functie gedefiniëerd zijn). Zo kunnen we de servo tussen 2 hoeken laten bewegen, bijvoorbeeld 0 en 180.
+
+Als de timer om is wordt de servo teruggezet in het midden.
+
+### LDR
+
+Deze functie is voor de LDR/lichtsensor die we gebruiken om doelpunten te detecteren.
+
+```python
+# Function for usage of ldr
+def ldr_func():
+    while True:
+        global LDR_PIN
+        # Variabele
+        output = wpi.digitalRead(LDR_PIN)
+        """
+        outputOld = 0
+        # print(output, outputOld)
+        if output > outputOld:
+            print("Lichtje Uit")
+        elif output < outputOld:
+            print("Lichtje Aan")
+        """
+        print(output)
+        outputOld = output
+        time.sleep(ldrDelay)
+```
+
+Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de vorige waarde. De LDR is een variabele weerstand, de output wordt hoger als er licht op schijnt. Door de output te vergelijken kunnen we aflezen of er wel of geen licht op schijnt, dus of de laser onderbroken wordt.
+
+### Ultrasonic
+
+Deze functie wordt gebruikt om de afstand te meten met de ultrasonic sensor. 
+
+```python
+# Function for usage of ultrasonic
+def ultrasonic():
+    while True:
+        # dist is a variable made for distance()
+        # set Trigger to HIGH
+        wpi.digitalWrite(triggerPin, wpi.HIGH)
+
+        # set Trigger after 0.01ms to LOW
+        time.sleep(ultraSoundDelay)
+        wpi.digitalWrite(triggerPin, wpi.LOW)
+
+        StartTime = time.time()
+        StopTime = time.time()
+
+        # save StartTime
+        while wpi.digitalRead(echoPin) == 0:
+            StartTime = time.time()
+
+        # save time of arrival
+        while wpi.digitalRead(echoPin) == 1:
+            StopTime = time.time()
+
+        # time difference between start and arrival
+        TimeElapsed = StopTime - StartTime
+        # multiply with the sonic speed (34300 cm/s)
+        # and divide by 2, because there and back
+        distance = (TimeElapsed * 34300) / 2
+        # if statement that tells if distance is smaller than 100cm lights turn on
+        if distance <= 100:
+            wpi.digitalWrite(ultraLedStrip, wpi.HIGH)
+        # else statements that tells if distance is larger than 100 cm light turn off
+        else:
+            wpi.digitalWrite(ultraLedStrip, wpi.LOW)
+
+        print("Measured Distance = %.1f cm" % distance)
+        time.sleep(1)
+```
+
+De ultrasonic sensor kan afstand meten door pulsen van geluid uit te zenden en de tijd meten voor ze terugkomen. Door de triggerPin een kort signaal te geven wordt er een puls van geluid uitgezonden. Wanneer de echoPin een signaal ontvangt wordt de eindtijd opgeslagen. De tijd die voorbij ging is de starttijd - eindtijd. Met de geluidssnelheid (343 m/s) wordt dan de afstand berekend.
+
+Uiteindelijk gaan de lichten branden als de afstand minder is dan onze vastgestelde grens.
+
+## Threading
+
+Wij gebruiken threads in ons project om verschillende sensoren en motoren tegelijk aan te sturen/uit te lezen. Hieronder maken wij deze threads aan. De target voor deze threads zijn de hierboven beschreven functies.
+
+```python
+# Making the threads
+countdownThread = threading.Thread(target=countdown)
+soundThread = threading.Thread(target=soundsensor)
+servoThread = threading.Thread(target=servomovement)
+ldrThread = threading.Thread(target=ldr_func)
+ultraSonicThread = threading.Thread(target=ultrasonic)
+```
+
+Nadat de threads zijn aangemaakt worden de threads gestart. Wat dit eigenlijk betekent is dat er aparte stukken code runnen naast de main code. Hierdoor kunnen wij meerdere codes met bijvoorbeeld verschillende delays toevoegen, wat niet mogelijk zou zijn zonder threading.
+
+```python
+# Starting the threading
+countdownThread.start()
+soundThread.start()
+servoThread.start()
+ldrThread.start()
+ultraSonicThread.start()
+```
+
+## Documentatie Database
+
+### MYSQL installatie
+
+1. *sudo apt update* // Dit refresh apt zodat de source list up to date is.
+2. sudo apt install mysql-server // Dit installeerd MYSQL op het systeem. Om vervolgens de MYSQL status te verkrijgen voer je “sudo systemctl status mysql” in.
+3. sudo mysql_secure_installation / /Dit zorgt ervoor dat MYSQL word beveiligd met een wac-htwoord. Hierin volgen een aantal stappen:
+Yes wanneer er word gevraagt om wachtwoord validatie.
+LOW (0) Wanneer er word gevraagd om welke niveau van wachtwoord validatie.
+Gebruikte password : odroid
+4. mysql -u root -p //Hiermee log je in met root rechten in MYSQL
+5.  
+    - CREATE DATABASE sensoren; // Creeerd een database ‘sensoren’
+    - CREATE USER 'admin'@'localhost' IDENTIFIED by ‘odroid123’;  // Creeerd een gebruiker ‘admin’ met als wachtwoord odroid123. Hiermee loggen we in later in PHPMYADMIN
+    - GRANT ALL on sensoren.* to 'admin'@'localhost';  //Dit geeft account admin volledige rechten over de database sensoren.
+    - flush privileges  //Dit zorgt ervoor dat alles wat we zojuist hebben aangepast word verwerkt in de server.
 
 ## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Voor technische support kun je altijd support vragen bij een van onze projectdeelnemers. Zie autheuren voor contact informatie.
 
 ## Authors
-Koen Lammers
-Melvin Moes
-Jayden van Oorschot
-Nick Schokker
-Simon Zweers
-Jurrrien Simmons
 
-## License
-For open source projects, say how it is licensed.
+- Koen Lammers        -   koen.lammers@hva.nl
+- Melvin Moes         -   melvin.moes@hva.nl
+- Jayden van Oorschot -   jayden.van.oorschot@hva.nl
+- Nick Schokker       -   nick.schokker@hva.nl
+- Simon Zweers        -   simon.zweers@hva.nl
+- Jurrrien Simmons    -   jurrien.simmons@hva.nl
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Bronnen
+
+- [Database Flask bron #1](https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d)
+- [Database Flask bron #2](https://www.instructables.com/From-Data-to-Graph-a-Web-Jorney-With-Flask-and-SQL/)

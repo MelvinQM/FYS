@@ -50,7 +50,7 @@ Het doel van het project is om een airhockey tafel te maken die werkt met maar 1
 ## Beeldmateriaal
 
 > Hieronder is een animatie te zien van hoe het product er ongeveer uit moet gaan zien.
-![Ontwerp Eindproduct.gif](./Ontwerp Eindproduct.gif)
+![Ontwerp Eindproduct.gif](assets/gif/Ontwerp Eindproduct.gif)
 > Hieronder is te zien hoe het prototype er in realiteit uit ziet.
 > Hieronder is het aansluitschema te zien. Dit is hoe we alle onderdelen aan de Odroid hebben aangesloten.
 ![image](assets/images/aansluitschema.png)

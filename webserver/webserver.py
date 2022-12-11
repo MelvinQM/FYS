@@ -25,55 +25,16 @@ def home():
 def page1():
     wpi.wiringPiSetup()
     readldr = wpi.digitalRead(9)
-    return jsonify({'name': 'alice',
-                    'email': 'alice@outlook.com',
-                    'Yomamma': readldr})
+    return jsonify({'score': score,
+                    'email': 'alice@outlook.com'})
+
+@app.route("/startgame")
+def startgame():
+
+    ldrThread.start()
+    return render_template("game.html")
 
 
-# Zorgen dat de wpi pins worden gebruikt
-wpi.wiringPiSetup()
-
-# De pins aanwijzen en instellen
-servoPin = 1
-soundSensor_PIN = 25
-LED_PIN = 9
-LDR_PIN = 24
-wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
-wpi.pinMode(LED_PIN, wpi.OUTPUT)
-wpi.pinMode(LDR_PIN, wpi.INPUT)
-
-# set WPI Pins
-triggerPin = 7
-echoPin = 0
-ultraLedStrip = 9
-
-
-# set WPI direction (IN / OUT)
-wpi.pinMode(triggerPin, wpi.OUTPUT)
-wpi.pinMode(echoPin, wpi.INPUT)
-wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
-
-# Thresholds instellingen voor soundsensor
-thresholdSound = 1700
-
-# Game timer
-gameCountdown = 120
-
-# Delays
-servoDelay = 0.5
-soundDelay = 0.1
-ldrDelay = 0.1
-ultraSoundDelay = 0.00001
-
-# Servo min en max
-minMove = 0
-maxMove = 180
-resetMove = 90
-
-# Variabel initialiseren voor de functie
-sound = 0
-
-# wpi.pinMode(LASER_PIN, wpi.OUTPUT)
 
 # Countdown for the gameloop
 def countdown():
@@ -121,20 +82,19 @@ def servomovement():
 
 # Function for usage of ldr
 def ldr_func():
+    global LDR_PIN
+    global score
+    outputOld = 0
     while True:
-        global LDR_PIN
         # Variabele
-        output = wpi.digitalRead(LDR_PIN)
-        """
-        outputOld = 0
-        # print(output, outputOld)
-        if output > outputOld:
-            print("Lichtje Uit")
-        elif output < outputOld:
-            print("Lichtje Aan")
-        """
+
+        output = wpi.digitalRead(9)
         print(output)
+        
+        if output < outputOld:
+            score = score + 1
         outputOld = output
+
         time.sleep(ldrDelay)
 
 # Function for usage of ultrasonic
@@ -184,11 +144,67 @@ ultraSonicThread = threading.Thread(target=ultrasonic)
 
 
 # Starting the threading
+"""
 countdownThread.start()
 soundThread.start()
 servoThread.start()
 ldrThread.start()
 ultraSonicThread.start()
+"""
+
 
 if __name__ == '__main__':
+    # De pins aanwijzen en instellen
+    servoPin = 1
+    soundSensor_PIN = 25
+    LED_PIN = 0
+    LDR_PIN = 9
+    # set WPI Pins
+    triggerPin = 7
+    echoPin = 0
+    ultraLedStrip = 9
+
+    # Zorgen dat de wpi pins worden gebruikt
+    wpi.wiringPiSetup()
+
+    #wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
+    #wpi.pinMode(LED_PIN, wpi.OUTPUT)
+    wpi.pinMode(LDR_PIN, wpi.INPUT)
+
+    # set WPI direction (IN / OUT)
+    #wpi.pinMode(triggerPin, wpi.OUTPUT)
+    #wpi.pinMode(echoPin, wpi.INPUT)
+    #wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
+
+    # Thresholds instellingen voor soundsensor
+    thresholdSound = 1700
+
+    # Game timer
+    gameCountdown = 120
+
+    # Delays
+    servoDelay = 0.5
+    soundDelay = 0.1
+    ldrDelay = 0.1
+    ultraSoundDelay = 0.00001
+
+    # Servo min en max
+    minMove = 0
+    maxMove = 180
+    resetMove = 90
+
+    # Variabel initialiseren voor de functie
+    sound = 0
+
+    # Variabele voor het bijhouden van de score
+    score = 0
+
+    # wpi.pinMode(LASER_PIN, wpi.OUTPUT)
+    """
+    countdownThread.start()
+    soundThread.start()
+    servoThread.start()
+    ultraSonicThread.start()
+    """
+
     app.run(host="0.0.0.0", port=80, debug=True)

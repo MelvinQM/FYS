@@ -12,6 +12,26 @@ Dit was ons eerste logo Idee: een robot met een airhockey pusher op zijn hoofd. 
 
 In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na te maken. Dit project is een onderdeel van de studie Techtnische Informatica op de HVA. Dit project is gemaakt door de volgende eerste jaars TI studenten: Koen Lammers, Melvin Moes, Jayden van Oorschot, Simon Zweers, Nick schokker en Jurrien Simmons.
 
+## Inhoudsopgave
+
+- Beschrijving
+- Benodigdheden
+- Beeldmateriaal
+- Installatie
+- Functies
+    - Countdown
+    - Soundsensor
+    - Servo
+    - LDR
+    - Ultrasonic
+    - Score weergeven op website
+- Threading
+- Documentatie database
+    - MySQL installeren
+- Support
+- Ontwikkelaars
+- Bronnen
+
 ## Beschrijving
 
 Het doel van het project is om een airhockey tafel te maken die werkt met maar 1 deelnemer. Je kan dan spelen tegen een automatische tegenstander die de puck terug zal kaatsen. De benodigdheden kan je hieronder zien. Het prototype dat gemaakt is, is een verkleinde versie van onze echte visie. Dus de lijst zal in de realiteit wel kunnen variëren.
@@ -30,7 +50,7 @@ Het doel van het project is om een airhockey tafel te maken die werkt met maar 1
 ## Beeldmateriaal
 
 > Hieronder is een animatie te zien van hoe het product er ongeveer uit moet gaan zien.
-![Ontwerp Eindproduct.gif](./Ontwerp Eindproduct.gif)
+![Ontwerp Eindproduct.gif](assets/gif/Ontwerp Eindproduct.gif)
 > Hieronder is te zien hoe het prototype er in realiteit uit ziet.
 > Hieronder is het aansluitschema te zien. Dit is hoe we alle onderdelen aan de Odroid hebben aangesloten.
 ![image](assets/images/aansluitschema.png)

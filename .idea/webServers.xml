@@ -3,9 +3,9 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="d2cb88cb-4b70-40a2-b668-6bacbc8a2cda" name="root@odroid">
-        <fileTransfer rootFolder="/root" accessType="SFTP" host="192.168.137.2" port="22" sshConfigId="59fc5e57-e6ed-40d0-8f30-18fa95012c4d" sshConfig="root@192.168.137.2:22 password">
+        <fileTransfer rootFolder="/root" accessType="SFTP" host="192.168.137.181" port="22" sshConfigId="59fc5e57-e6ed-40d0-8f30-18fa95012c4d" sshConfig="root@192.168.137.181:22 password">
           <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>

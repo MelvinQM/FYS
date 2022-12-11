@@ -270,3 +270,9 @@ Voor technische support kun je altijd support vragen bij een van onze projectdee
 
 - [Database Flask bron #1](https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d)
 - [Database Flask bron #2](https://www.instructables.com/From-Data-to-Graph-a-Web-Jorney-With-Flask-and-SQL/)
+- [Html tutorial W3schools](https://www.w3schools.com/html/default.asp)
+- [Css tutorial W3schools](https://www.w3schools.com/css/default.asp)
+- [Flask documentatie](https://flask.palletsprojects.com/en/2.2.x/)
+- [ODROID N2/N2+ documentatie](https://wiki.odroid.com/odroid-n2/odroid-n2)
+- [odroid-wiringpi documentatie](https://pypi.org/project/odroid-wiringpi/)
+- [Javascript fetch voorbeeld](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)

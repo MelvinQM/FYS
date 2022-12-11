@@ -31,6 +31,7 @@ while True:
         # print(output)
         outputOld = output
         time.sleep(LDR_DELAY)
+
     except KeyboardInterrupt:
         wpi.ditigalWrite(LASER_PIN, wpi.LOW)
         print("Score " + score)

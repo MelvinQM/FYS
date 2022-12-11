@@ -10,14 +10,12 @@ import json
 is_gestart = False
 
 # Main flask code stuk
-app = Flask(__name__, template_folder=".")
+app = Flask(__name__)
 
 # Home Page
 @app.route("/")
 def home():
-    head = "Welkom bij robothockey"
-    greet = "Hello World"
-    return render_template("index.html", head=head, greet=greet)
+    return render_template("index.html")
 
 
 # Start de game loop

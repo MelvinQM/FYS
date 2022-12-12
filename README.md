@@ -14,27 +14,47 @@ In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na t
 
 ## Inhoudsopgave
 
-- Beschrijving
-- Benodigdheden
-- Beeldmateriaal
-- Installatie
-- Functies
-    - Countdown
-    - Soundsensor
-    - Servo
-    - LDR
-    - Ultrasonic
-    - Score weergeven op website
-- Threading
-- Documentatie database
-    - MySQL installeren
-- Support
-- Ontwikkelaars
-- Bronnen
+- [Beschrijving](#beschrijving)
+- [Business case](#busines-case)
+- [Benodigdheden](#benodigdheden)
+- [Beeldmateriaal](#beeldmateriaal)
+- [Installatie](#installatie)
+- [Functies](#functies)
+    - [Countdown](#countdown)
+    - [Soundsensor](#soundsensor)
+    - [Servo](#servo)
+    - [LDR](#ldr)
+    - [Ultrasonic](#ultrasonic)
+    - [Score weergeven op website](#score-weergave-op-de-website)
+- [Threading](#threading)
+- [Database](#documentatie-database)
+    - [MySQL installeren](#mysql-installatie)
+- [Support](#support)
+- [Ontwikkelaars](#ontwikkelaars)
+- [Bronnen](#bronnen)
 
 ## Beschrijving
 
 Het doel van het project is om een airhockey tafel te maken die werkt met maar 1 deelnemer. Je kan dan spelen tegen een automatische tegenstander die de puck terug zal kaatsen. De benodigdheden kan je hieronder zien. Het prototype dat gemaakt is, is een verkleinde versie van onze echte visie. Dus de lijst zal in de realiteit wel kunnen variëren.
+
+## Busines Case
+
+### Aanleiding
+Het idee voor dit project is om een entertainment-systeem te maken voor in de resorts en hotels van Corendon. Dit wordt een soort spel wat mensen kunnen spelen op de plekken waar ze moeten wachten (bijvoorbeeld op de bus). Dankzij dit entertainment-systeem zullen mensen het wachten veel minder saai en zo veel aangenamer vinden. Op deze manier zullen die mensen een betere algemene ervaring beleven bij de hotels en resorts van Corendon, waardoor ze deze sneller zullen aanbevelen aan andere mogelijke gasten en zullen ze zelf vaker terugkomen, waardoor Corendon meer winst verdient. 
+Een groot risico is dat het spel al snel te moeilijk of te makkelijk is. Als het spel te makkelijk is gaan mensen het saai vinden en niet vaak spelen. Als het spel te moeilijk is dan vinden mensen het ook niet leuk. Als het spel te ingewikkeld is dan zijn de gasten niet entertained. Het is dan ook te moeilijk om te begrijpen. Aan de andere kant heeft zo’n spel veel voordelen.
+
+### Verwachtingen
+
+Corendon heeft ons ingeschakeld om een entertainment systeem te maken voor in de lobby’s van de resorts, om de gasten te entertainen terwijl ze moeten wachten. Daaraan zijn ook een aantal eisen gesteld. We moeten in ons project minimaal 3 sensoren gaan toepassen. Ook wordt verwacht dat we een actuator gaan gebruiken om iets beweegbaar in het ontwerp te verwerken. Als laatste moet er een website komen met bijbehorende database. Vanaf de website moet het product aan te sturen zijn.
+
+### Oplossing
+
+Ons idee voor dit entertainment systeem is een airhockeytafel met een robot-tegenstander. Aan de ene kant van de tafel staat de speler, zoals bij normaal airhockey. Aan de andere kant staat een robotarm die het andere doel verdedigt. Het doel van het spel is om zo vaak mogelijk te scoren bij de robot in een bepaald tijdslimiet. Omdat het een robot is kunnen we verschillende moeilijkheidsgraden instellen waardoor iedereen van het spel kan genieten. Verder komt er een website bij waarop verschillende gegevens te zien zijn. Voor de gebruikers zijn de huidige score, high scores en de snelheid te zien. De snelheid is hoe snel de puck het doel in gaat. Op de andere webpagina (niet voor spelers) staan andere gegevens, namelijk hoe vaak het spel gespeeld is en hoe luid het spel en omgevingsgeluid zijn.
+
+### Voordelen
+
+Airhockey is een heel bekend spel, iedereen weet hoe het werkt. Door een robot toe te voegen aan een airhockeytafel ontstaan er meerdere voordelen. De speler kan zelf kiezen hoe makkelijk of moeilijk het spel wordt. Je kan een highscore halen en die terug zien op de website, zo kunnen spelers alsnog tegen elkaar spelen. Door de andere gegevens op de website is te zien of het spel veel gespeeld wordt en dus of het populair genoeg is. Ook is te zien of het spel nog goed werkt door een foutmelding te geven als er iets niet werkt.
+
 
 ## Benodigdheden
 
@@ -236,7 +256,7 @@ ldrThread.start()
 ultraSonicThread.start()
 ```
 
-## Documentatie Database
+## Database
 
 ### MYSQL installatie
 

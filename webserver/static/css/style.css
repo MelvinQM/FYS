@@ -47,8 +47,9 @@ input[type=text] {
     background-color: #9bd9d7;
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 10px 15px;
     text-decoration: none;
     display: inline-block;
-    border-radius: 12px;
+    border-radius: 5px;
+    font-size: 1.1em;
 }

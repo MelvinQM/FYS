@@ -270,6 +270,7 @@ Voor technische support kun je altijd support vragen bij een van onze projectdee
 
 - [Database Flask bron #1](https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d)
 - [Database Flask bron #2](https://www.instructables.com/From-Data-to-Graph-a-Web-Jorney-With-Flask-and-SQL/)
+- [PHPAdmin](https://tecadmin.net/how-to-install-phpmyadmin-on-ubuntu-22-04/)
 - [Html tutorial W3schools](https://www.w3schools.com/html/default.asp)
 - [Css tutorial W3schools](https://www.w3schools.com/css/default.asp)
 - [Flask documentatie](https://flask.palletsprojects.com/en/2.2.x/)
@@ -277,3 +278,4 @@ Voor technische support kun je altijd support vragen bij een van onze projectdee
 - [odroid-wiringpi documentatie](https://pypi.org/project/odroid-wiringpi/)
 - [Javascript fetch voorbeeld](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
 - [HTML to python and back](https://stackoverflow.com/questions/43677564/passing-input-from-html-to-python-and-back)
+- [Wiringpi](https://github.com/hardkernel/WiringPi2-Python/blob/master/README.rst)

@@ -276,3 +276,4 @@ Voor technische support kun je altijd support vragen bij een van onze projectdee
 - [ODROID N2/N2+ documentatie](https://wiki.odroid.com/odroid-n2/odroid-n2)
 - [odroid-wiringpi documentatie](https://pypi.org/project/odroid-wiringpi/)
 - [Javascript fetch voorbeeld](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+- [HTML to python and back](https://stackoverflow.com/questions/43677564/passing-input-from-html-to-python-and-back)

@@ -35,7 +35,6 @@ def index():
     return render_template("index.html")
 
 
-
 def distance():
     # set Trigger to HIGH
     wpi.digitalWrite(triggerPin, wpi.HIGH)
@@ -65,28 +64,30 @@ def distance():
 
 
 def databaseInsert():
-    if __name__ == '__main__':
-        try:
-            while True:
-                dist = distance()
-                print("Measured Distance = %.1f cm" % dist)
-                time.sleep(1)
-                cursor = conn.cursor()
+    with app.app_context():
+        if __name__ == '__main__':
+            try:
+                while True:
+                    dist = distance()
+                    print("Measured Distance = %.1f cm" % dist)
+                    time.sleep(1)
+                    cursor = conn.cursor()
 
-                insert = "INSERT INTO ultrasonic (data) VALUES (%s)"
-                cursor.execute(insert, [dist])
-                conn.commit()
+                    insert = "INSERT INTO ultrasonic (data) VALUES (%s)"
+                    cursor.execute(insert, [dist])
+                    conn.commit()
 
-            # Reset by pressing CTRL + C
-        except KeyboardInterrupt:
-            print("Measurement stopped by User")
+                # Reset by pressing CTRL + C
+            except KeyboardInterrupt:
+                print("Measurement stopped by User")
 
 
 @app.route('/sensoren')
 def databaseRead():
-    cursorRead = conn.cursor()
-    cursorRead.execute("select * from ultrasonic ORDER BY id DESC LIMIT 20")
-    data = cursorRead.fetchall()  # data from database.
+    with app.app_context():
+        cursorRead = conn.cursor()
+        cursorRead.execute("select * from ultrasonic ORDER BY id DESC LIMIT 20")
+        data = cursorRead.fetchall()  # data from database.
     return render_template("sensoren.html", value=data)
 
 

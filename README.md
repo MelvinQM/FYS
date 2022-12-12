@@ -1,8 +1,8 @@
 # Fasten your seatbelts
 
-<img src="assets/images/printlogo.png"  width="300" height="300">
-<img src="assets/images/conceptlogo.png"  width="300" height="300">
-<img src="assets/images/eindproduct_render.gif"  width="300" height="300">
+<img src="assets/images/printlogo.png"  width="250" height="250">
+<img src="assets/images/conceptlogo.png"  width="250" height="250">
+<img src="assets/images/eindproduct_render.gif"  width="250" height="250">
 ## Concept logo
 
 Dit was ons eerste logo Idee: een robot met een airhockey pusher op zijn hoofd. We hebben ook een naam bedacht: Rob! Dat is een afkorting van ROBot. We zijn dit logo daarna gaan uitwerken en uiteindelijk is het ons uiteindelijke logo geworden:

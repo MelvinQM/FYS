@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Test HTML</title>
+    </head>
+    <body>
+        <script>
+            var returnValue = function () {
+                fetch('/api')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        document.getElementById("scoreID").innerHTML = data.score;
+                    })
+            }
+            setInterval(returnValue, 500)
+        </script>
+        <h1>De score: <span id="scoreID">#</span></h1>
+        <h2>{{readldr}}</h2>
+    </body>
+</html>

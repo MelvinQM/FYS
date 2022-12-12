@@ -1,16 +1,36 @@
 # Fasten your seatbelts
 
-![image](assets/images/printlogo.png)
+<img src="assets/images/printlogo.png"  width="250" height="250">
+<img src="assets/images/conceptlogo.png"  width="250" height="250">
+<img src="assets/images/eindproduct_render.gif"  width="250" height="250">
 
 ## Concept logo
 
-![image](assets/images/conceptlogo.png)
 Dit was ons eerste logo Idee: een robot met een airhockey pusher op zijn hoofd. We hebben ook een naam bedacht: Rob! Dat is een afkorting van ROBot. We zijn dit logo daarna gaan uitwerken en uiteindelijk is het ons uiteindelijke logo geworden:
-![image](assets/images/printlogo.png)
 
 ## Inleiding
 
 In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na te maken. Dit project is een onderdeel van de studie Techtnische Informatica op de HVA. Dit project is gemaakt door de volgende eerste jaars TI studenten: Koen Lammers, Melvin Moes, Jayden van Oorschot, Simon Zweers, Nick schokker en Jurrien Simmons.
+
+## Inhoudsopgave
+
+- Beschrijving
+- Benodigdheden
+- Beeldmateriaal
+- Installatie
+- Functies
+    - Countdown
+    - Soundsensor
+    - Servo
+    - LDR
+    - Ultrasonic
+    - Score weergeven op website
+- Threading
+- Documentatie database
+    - MySQL installeren
+- Support
+- Ontwikkelaars
+- Bronnen
 
 ## Beschrijving
 
@@ -30,7 +50,7 @@ Het doel van het project is om een airhockey tafel te maken die werkt met maar 1
 ## Beeldmateriaal
 
 > Hieronder is een animatie te zien van hoe het product er ongeveer uit moet gaan zien.
-![Ontwerp Eindproduct.gif](./Ontwerp Eindproduct.gif)
+![Ontwerp Eindproduct.gif](assets/gif/Ontwerp Eindproduct.gif)
 > Hieronder is te zien hoe het prototype er in realiteit uit ziet.
 > Hieronder is het aansluitschema te zien. Dit is hoe we alle onderdelen aan de Odroid hebben aangesloten.
 ![image](assets/images/aansluitschema.png)
@@ -126,28 +146,26 @@ Deze functie is voor de LDR/lichtsensor die we gebruiken om doelpunten te detect
 ```python
 # Function for usage of ldr
 def ldr_func():
+    global LDR_PIN
+    global score
+    outputOld = 0
     while True:
-        global LDR_PIN
-        # Variabele
-        output = wpi.digitalRead(LDR_PIN)
-        """
-        outputOld = 0
-        # print(output, outputOld)
-        if output > outputOld:
-            print("Lichtje Uit")
-        elif output < outputOld:
-            print("Lichtje Aan")
-        """
+
+        output = wpi.digitalRead(9)
         print(output)
+
+        if output < outputOld:
+            score = score + 1
         outputOld = output
+
         time.sleep(ldrDelay)
 ```
 
-Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de vorige waarde. De LDR is een variabele weerstand, de output wordt hoger als er licht op schijnt. Door de output te vergelijken kunnen we aflezen of er wel of geen licht op schijnt, dus of de laser onderbroken wordt.
+Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de vorige waarde. De LDR is een variabele weerstand, de output wordt hoger als er licht op schijnt. Door de output te vergelijken kunnen we aflezen of er wel of geen licht op schijnt, dus of de laser onderbroken wordt. Wanneer er een onderbreking gedetecteerd wordt de globale variabele `score` met 1 verhoogd. Deze word met javascript fetch vanuit de html opgelaald om de halve seconde (Zie webserver uitleg).
 
 ### Ultrasonic
 
-Deze functie wordt gebruikt om de afstand te meten met de ultrasonic sensor. 
+Deze functie wordt gebruikt om de afstand te meten met de ultrasonic sensor.
 
 ```python
 # Function for usage of ultrasonic
@@ -192,9 +210,11 @@ De ultrasonic sensor kan afstand meten door pulsen van geluid uit te zenden en d
 
 Uiteindelijk gaan de lichten branden als de afstand minder is dan onze vastgestelde grens.
 
+### Score weergave op de website
+
 ## Threading
 
-Wij gebruiken threads in ons project om verschillende sensoren en motoren tegelijk aan te sturen/uit te lezen. Hieronder maken wij deze threads aan. De target voor deze threads zijn de hierboven beschreven functies.
+Wij gebruiken threads in ons project om verschillende sensoren en motoren tegelijk aan te sturen/uit te lezen. Hieronder maken wij deze threads aan. De target voor deze threads zijn de hierboven beschreven [functies](#functies).
 
 ```python
 # Making the threads
@@ -235,9 +255,9 @@ Gebruikte password : odroid
 
 ## Support
 
-Voor technische support kun je altijd support vragen bij een van onze projectdeelnemers. Zie autheuren voor contact informatie.
+Voor technische support kun je altijd support vragen bij een van onze projectdeelnemers. Zie [ontwikkelaars](#ontwikkelaars) voor contact informatie.
 
-## Authors
+## Ontwikkelaars
 
 - Koen Lammers        -   koen.lammers@hva.nl
 - Melvin Moes         -   melvin.moes@hva.nl
@@ -250,3 +270,10 @@ Voor technische support kun je altijd support vragen bij een van onze projectdee
 
 - [Database Flask bron #1](https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d)
 - [Database Flask bron #2](https://www.instructables.com/From-Data-to-Graph-a-Web-Jorney-With-Flask-and-SQL/)
+- [Html tutorial W3schools](https://www.w3schools.com/html/default.asp)
+- [Css tutorial W3schools](https://www.w3schools.com/css/default.asp)
+- [Flask documentatie](https://flask.palletsprojects.com/en/2.2.x/)
+- [ODROID N2/N2+ documentatie](https://wiki.odroid.com/odroid-n2/odroid-n2)
+- [odroid-wiringpi documentatie](https://pypi.org/project/odroid-wiringpi/)
+- [Javascript fetch voorbeeld](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+- [HTML to python and back](https://stackoverflow.com/questions/43677564/passing-input-from-html-to-python-and-back)

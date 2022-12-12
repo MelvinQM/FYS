@@ -7,13 +7,11 @@ import time
 import threading
 import json
 
-is_gestart = False
-
 # Main flask code stuk
 app = Flask(__name__)
 
 # Home Page
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
     return render_template("index.html")
 
@@ -24,13 +22,19 @@ def page1():
     wpi.wiringPiSetup()
     readldr = wpi.digitalRead(9)
     return jsonify({'score': score,
-                    'email': 'alice@outlook.com'})
+                    'email': "email"})
 
-@app.route("/startgame")
+@app.route("/startgame", methods=["GET", "POST"])
 def startgame():
+    name_user = request.form['name']
+    if ldrThread.is_alive() == False:
+        ldrThread.start()
+    return render_template("game.html", name_user=name_user)
 
-    ldrThread.start()
-    return render_template("game.html")
+@app.route("/getname")
+def getname():
+
+    return 0
 
 
 
@@ -197,7 +201,8 @@ if __name__ == '__main__':
     # Variabele voor het bijhouden van de score
     score = 0
 
-    # wpi.pinMode(LASER_PIN, wpi.OUTPUT)
+    # Opslaan van naam uit html form
+
     """
     countdownThread.start()
     soundThread.start()

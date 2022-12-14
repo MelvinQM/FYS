@@ -227,3 +227,19 @@ Vakantie
 - Nick
 
 --- 
+
+## Week 15
+### Wat hebben we gedaan
+- Documentatie
+- Werken aan het physieke product
+- Verder aan database gegaan
+
+### Wie Waren aanwezig
+- Melvin
+- Koen
+- Simon
+- Jayden
+- Jurrien
+- Nick
+
+--- 

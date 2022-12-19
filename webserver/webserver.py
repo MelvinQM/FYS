@@ -18,7 +18,7 @@ def home():
 
 # Start de game loop
 @app.route("/api")
-def api():
+def page1():
     wpi.wiringPiSetup()
     readldr = wpi.digitalRead(9)
     return jsonify({'score': score,
@@ -31,10 +31,12 @@ def startgame():
         ldrThread.start()
     return render_template("game.html", name_user=name_user)
 
-@app.route("/gameover")
-def gameover():
+@app.route("/getname")
+def getname():
 
-    return render_template("gameover.html", score=score)
+    return 0
+
+
 
 # Countdown for the gameloop
 def countdown():
@@ -167,14 +169,14 @@ if __name__ == '__main__':
     # Zorgen dat de wpi pins worden gebruikt
     wpi.wiringPiSetup()
 
-    #wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
-    #wpi.pinMode(LED_PIN, wpi.OUTPUT)
+    wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
+    wpi.pinMode(LED_PIN, wpi.OUTPUT)
     wpi.pinMode(LDR_PIN, wpi.INPUT)
 
     # set WPI direction (IN / OUT)
-    #wpi.pinMode(triggerPin, wpi.OUTPUT)
-    #wpi.pinMode(echoPin, wpi.INPUT)
-    #wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
+    wpi.pinMode(triggerPin, wpi.OUTPUT)
+    wpi.pinMode(echoPin, wpi.INPUT)
+    wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
 
     # Thresholds instellingen voor soundsensor
     thresholdSound = 1700
@@ -198,14 +200,14 @@ if __name__ == '__main__':
 
     # Variabele voor het bijhouden van de score
     score = 0
-    finalscore = 0
 
     # Opslaan van naam uit html form
 
+    """
     countdownThread.start()
     soundThread.start()
+"""
     servoThread.start()
     ultraSonicThread.start()
-
-
+   
     app.run(host="0.0.0.0", port=80, debug=True)

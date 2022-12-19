@@ -169,14 +169,14 @@ if __name__ == '__main__':
     # Zorgen dat de wpi pins worden gebruikt
     wpi.wiringPiSetup()
 
-    #wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
-    #wpi.pinMode(LED_PIN, wpi.OUTPUT)
+    wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
+    wpi.pinMode(LED_PIN, wpi.OUTPUT)
     wpi.pinMode(LDR_PIN, wpi.INPUT)
 
     # set WPI direction (IN / OUT)
-    #wpi.pinMode(triggerPin, wpi.OUTPUT)
-    #wpi.pinMode(echoPin, wpi.INPUT)
-    #wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
+    wpi.pinMode(triggerPin, wpi.OUTPUT)
+    wpi.pinMode(echoPin, wpi.INPUT)
+    wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
 
     # Thresholds instellingen voor soundsensor
     thresholdSound = 1700
@@ -206,8 +206,8 @@ if __name__ == '__main__':
     """
     countdownThread.start()
     soundThread.start()
+"""
     servoThread.start()
     ultraSonicThread.start()
-    """
-
+   
     app.run(host="0.0.0.0", port=80, debug=True)

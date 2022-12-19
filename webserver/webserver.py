@@ -18,7 +18,7 @@ def home():
 
 # Start de game loop
 @app.route("/api")
-def page1():
+def api():
     wpi.wiringPiSetup()
     readldr = wpi.digitalRead(9)
     return jsonify({'score': score,
@@ -31,12 +31,10 @@ def startgame():
         ldrThread.start()
     return render_template("game.html", name_user=name_user)
 
-@app.route("/getname")
-def getname():
+@app.route("/gameover")
+def gameover():
 
-    return 0
-
-
+    return render_template("gameover.html", score=score)
 
 # Countdown for the gameloop
 def countdown():
@@ -200,14 +198,14 @@ if __name__ == '__main__':
 
     # Variabele voor het bijhouden van de score
     score = 0
+    finalscore = 0
 
     # Opslaan van naam uit html form
 
-    """
     countdownThread.start()
     soundThread.start()
     servoThread.start()
     ultraSonicThread.start()
-    """
+
 
     app.run(host="0.0.0.0", port=80, debug=True)

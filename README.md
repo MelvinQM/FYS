@@ -137,6 +137,10 @@ soundSensor_PIN, thresholdSound en soundDelay zijn buiten deze functie al gedefi
 
 ### Servo
 
+![image](assets/images/servo.png)
+
+Hierboven is te zien hoe de servo bevestigd zit in de doel constructie.
+
 Deze functie is voor het aansturen van de servo, die de arm laat bewegen.
 
 ```python
@@ -161,6 +165,10 @@ Als de timer om is wordt de servo teruggezet in het midden.
 
 ### LDR
 
+![image](assets/images/laserldr.png)
+
+Hierboven is te zien hoe de ldr en laser ingebouwd zitten in de tafel. De laser schijnt vanuit onder het doeltje naar binnen in een klein gaatje waar aan de andere kant de ldr zich bevind. Als er dus een puck langs valt zal het signaal kort onderbroken worden.
+
 Deze functie is voor de LDR/lichtsensor die we gebruiken om doelpunten te detecteren.
 
 ```python
@@ -184,6 +192,10 @@ def ldr_func():
 Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de vorige waarde. De LDR is een variabele weerstand, de output wordt hoger als er licht op schijnt. Door de output te vergelijken kunnen we aflezen of er wel of geen licht op schijnt, dus of de laser onderbroken wordt. Wanneer er een onderbreking gedetecteerd wordt de globale variabele `score` met 1 verhoogd. Deze word met javascript fetch vanuit de html opgelaald om de halve seconde (Zie webserver uitleg).
 
 ### Ultrasonic
+
+![image](assets/images/ultrasound.png)
+
+Hierboven is te zien hoe de ultrasound in de tafel is vastgezet. Deze sensor zit aan de spelers kant met complete zicht op zijn omgeving zodat zodra een persoon langs loopt of op de tafel zelf afloopt er een signaal gestuurd wordt naar de odroid zodat er een lampje aangaat. Hierdoor kunnen we het aantrekkelijker maken om het spel te gaan spelen.
 
 Deze functie wordt gebruikt om de afstand te meten met de ultrasonic sensor.
 

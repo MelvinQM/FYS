@@ -21,7 +21,7 @@ ultraSoundDelay = 0.00001
 # Main flask code stuk
 app = Flask(__name__)
 
-conn = mysql.connector.connect(host="localhost", user="nick", password="odroid123", database="test")
+conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
 
 if conn.is_connected():
     db_Info = conn.get_server_info()
@@ -73,7 +73,7 @@ def databaseInsert():
                     time.sleep(1)
                     cursor = conn.cursor()
 
-                    insert = "INSERT INTO ultrasonic (data) VALUES (%s)"
+                    insert = "INSERT INTO Ultrasonic (data) VALUES (%s)"
                     cursor.execute(insert, [dist])
                     conn.commit()
 
@@ -81,12 +81,16 @@ def databaseInsert():
             except KeyboardInterrupt:
                 print("Measurement stopped by User")
 
+@app.route('/api')
+def fetchApi():
+    return jsonify({'waardeselect': data })
+
 
 @app.route('/sensoren')
 def databaseRead():
     with app.app_context():
         cursorRead = conn.cursor()
-        cursorRead.execute("select * from ultrasonic ORDER BY id DESC LIMIT 20")
+        cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
         data = cursorRead.fetchall()  # data from database.
     return render_template("sensoren.html", value=data)
 

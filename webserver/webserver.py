@@ -13,12 +13,13 @@ app = Flask(__name__)
 # Home Page
 @app.route("/", methods=["GET", "POST"])
 def home():
-    return render_template("index.html")
+    testindex = "TEST INDEX"
+    return render_template("index.html", testindex=testindex)
 
 
 # Start de game loop
 @app.route("/api")
-def page1():
+def api():
     wpi.wiringPiSetup()
     readldr = wpi.digitalRead(9)
     return jsonify({'score': score,
@@ -31,12 +32,57 @@ def startgame():
         ldrThread.start()
     return render_template("game.html", name_user=name_user)
 
-@app.route("/getname")
-def getname():
+@app.route("/gameover")
+def gameover():
+    test = "Test"
+    return render_template("gameover.html", test=test)
 
-    return 0
+# De pins aanwijzen en instellen
+servoPin = 1
+soundSensor_PIN = 25
+LED_PIN = 0
+LDR_PIN = 9
+# set WPI Pins
+triggerPin = 7
+echoPin = 0
+ultraLedStrip = 9
 
+# Zorgen dat de wpi pins worden gebruikt
+wpi.wiringPiSetup()
 
+wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
+wpi.pinMode(LED_PIN, wpi.OUTPUT)
+wpi.pinMode(LDR_PIN, wpi.INPUT)
+
+# set WPI direction (IN / OUT)
+wpi.pinMode(triggerPin, wpi.OUTPUT)
+wpi.pinMode(echoPin, wpi.INPUT)
+wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
+
+# Thresholds instellingen voor soundsensor
+thresholdSound = 1700
+
+# Game timer
+gameCountdown = 120
+
+# Delays
+servoDelay = 0.5
+soundDelay = 0.1
+ldrDelay = 0.1
+ultraSoundDelay = 0.00001
+
+# Servo min en max
+minMove = 0
+maxMove = 180
+resetMove = 90
+
+# Variabel initialiseren voor de functie
+sound = 0
+
+# Variabele voor het bijhouden van de score
+score = 0
+
+# Opslaan van naam uit html form
 
 # Countdown for the gameloop
 def countdown():
@@ -144,70 +190,10 @@ servoThread = threading.Thread(target=servomovement)
 ldrThread = threading.Thread(target=ldr_func)
 ultraSonicThread = threading.Thread(target=ultrasonic)
 
-
-# Starting the threading
-"""
-countdownThread.start()
-soundThread.start()
-servoThread.start()
-ldrThread.start()
-ultraSonicThread.start()
-"""
-
-
 if __name__ == '__main__':
-    # De pins aanwijzen en instellen
-    servoPin = 1
-    soundSensor_PIN = 25
-    LED_PIN = 0
-    LDR_PIN = 9
-    # set WPI Pins
-    triggerPin = 7
-    echoPin = 0
-    ultraLedStrip = 9
-
-    # Zorgen dat de wpi pins worden gebruikt
-    wpi.wiringPiSetup()
-
-    wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
-    wpi.pinMode(LED_PIN, wpi.OUTPUT)
-    wpi.pinMode(LDR_PIN, wpi.INPUT)
-
-    # set WPI direction (IN / OUT)
-    wpi.pinMode(triggerPin, wpi.OUTPUT)
-    wpi.pinMode(echoPin, wpi.INPUT)
-    wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
-
-    # Thresholds instellingen voor soundsensor
-    thresholdSound = 1700
-
-    # Game timer
-    gameCountdown = 120
-
-    # Delays
-    servoDelay = 0.5
-    soundDelay = 0.1
-    ldrDelay = 0.1
-    ultraSoundDelay = 0.00001
-
-    # Servo min en max
-    minMove = 0
-    maxMove = 180
-    resetMove = 90
-
-    # Variabel initialiseren voor de functie
-    sound = 0
-
-    # Variabele voor het bijhouden van de score
-    score = 0
-
-    # Opslaan van naam uit html form
-
-    """
     countdownThread.start()
     soundThread.start()
-"""
     servoThread.start()
     ultraSonicThread.start()
-   
+    ldrThread.start()
     app.run(host="0.0.0.0", port=80, debug=True)

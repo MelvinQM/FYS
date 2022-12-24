@@ -9,7 +9,7 @@ import json
 
 # Main flask code stuk
 app = Flask(__name__)
-
+name_user = "None"
 # Home Page
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -27,15 +27,16 @@ def api():
 
 @app.route("/startgame", methods=["GET", "POST"])
 def startgame():
+    global name_user
     name_user = request.form['name']
-    if ldrThread.is_alive() == False:
-        ldrThread.start()
     return render_template("game.html", name_user=name_user)
 
 @app.route("/gameover")
 def gameover():
-    test = "Test"
-    return render_template("gameover.html", test=test)
+    bruh = "TEST INDEX"
+    name = name_user
+    test = "TEST SCORE"
+    return render_template("gameover.html", bruh=bruh, name=name, test=test)
 
 # De pins aanwijzen en instellen
 servoPin = 1
@@ -90,10 +91,10 @@ def countdown():
     while gameCountdown:
         mins, secs = divmod(gameCountdown, 60)
         timer = '{:02d}:{:02d}'.format(mins, secs)
-        print(timer, end="\r")
+        # print(timer, end="\r")
         time.sleep(1)
         gameCountdown -= 1
-        print(timer)
+        # print(timer)
 
 # Function for usage of Sound Sensor
 def soundsensor():
@@ -101,14 +102,14 @@ def soundsensor():
         global sound
         # analogRead leest een float value van de sensor af (Geluid dus)
         sound = wpi.analogRead(soundSensor_PIN)
-        print("Sound value:", sound)
+        # print("Sound value:", sound)
         # Vergelijk het gelezen value met een preset value die je kan instellen bij oldSound
         if sound > thresholdSound:
             wpi.digitalWrite(LED_PIN, wpi.HIGH)
-            print("Threshold Exceeded")
+            #print("Threshold Exceeded")
         else:
             wpi.digitalWrite(LED_PIN, wpi.LOW)
-            print("Below Threshold")
+            #print("Below Threshold")
         time.sleep(soundDelay)
 
 # Function for usage of servo
@@ -137,7 +138,7 @@ def ldr_func():
         # Variabele
 
         output = wpi.digitalRead(9)
-        print(output)
+        # print(output)
         
         if output < outputOld:
             score = score + 1
@@ -179,7 +180,7 @@ def ultrasonic():
         else:
             wpi.digitalWrite(ultraLedStrip, wpi.LOW)
 
-        print("Measured Distance = %.1f cm" % distance)
+        # print("Measured Distance = %.1f cm" % distance)
         time.sleep(1)
 
 

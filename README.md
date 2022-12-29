@@ -73,7 +73,7 @@ Airhockey is een heel bekend spel, iedereen weet hoe het werkt. Door een robot t
 ![Ontwerp Eindproduct.gif](assets/gif/Ontwerp Eindproduct.gif)
 > Hieronder is te zien hoe het prototype er in realiteit uit ziet.
 > Hieronder is het aansluitschema te zien. Dit is hoe we alle onderdelen aan de Odroid hebben aangesloten.
-![image](assets/images/aansluitschema.png)
+![image](assets/images/fys_project_bb_v2.png)
 
 ## Installatie
 

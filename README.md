@@ -311,3 +311,4 @@ Voor technische support kun je altijd support vragen bij een van onze projectdee
 - [Javascript fetch voorbeeld](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
 - [HTML to python and back](https://stackoverflow.com/questions/43677564/passing-input-from-html-to-python-and-back)
 - [Wiringpi](https://github.com/hardkernel/WiringPi2-Python/blob/master/README.rst)
+- [HTML request forms in python](https://stackoverflow.com/questions/10434599/get-the-data-received-in-a-flask-request)

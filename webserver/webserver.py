@@ -13,6 +13,11 @@ name_user = "None"
 # Home Page
 @app.route("/", methods=["GET", "POST"])
 def home():
+    global score
+    global name_user
+    score = 0
+    name_user = ""
+
     testindex = "TEST INDEX"
     return render_template("index.html", testindex=testindex)
 
@@ -23,10 +28,11 @@ def api():
     wpi.wiringPiSetup()
     readldr = wpi.digitalRead(9)
     return jsonify({'score': score,
-                    'email': "email"})
+                    'timer': gameCountdown})
 
 @app.route("/startgame", methods=["GET", "POST"])
 def startgame():
+    countdownThread.start()
     global name_user
     name_user = request.form['name']
     return render_template("game.html", name_user=name_user)
@@ -34,9 +40,8 @@ def startgame():
 @app.route("/gameover")
 def gameover():
     bruh = "TEST INDEX"
-    name = name_user
     test = "TEST SCORE"
-    return render_template("gameover.html", bruh=bruh, name=name, test=test)
+    return render_template("gameover.html", bruh=bruh, name_user=name_user, score=score)
 
 # De pins aanwijzen en instellen
 servoPin = 1
@@ -192,7 +197,6 @@ ldrThread = threading.Thread(target=ldr_func)
 ultraSonicThread = threading.Thread(target=ultrasonic)
 
 if __name__ == '__main__':
-    countdownThread.start()
     soundThread.start()
     servoThread.start()
     ultraSonicThread.start()

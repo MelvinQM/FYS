@@ -11,8 +11,8 @@ wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
 gameCountdown = 120
 servoDelay = 0.5
 # Servo min en max
-minMove = 0
-maxMove = 180
+minMove = 90
+maxMove = 540
 resetMove = 315
 
 
@@ -22,9 +22,8 @@ def servomovement():
     killTimer = gameCountdown
     # Start program at 90 degrees
     wpi.pwmWrite(servoPin, resetMove)
-    time.sleep(1)
     while killTimer > 0:
-        move = random.randint(int((minMove / 18) + 2) * 45, int((maxMove / 18) + 2) * 45)
+        move = random.randint(minMove, maxMove)
         wpi.pwmWrite(servoPin, move)
         time.sleep(servoDelay)
         print(move)

@@ -6,6 +6,17 @@ import random
 import time
 import threading
 import json
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="yourusername",
+  password="yourpassword"
+)
+
+mycursor = mydb.cursor()
+
+mycursor.execute("CREATE DATABASE mydatabase")
 
 # Main flask code stuk
 app = Flask(__name__)

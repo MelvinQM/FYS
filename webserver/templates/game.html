@@ -12,12 +12,19 @@
                     .then((data) => {
                         console.log(data);
                         document.getElementById("scoreID").innerHTML = data.score;
-                    })
+                        document.getElementById("timerID").innerHTML = data.timer;
+                        if (data.timer <= 0) {
+                            // Simulate a mouse click:
+                            window.location.replace("gameover");
+                        }
+                    });
+                
             }
             setInterval(returnValue, 500)
         </script>
         <h1>De score: <span id="scoreID">#</span></h1>
-        <h2>Name user: {{name_user}}</h2>
+        <h2>Naam speler: {{name_user}}</h2>
+        <h2>Tijd over: <span id="timerID">###</span></h2>
 
         <img src="https://media.tenor.com/Np_76U9KyfoAAAAC/woo-yeah-oh-yeah.gif" alt="dancin man" style="width:48px;height:48px;">
         <br>

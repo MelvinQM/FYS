@@ -29,8 +29,8 @@ In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na t
 - [Threading](#threading)
 - [Database](#documentatie-database)
     - [MySQL installeren](#mysql-installatie)
-    - [Database Connectie](#Database-Connectie)
-    - [Database Query's](#Database-Query's)
+    - [Database Connectie](#database-connectie)
+    - [Database Query's](#database-query)
 - [Support](#support)
 - [Ontwikkelaars](#ontwikkelaars)
 - [Bronnen](#bronnen)
@@ -304,6 +304,7 @@ else:
     print("Connection failed to establish")
 ```
 
+<a name="database-query"></a>
 ### Database Query's
 
 hieronder zal ik een paar query's laten zien die we hebben gebruikt in het project.

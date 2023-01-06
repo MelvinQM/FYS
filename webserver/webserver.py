@@ -8,15 +8,13 @@ import threading
 import json
 import mysql.connector
 
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="yourusername",
-  password="yourpassword"
-)
+conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
 
-mycursor = mydb.cursor()
-
-mycursor.execute("CREATE DATABASE mydatabase")
+if conn.is_connected():
+    db_Info = conn.get_server_info()
+    print("Connected to MySQL Server version ", db_Info)
+else:
+    print("Connection failed to establish")
 
 # Main flask code stuk
 app = Flask(__name__)
@@ -34,7 +32,70 @@ def api():
     wpi.wiringPiSetup()
     readldr = wpi.digitalRead(9)
     return jsonify({'score': score,
-                    'email': "email"})
+                    'email': "email",
+                    'waardeselect': data})
+
+
+@app.route('/admin')
+def databaseRead():
+    with app.app_context():
+        cursorRead = conn.cursor()
+        cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
+        data = cursorRead.fetchall()  # data from database.
+    return render_template("sensoren.html", value=data)
+
+def distance():
+    # set Trigger to HIGH
+    wpi.digitalWrite(triggerPin, wpi.HIGH)
+
+    # set Trigger after 0.01ms to LOW
+    time.sleep(0.00001)
+    wpi.digitalWrite(triggerPin, wpi.LOW)
+
+    StartTime = time.time()
+    StopTime = time.time()
+
+    # save StartTime
+    while wpi.digitalRead(echoPin) == 0:
+        StartTime = time.time()
+
+    # save time of arrival
+    while wpi.digitalRead(echoPin) == 1:
+        StopTime = time.time()
+
+    # time difference between start and arrival
+    TimeElapsed = StopTime - StartTime
+    # multiply with the sonic speed (34300 cm/s)
+    # and divide by 2, because there and back
+    distance = (TimeElapsed * 34300) / 2
+
+    return distance
+
+def databaseRead():
+    with app.app_context():
+        cursorRead = conn.cursor()
+        cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
+        data = cursorRead.fetchall()  # data from database.
+    return render_template("sensoren.html", value=data)
+
+def databaseInsert():
+    with app.app_context():
+        if __name__ == '__main__':
+            try:
+                while True:
+                    dist = distance()
+                    print("Measured Distance = %.1f cm" % dist)
+                    time.sleep(1)
+                    cursor = conn.cursor()
+
+                    insert = "INSERT INTO Ultrasonic (data) VALUES (%s)"
+                    cursor.execute(insert, [dist])
+                    conn.commit()
+
+                # Reset by pressing CTRL + C
+            except KeyboardInterrupt:
+                print("Measurement stopped by User")
+
 
 @app.route("/startgame", methods=["GET", "POST"])
 def startgame():

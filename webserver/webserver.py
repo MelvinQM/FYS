@@ -44,57 +44,6 @@ def databaseRead():
         data = cursorRead.fetchall()  # data from database.
     return render_template("sensoren.html", value=data)
 
-def distance():
-    # set Trigger to HIGH
-    wpi.digitalWrite(triggerPin, wpi.HIGH)
-
-    # set Trigger after 0.01ms to LOW
-    time.sleep(0.00001)
-    wpi.digitalWrite(triggerPin, wpi.LOW)
-
-    StartTime = time.time()
-    StopTime = time.time()
-
-    # save StartTime
-    while wpi.digitalRead(echoPin) == 0:
-        StartTime = time.time()
-
-    # save time of arrival
-    while wpi.digitalRead(echoPin) == 1:
-        StopTime = time.time()
-
-    # time difference between start and arrival
-    TimeElapsed = StopTime - StartTime
-    # multiply with the sonic speed (34300 cm/s)
-    # and divide by 2, because there and back
-    distance = (TimeElapsed * 34300) / 2
-
-    return distance
-
-def databaseRead():
-    with app.app_context():
-        cursorRead = conn.cursor()
-        cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
-        data = cursorRead.fetchall()  # data from database.
-    return render_template("sensoren.html", value=data)
-
-def databaseInsert():
-    with app.app_context():
-        if __name__ == '__main__':
-            try:
-                while True:
-                    dist = distance()
-                    print("Measured Distance = %.1f cm" % dist)
-                    time.sleep(1)
-                    cursor = conn.cursor()
-
-                    insert = "INSERT INTO Ultrasonic (data) VALUES (%s)"
-                    cursor.execute(insert, [dist])
-                    conn.commit()
-
-                # Reset by pressing CTRL + C
-            except KeyboardInterrupt:
-                print("Measurement stopped by User")
 
 
 @app.route("/startgame", methods=["GET", "POST"])
@@ -251,6 +200,31 @@ def ultrasonic():
         print("Measured Distance = %.1f cm" % distance)
         time.sleep(1)
 
+def databaseRead():
+    with app.app_context():
+        cursorRead = conn.cursor()
+        cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
+        data = cursorRead.fetchall()  # data from database.
+    return render_template("sensoren.html", value=data)
+
+def databaseInsert():
+    with app.app_context():
+        if __name__ == '__main__':
+            try:
+                while True:
+                    dist = distance()
+                    print("Measured Distance = %.1f cm" % dist)
+                    time.sleep(1)
+                    cursor = conn.cursor()
+
+                    insert = "INSERT INTO Ultrasonic (data) VALUES (%s)"
+                    cursor.execute(insert, [dist])
+                    conn.commit()
+
+                # Reset by pressing CTRL + C
+            except KeyboardInterrupt:
+                print("Measurement stopped by User")
+
 
 # Making the threads
 countdownThread = threading.Thread(target=countdown)
@@ -258,6 +232,8 @@ soundThread = threading.Thread(target=soundsensor)
 servoThread = threading.Thread(target=servomovement)
 ldrThread = threading.Thread(target=ldr_func)
 ultraSonicThread = threading.Thread(target=ultrasonic)
+insertThread = threading.Thread(target=databaseInsert)
+readThread = threading.Thread(target=databaseRead)
 
 if __name__ == '__main__':
     countdownThread.start()
@@ -265,4 +241,6 @@ if __name__ == '__main__':
     servoThread.start()
     ultraSonicThread.start()
     ldrThread.start()
+    insertThread.start()
+    readThread.start()
     app.run(host="0.0.0.0", port=80, debug=True)

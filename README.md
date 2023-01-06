@@ -280,10 +280,55 @@ LOW (0) Wanneer er word gevraagd om welke niveau van wachtwoord validatie.
 Gebruikte password : odroid
 4. mysql -u root -p //Hiermee log je in met root rechten in MYSQL
 5.  
-    - CREATE DATABASE sensoren; // Creeerd een database ‘sensoren’
+    - CREATE DATABASE FYS; // Creeerd een database ‘sensoren’
     - CREATE USER 'admin'@'localhost' IDENTIFIED by ‘odroid123’;  // Creeerd een gebruiker ‘admin’ met als wachtwoord odroid123. Hiermee loggen we in later in PHPMYADMIN
-    - GRANT ALL on sensoren.* to 'admin'@'localhost';  //Dit geeft account admin volledige rechten over de database sensoren.
+    - GRANT ALL on FYS.* to 'admin'@'localhost';  //Dit geeft account admin volledige rechten over de database sensoren.
     - flush privileges  //Dit zorgt ervoor dat alles wat we zojuist hebben aangepast word verwerkt in de server.
+6. CREATE TABLE Sensoren (id int NOT NULL AUTO_INCREMENT, ultrasonic int NOT NULL, ldr int NOT NULL, soundsenor int , PRIMARY KEY (id) );
+
+### Database Connectie
+
+Nadat we de mysql hebt geïnstalleerd en de database hebt aan gemaakt. Hebben we een connectie op gezet tussen onze python code en onze database, zodat we via python data kunnen insert en ophalen.
+
+```python
+import mysql.connector
+
+conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
+
+if conn.is_connected():
+    db_Info = conn.get_server_info()
+    print("Connected to MySQL Server version ", db_Info)
+else:
+    print("Connection failed to establish")
+```
+
+### Database Query's
+
+hieronder zal ik een paar query's laten zien die we hebben gebruikt in het project.
+
+#### Insert Query
+
+Met de Insert Query kunnen we dus data van de sensoren in de database zetten door middel van een variable te gebruiken in de insert query.
+
+```python
+cursor = conn.cursor()
+
+insert = "INSERT INTO Ultrasonic (data) VALUES (%s)"
+cursor.execute(insert, [dist])
+conn.commit()
+```
+
+#### Select Query
+
+Vervolgens kan je deze data weer ophalen op een pagina bijvoorbeeld met de Select Query.
+
+```python
+cursorRead = conn.cursor()
+cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
+data = cursorRead.fetchall()  # data from database.
+```
+
+
 
 ## Support
 
@@ -294,7 +339,7 @@ Voor technische support kun je altijd support vragen bij een van onze projectdee
 - Koen Lammers        -   koen.lammers@hva.nl
 - Melvin Moes         -   melvin.moes@hva.nl
 - Jayden van Oorschot -   jayden.van.oorschot@hva.nl
-- Nick Schokker       -   nick.schokker@hva.nl
+- Nick Schokker       -   nick.schokker2@hva.nl
 - Simon Zweers        -   simon.zweers@hva.nl
 - Jurrrien Simmons    -   jurrien.simmons@hva.nl
 

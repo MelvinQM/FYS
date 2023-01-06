@@ -29,6 +29,8 @@ In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na t
 - [Threading](#threading)
 - [Database](#documentatie-database)
     - [MySQL installeren](#mysql-installatie)
+    - [Database Connectie](#Database-Connectie)
+    - [Database Query's](#Database-Query's)
 - [Support](#support)
 - [Ontwikkelaars](#ontwikkelaars)
 - [Bronnen](#bronnen)

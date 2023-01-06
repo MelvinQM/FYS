@@ -272,13 +272,13 @@ ultraSonicThread.start()
 
 ### MYSQL installatie
 
-1. *sudo apt update* // Dit refresh apt zodat de source list up to date is.
-2. sudo apt install mysql-server // Dit installeerd MYSQL op het systeem. Om vervolgens de MYSQL status te verkrijgen voer je “sudo systemctl status mysql” in.
-3. sudo mysql_secure_installation / /Dit zorgt ervoor dat MYSQL word beveiligd met een wac-htwoord. Hierin volgen een aantal stappen:
+1. `sudo apt update` // Dit refresh apt zodat de source list up to date is.
+2. `sudo apt install mysql-server` // Dit installeerd MYSQL op het systeem. Om vervolgens de MYSQL status te verkrijgen voer je `sudo systemctl status mysql` in.
+3. sudo `mysql_secure_installation` // Dit zorgt ervoor dat MYSQL word beveiligd met een wac-htwoord. Hierin volgen een aantal stappen:
 Yes wanneer er word gevraagt om wachtwoord validatie.
 LOW (0) Wanneer er word gevraagd om welke niveau van wachtwoord validatie.
-Gebruikte password : odroid
-4. mysql -u root -p //Hiermee log je in met root rechten in MYSQL
+Gebruikte password : `odroid`
+4. `mysql -u root -p` //Hiermee log je in met root rechten in MYSQL
 5.  
     - CREATE DATABASE sensoren; // Creeerd een database ‘sensoren’
     - CREATE USER 'admin'@'localhost' IDENTIFIED by ‘odroid123’;  // Creeerd een gebruiker ‘admin’ met als wachtwoord odroid123. Hiermee loggen we in later in PHPMYADMIN

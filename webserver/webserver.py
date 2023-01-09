@@ -60,7 +60,9 @@ def startgame():
     name_user = request.form['name']
     if ldrThread.is_alive() == False:
         ldrThread.start()
-    countdownThread.start()
+    if countdownThread.is_alive() == False:
+        countdownThread.start()
+
     return render_template("game.html", name_user=name_user)
 
 @app.route("/gameover")
@@ -70,15 +72,14 @@ def gameover():
 
     
     scoreInsert = conn.cursor()
-    scoreData = "INSERT INTO Score (name, score) VALUES (%s, %s)"
-    scoreInsert.execute(scoreData, [finalScore], [name_user])
-    scoreInsert.commit()
+    # scoreName = "INSERT INTO Score (name, data) VALUES (?, ?)"
+    scoreInsert.execute("INSERT INTO Score (name, score) VALUES (%s, %s)", (name_user, finalScore))
+    conn.commit()
 
     scoreRead = conn.cursor()
     scoreRead.execute("select name, score from Score ORDER BY score DESC LIMIT 10")
     test = scoreRead.fetchall()  # data from database.
-
-    return render_template("gameover.html", test=test)
+    return render_template("gameover.html", test=test, name_user=name_user, score=finalScore)
 
 # De pins aanwijzen en instellen
 servoPin = 1
@@ -211,14 +212,19 @@ def ultrasonic():
         # and divide by 2, because there and back
         distance = (TimeElapsed * 34300) / 2
         # if statement that tells if distance is smaller than 100cm lights turn on
-        if distance <= 100:
-            wpi.digitalWrite(ultraLedStrip, wpi.HIGH)
-        # else statements that tells if distance is larger than 100 cm light turn off
-        else:
-            wpi.digitalWrite(ultraLedStrip, wpi.LOW)
+
+
+        # if distance <= 100:
+        #     wpi.digitalWrite(ultraLedStrip, wpi.HIGH)
+        # # else statements that tells if distance is larger than 100 cm light turn off
+        # else:
+        #     wpi.digitalWrite(ultraLedStrip, wpi.LOW)
 
         # print("Measured Distance = %.1f cm" % distance)
         time.sleep(1)
+
+        return distance
+
 
 def databaseInsert():
     with app.app_context():

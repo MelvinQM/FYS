@@ -12,5 +12,19 @@
   <button class="button">Opnieuw spelen</button>
 </a>
 
+<table class="table">
+
+            <tr>
+                <th>Naam</th>
+                <th>Score</th>
+            </tr>
+             {% for row in test %}
+                    <tr>
+                        <td>{{row[0]}}</td>
+                        <td>{{row[1]}}</td>
+                    </tr>
+             {% endfor %}
+        </table>
+
 </body>
 </html>

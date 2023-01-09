@@ -12,8 +12,8 @@
                     .then((data) => {
                         console.log(data);
                         document.getElementById("scoreID").innerHTML = data.score;
-                        document.getElementById("timerID").innerHTML = data.timer;
-                        if (data.timer <= 0) {
+                        document.getElementById("timerID").innerHTML = data.time;
+                        if (data.time <= 0) {
                             // Simulate a mouse click:
                             window.location.replace("gameover");
                         }

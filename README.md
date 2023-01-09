@@ -36,6 +36,8 @@ In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na t
 - [Threading](#threading)
 - [Database](#documentatie-database)
     - [MySQL installeren](#mysql-installatie)
+    - [Database Connectie](#database-connectie)
+    - [Database Query's](#database-query)
 - [Support](#support)
 - [Ontwikkelaars](#ontwikkelaars)
 - [Bronnen](#bronnen)
@@ -279,18 +281,64 @@ ultraSonicThread.start()
 
 ### MYSQL installatie
 
-1. *sudo apt update* // Dit refresh apt zodat de source list up to date is.
-2. sudo apt install mysql-server // Dit installeerd MYSQL op het systeem. Om vervolgens de MYSQL status te verkrijgen voer je “sudo systemctl status mysql” in.
-3. sudo mysql_secure_installation / /Dit zorgt ervoor dat MYSQL word beveiligd met een wac-htwoord. Hierin volgen een aantal stappen:
+1. `sudo apt update` // Dit refresh apt zodat de source list up to date is.
+2. `sudo apt install mysql-server` // Dit installeerd MYSQL op het systeem. Om vervolgens de MYSQL status te verkrijgen voer je `sudo systemctl status mysql` in.
+3. sudo `mysql_secure_installation` // Dit zorgt ervoor dat MYSQL word beveiligd met een wac-htwoord. Hierin volgen een aantal stappen:
 Yes wanneer er word gevraagt om wachtwoord validatie.
 LOW (0) Wanneer er word gevraagd om welke niveau van wachtwoord validatie.
-Gebruikte password : odroid
-4. mysql -u root -p //Hiermee log je in met root rechten in MYSQL
+Gebruikte password : `odroid`
+4. `mysql -u root -p` //Hiermee log je in met root rechten in MYSQL
 5.  
-    - CREATE DATABASE sensoren; // Creeerd een database ‘sensoren’
+    - CREATE DATABASE FYS; // Creeerd een database ‘sensoren’
     - CREATE USER 'admin'@'localhost' IDENTIFIED by ‘odroid123’;  // Creeerd een gebruiker ‘admin’ met als wachtwoord odroid123. Hiermee loggen we in later in PHPMYADMIN
-    - GRANT ALL on sensoren.* to 'admin'@'localhost';  //Dit geeft account admin volledige rechten over de database sensoren.
+    - GRANT ALL on FYS.* to 'admin'@'localhost';  //Dit geeft account admin volledige rechten over de database sensoren.
     - flush privileges  //Dit zorgt ervoor dat alles wat we zojuist hebben aangepast word verwerkt in de server.
+6. CREATE TABLE Sensoren (id int NOT NULL AUTO_INCREMENT, ultrasonic int NOT NULL, ldr int NOT NULL, soundsenor int , PRIMARY KEY (id) );
+
+### Database Connectie
+
+Nadat we de mysql hebt geïnstalleerd en de database hebt aan gemaakt. Hebben we een connectie op gezet tussen onze python code en onze database, zodat we via python data kunnen insert en ophalen.
+
+```python
+import mysql.connector
+
+conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
+
+if conn.is_connected():
+    db_Info = conn.get_server_info()
+    print("Connected to MySQL Server version ", db_Info)
+else:
+    print("Connection failed to establish")
+```
+
+<a name="database-query"></a>
+### Database Query's
+
+hieronder zal ik een paar query's laten zien die we hebben gebruikt in het project.
+
+#### Insert Query
+
+Met de Insert Query kunnen we dus data van de sensoren in de database zetten door middel van een variable te gebruiken in de insert query.
+
+```python
+cursor = conn.cursor()
+
+insert = "INSERT INTO Ultrasonic (data) VALUES (%s)"
+cursor.execute(insert, [dist])
+conn.commit()
+```
+
+#### Select Query
+
+Vervolgens kan je deze data weer ophalen op een pagina bijvoorbeeld met de Select Query.
+
+```python
+cursorRead = conn.cursor()
+cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
+data = cursorRead.fetchall()  # data from database.
+```
+
+
 
 ## Support
 
@@ -301,7 +349,7 @@ Voor technische support kun je altijd support vragen bij een van onze projectdee
 - Koen Lammers        -   koen.lammers@hva.nl
 - Melvin Moes         -   melvin.moes@hva.nl
 - Jayden van Oorschot -   jayden.van.oorschot@hva.nl
-- Nick Schokker       -   nick.schokker@hva.nl
+- Nick Schokker       -   nick.schokker2@hva.nl
 - Simon Zweers        -   simon.zweers@hva.nl
 - Jurrrien Simmons    -   jurrien.simmons@hva.nl
 

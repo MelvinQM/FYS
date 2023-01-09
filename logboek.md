@@ -243,3 +243,16 @@ Vakantie
 - Nick
 
 --- 
+
+## Kerstvakantie
+### Wat hebben we gedaan
+- documentatie voor database connecties gemaakt
+- verder werken aan database code
+- soundsensor testen
+
+### Wie waren aanwezig (deze keer online)
+- Melvin
+- Koen
+- Simon
+- Jayden
+- Nick

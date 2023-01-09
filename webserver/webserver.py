@@ -67,6 +67,17 @@ def startgame():
 def gameover():
     finalScore = score
     name_user
+
+    
+    scoreInsert = conn.cursor()
+    scoreData = "INSERT INTO Score (name, score) VALUES (%s, %s)"
+    scoreInsert.execute(scoreData, [finalScore], [name_user])
+    scoreInsert.commit()
+
+    scoreRead = conn.cursor()
+    scoreRead.execute("select name, score from Score ORDER BY score DESC LIMIT 10")
+    test = scoreRead.fetchall()  # data from database.
+
     return render_template("gameover.html", test=test)
 
 # De pins aanwijzen en instellen

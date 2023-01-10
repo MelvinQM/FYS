@@ -62,15 +62,15 @@ def startgame():
         ldrThread.start()
     if countdownThread.is_alive() == False:
         countdownThread.start()
+    if servoThread.is_alive() == False:
+        servoThread.start()
 
     return render_template("game.html", name_user=name_user)
 
 @app.route("/gameover")
 def gameover():
+    servoThread.join()
     finalScore = score
-    name_user
-
-    
     scoreInsert = conn.cursor()
     # scoreName = "INSERT INTO Score (name, data) VALUES (?, ?)"
     scoreInsert.execute("INSERT INTO Score (name, score) VALUES (%s, %s)", (name_user, finalScore))
@@ -118,8 +118,8 @@ ldrDelay = 0.1
 ultraSoundDelay = 0.00001
 
 # Servo min en max
-minMove = 90
-maxMove = 540
+minMove = 250 # volledig 90
+maxMove = 400 # volledig 540
 resetMove = 315
 
 # Variabel initialiseren voor de functie
@@ -263,7 +263,6 @@ readThread = threading.Thread(target=databaseRead)
 
 if __name__ == '__main__':
     soundThread.start()
-    servoThread.start()
     ultraSonicThread.start()
     ldrThread.start()
     insertThread.start()

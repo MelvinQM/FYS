@@ -118,9 +118,9 @@ soundDelay = 0.1
 ldrDelay = 0.1
 ultraSoundDelay = 0.00001
 
-# Servo min en max
-minMove = 250 # volledig 90
-maxMove = 400 # volledig 540
+# Servo min en max in graden
+minMove = 60
+maxMove = 120
 resetMove = 315
 
 # Variabel initialiseren voor de functie
@@ -161,7 +161,8 @@ def servomovement():
     # Start program at 90 degrees
     wpi.pwmWrite(servoPin, resetMove)
     while killTimer > 0:
-            move = random.randint(minMove, maxMove)
+            angle = random.randint(minMove, maxMove)
+            move = ((angle / 18) + 2) * 45
             wpi.pwmWrite(servoPin, int(move))
             time.sleep(servoDelay)
             killTimer -= 0.5

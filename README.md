@@ -50,7 +50,7 @@ Het doel van het project is om een airhockey tafel te maken die werkt met maar 1
 ## Busines Case
 
 ### Aanleiding
-Het idee voor dit project is om een entertainment-systeem te maken voor in de resorts en hotels van Corendon. Dit wordt een soort spel wat mensen kunnen spelen op de plekken waar ze moeten wachten (bijvoorbeeld op de bus). Dankzij dit entertainment-systeem zullen mensen het wachten veel minder saai en zo veel aangenamer vinden. Op deze manier zullen die mensen een betere algemene ervaring beleven bij de hotels en resorts van Corendon, waardoor ze deze sneller zullen aanbevelen aan andere mogelijke gasten en zullen ze zelf vaker terugkomen, waardoor Corendon meer winst verdient. 
+Het idee voor dit project is om een entertainment-systeem te maken voor in de resorts en hotels van Corendon. Dit wordt een soort entertainment systeem die mensen kunnen gebruiken op de plekken waar ze lange periodes moeten wachten (bijvoorbeeld op de bus). Dankzij dit systeem zal het wachten een stuk aangenamer worden. Op deze manier zullen deze mensen een betere ervaring beleven bij de hotels en resorts van Corendon, waardoor ze sneller het hotel zullen aanbevelen aan andere mogelijke gasten en zelf vaker terugkomen, waardoor Corendon meer winst verdient. 
 Een groot risico is dat het spel al snel te moeilijk of te makkelijk is. Als het spel te makkelijk is gaan mensen het saai vinden en niet vaak spelen. Als het spel te moeilijk is dan vinden mensen het ook niet leuk. Als het spel te ingewikkeld is dan zijn de gasten niet entertained. Het is dan ook te moeilijk om te begrijpen. Aan de andere kant heeft zo’n spel veel voordelen.
 
 ### Verwachtingen
@@ -59,11 +59,11 @@ Corendon heeft ons ingeschakeld om een entertainment systeem te maken voor in de
 
 ### Oplossing
 
-Ons idee voor dit entertainment systeem is een airhockeytafel met een robot-tegenstander. Aan de ene kant van de tafel staat de speler, zoals bij normaal airhockey. Aan de andere kant staat een robotarm die het andere doel verdedigt. Het doel van het spel is om zo vaak mogelijk te scoren bij de robot in een bepaald tijdslimiet. Omdat het een robot is kunnen we verschillende moeilijkheidsgraden instellen waardoor iedereen van het spel kan genieten. Verder komt er een website bij waarop verschillende gegevens te zien zijn. Voor de gebruikers zijn de huidige score, high scores en de snelheid te zien. De snelheid is hoe snel de puck het doel in gaat. Op de andere webpagina (niet voor spelers) staan andere gegevens, namelijk hoe vaak het spel gespeeld is en hoe luid het spel en omgevingsgeluid zijn.
+Ons idee voor dit entertainment systeem is een airhockeytafel met een robot-tegenstander. Aan de ene kant van de tafel staat de speler, zoals bij normaal airhockey. Aan de andere kant staat een robotarm die het andere doel verdedigt. Het doel van het spel is om zo vaak mogelijk te scoren bij de robot in een bepaald tijdslimiet. Wij strijven om een moeilijkheidsgraad te creeeren die zowel uitdagend kan zijn voor volwassenen als voor kinderen. Verder komt er een website waarop verschillende gegevens te zien komen. Voor de gebruikers komen de huidige score, high scores en de snelheid zichtbaar op de website. De snelheid is hoe snel de puck het doel in gaat. Op de andere webpagina (niet voor spelers) staan andere gegevens, namelijk hoe vaak het spel gespeeld is en hoe luid het spel en omgevingsgeluid zijn.
 
 ### Voordelen
 
-Airhockey is een heel bekend spel, iedereen weet hoe het werkt. Door een robot toe te voegen aan een airhockeytafel ontstaan er meerdere voordelen. De speler kan zelf kiezen hoe makkelijk of moeilijk het spel wordt. Je kan een highscore halen en die terug zien op de website, zo kunnen spelers alsnog tegen elkaar spelen. Door de andere gegevens op de website is te zien of het spel veel gespeeld wordt en dus of het populair genoeg is. Ook is te zien of het spel nog goed werkt door een foutmelding te geven als er iets niet werkt.
+Airhockey is een heel bekend spel, iedereen weet hoe het werkt. Door een robot toe te voegen aan een airhockeytafel ontstaan er meerdere voordelen. Je kan een highscore halen en die terug zien op de website, zo kunnen spelers alsnog tegen elkaar spelen. Door de andere gegevens op de website is te zien of het spel veel gespeeld wordt en dus of het populair genoeg is. Ook is te zien of het spel nog goed werkt door een foutmelding te geven als er iets niet werkt.
 
 
 ## Benodigdheden
@@ -74,7 +74,7 @@ Airhockey is een heel bekend spel, iedereen weet hoe het werkt. Door een robot t
 - 2x LDR and laser
 - 1x Sound sensor
 - 1x Segment display
-- 1x Airhockey tafel
+- 1x Speelgoed Airhockey tafel
 - 1x Diverse 3d geprinte onderdelen
 
 ## Beeldmateriaal

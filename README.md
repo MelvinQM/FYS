@@ -207,50 +207,75 @@ Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de 
 
 Hierboven is te zien hoe de ultrasound in de tafel is vastgezet. Deze sensor zit aan de spelers kant met complete zicht op zijn omgeving zodat zodra een persoon langs loopt of op de tafel zelf afloopt er een signaal gestuurd wordt naar de odroid zodat er een lampje aangaat. Hierdoor kunnen we het aantrekkelijker maken om het spel te gaan spelen.
 
-Deze functie wordt gebruikt om de afstand te meten met de ultrasonic sensor.
+Deze functie wordt gebruikt om de afstand te meten met de ultrasonic sensor die dan licht geeft via de NeoPixel strip.
 
 ```python
-# Function for usage of ultrasonic
-def ultrasonic():
-    while True:
-        # dist is a variable made for distance()
-        # set Trigger to HIGH
-        wpi.digitalWrite(triggerPin, wpi.HIGH)
+#Kleuren voor ledstrip
+stoplichtGroen = [[10,0,0],[0,0,0],[0,0,0],[0,0,0]]
+stoplichtOranje = [[0,0,0],[10,10,0],[0,0,0],[0,0,0]]
+stoplichtRood = [[0,0,0],[0,0,0],[0,10,0],[0,0,0]]
 
-        # set Trigger after 0.01ms to LOW
-        time.sleep(ultraSoundDelay)
-        wpi.digitalWrite(triggerPin, wpi.LOW)
 
+
+def distance():
+    # set Trigger to HIGH
+    GPIO.digitalWrite(GPIO_TRIGGER, GPIO.HIGH)
+
+    # set Trigger after 0.01ms to LOW
+    time.sleep(0.00001)
+    GPIO.digitalWrite(GPIO_TRIGGER, GPIO.LOW)
+
+    StartTime = time.time()
+    StopTime = time.time()
+
+    # save StartTime
+    while GPIO.digitalRead(GPIO_ECHO) == 0:
         StartTime = time.time()
+
+    # save time of arrival
+    while GPIO.digitalRead(GPIO_ECHO) == 1:
         StopTime = time.time()
 
-        # save StartTime
-        while wpi.digitalRead(echoPin) == 0:
-            StartTime = time.time()
+    # time difference between start and arrival
+    TimeElapsed = StopTime - StartTime
+    # multiply with the sonic speed (34300 cm/s)
+    # and divide by 2, because there and back
+    distance = (TimeElapsed * 34300) / 2
 
-        # save time of arrival
-        while wpi.digitalRead(echoPin) == 1:
-            StopTime = time.time()
+    return distance
 
-        # time difference between start and arrival
-        TimeElapsed = StopTime - StartTime
-        # multiply with the sonic speed (34300 cm/s)
-        # and divide by 2, because there and back
-        distance = (TimeElapsed * 34300) / 2
-        # if statement that tells if distance is smaller than 100cm lights turn on
-        if distance <= 100:
-            wpi.digitalWrite(ultraLedStrip, wpi.HIGH)
-        # else statements that tells if distance is larger than 100 cm light turn off
-        else:
-            wpi.digitalWrite(ultraLedStrip, wpi.LOW)
 
-        print("Measured Distance = %.1f cm" % distance)
-        time.sleep(1)
-```
+
+if __name__ == '__main__':
+    try:
+        while True:
+            # dist is a variable made for distance()
+            dist = distance()
+            # if statement that tells if distance is smaller than 100cm lights turn on
+            if dist <= 100:
+                ws.write2812(spi,stoplichtGroen)
+                time.sleep(1)
+		ws.write2812(spi,stoplichtOranje)
+                time.sleep(1)
+		ws.write2812(spi,stoplichtOranje)
+                time.sleep(1)
+            # else statements that tells if distance is larger than 100 cm light turn off
+            else:
+		GPIO.digitalWrite(GPIO_CONN, GPIO.LOW)
+                
+            print("Measured Distance = %.1f cm" % dist)
+            time.sleep(1)
+
+        # Reset by pressing CTRL + C
+    except KeyboardInterrupt:
+        print("Measurement stopped by User")
+
+``` 
 
 De ultrasonic sensor kan afstand meten door pulsen van geluid uit te zenden en de tijd meten voor ze terugkomen. Door de triggerPin een kort signaal te geven wordt er een puls van geluid uitgezonden. Wanneer de echoPin een signaal ontvangt wordt de eindtijd opgeslagen. De tijd die voorbij ging is de starttijd - eindtijd. Met de geluidssnelheid (343 m/s) wordt dan de afstand berekend.
 
 Uiteindelijk gaan de lichten branden als de afstand minder is dan onze vastgestelde grens.
+Als er geen beweging is vallen de lichten weer uit.
 
 ### Score weergave op de website
 

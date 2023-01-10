@@ -368,3 +368,4 @@ Voor technische support kun je altijd support vragen bij een van onze projectdee
 - [HTML to python and back](https://stackoverflow.com/questions/43677564/passing-input-from-html-to-python-and-back)
 - [Wiringpi](https://github.com/hardkernel/WiringPi2-Python/blob/master/README.rst)
 - [HTML request forms in python](https://stackoverflow.com/questions/10434599/get-the-data-received-in-a-flask-request)
+- [Seven segment display in python](https://raspi.tv/2015/how-to-drive-a-7-segment-display-directly-on-raspberry-pi-in-python)

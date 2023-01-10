@@ -38,6 +38,12 @@
                         <td>{{row[0]}}</td>
                         <td>{{row[1]}}</td>
                     </tr>
+
+                <div>
+                    {% if imp[3][0] == 'abc' or imp[3][0] == 'def' %}
+                        <p>there is a error on the website</p>
+                    {% endif %}
+                </div>
              {% endfor %}
         </table>
    </body>

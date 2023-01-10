@@ -41,7 +41,8 @@ def api():
     readldr = wpi.digitalRead(9)
     return jsonify({'score': score,
                     'time': gameCountdown,
-                    'waardeselect': data})
+                    'waardeselect': data,
+                    'ultrasonic': ultrasonicData})
 
 
 @app.route('/admin')
@@ -49,8 +50,8 @@ def databaseRead():
     with app.app_context():
         cursorRead = conn.cursor()
         cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
-        data = cursorRead.fetchall()  # data from database.
-    return render_template("sensoren.html", value=data)
+        ultrasonicData = cursorRead.fetchall()  # data from database.
+    return render_template("sensoren.html", value=ultrasonicData)
 
 
 

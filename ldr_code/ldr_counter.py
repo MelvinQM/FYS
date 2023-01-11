@@ -7,7 +7,7 @@ LDR_PIN = 9
 # S op pin 6 (ALT1 output)
 LASER_PIN = 12
 
-LDR_DELAY = 0.05
+LDR_DELAY = 0.01
 
 wpi.wiringPiSetup()
 

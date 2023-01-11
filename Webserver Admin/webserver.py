@@ -81,9 +81,9 @@ def databaseInsert():
             except KeyboardInterrupt:
                 print("Measurement stopped by User")
 
-@app.route('/api')
-def fetchApi():
-    return jsonify({'waardeselect': data })
+# @app.route('/api')
+# def fetchApi():
+#     return jsonify({'waardeselect': data })
 
 
 @app.route('/sensoren')

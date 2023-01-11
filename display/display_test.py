@@ -2,11 +2,11 @@ import odroid_wiringpi as wpi
 import time
 
 wpi.wiringPiSetup()
-# physical pins 7, 11, 13, 15, 29, 31, 33, 35
-SEGMENT_PINS = (7, 0, 2, 3, 21, 22, 23, 24)
 
-# physical pins 12, 16, 18, 22
-DIGIT_PINS = (6, 5, 4, 1)
+# fysieke pins: 13, 15, (36), 16, 29, 31, 33, 35
+SEGMENT_PINS = (2, 3, 27, 4, 21, 22, 23, 24)
+# fysieke pins 18, 22, 26, 32
+DIGIT_PINS = (5, 6, 11, 26)
 
 # setup voor de pins van de segmenten
 for segment in SEGMENT_PINS:
@@ -32,9 +32,10 @@ getalArray = {' ': (0, 0, 0, 0, 0, 0, 0, 0),
               '9': (0, 1, 0, 1, 1, 1, 1, 1)}
 
 # het getal dat op de display moet staan, wordt ook een string zodat elk getal kan worden opgezocht in de array
-getal = 1234
+getal = 6900  # score keer 100 omdat de rechter 2 digits niet aangesloten zijn
 getalString = str(getal).rjust(4)
 
+# de loop die de juiste pins aan zet voor elk getal op de display
 try:
     # de loop die de juiste pins aan zet voor elk getal op de display
     while True:
@@ -48,3 +49,4 @@ try:
 
 except KeyboardInterrupt:
     wpi.ditigalWrite(SEGMENT_PINS, wpi.LOW)
+

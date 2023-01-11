@@ -203,7 +203,7 @@ Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de 
 
 ### Ultrasonic
 
-![Alt Text](https://im4.ezgif.com/tmp/ezgif-4-180b5fe6a6.gif)
+![Alt Text](/assets/gif/ezgif.com-gif-maker.gif)
 
 Hierboven is te zien hoe de ultrasound in de tafel is vastgezet. Deze sensor zit aan de spelers kant met complete zicht op zijn omgeving zodat zodra een persoon langs loopt of op de tafel zelf afloopt er een signaal gestuurd wordt naar de odroid zodat er een lampje aangaat. Hierdoor kunnen we het aantrekkelijker maken om het spel te gaan spelen.
 

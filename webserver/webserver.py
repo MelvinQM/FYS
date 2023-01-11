@@ -10,8 +10,6 @@ import mysql.connector
 
 conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
 
-
-
 if conn.is_connected():
     db_Info = conn.get_server_info()
     print("Connected to MySQL Server version ", db_Info)
@@ -25,6 +23,7 @@ data = 0
 
 # Main flask code stuk
 app = Flask(__name__)
+
 
 # Home Page
 @app.route("/", methods=["GET", "POST"])
@@ -41,8 +40,7 @@ def api():
     readldr = wpi.digitalRead(9)
     return jsonify({'score': score,
                     'time': gameCountdown,
-                    'waardeselect': data,
-                    'ultrasonic': ultrasonicData})
+                    'waardeselect': data})
 
 
 @app.route('/admin')
@@ -52,7 +50,6 @@ def databaseRead():
         cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
         ultrasonicData = cursorRead.fetchall()  # data from database.
     return render_template("sensoren.html", value=ultrasonicData)
-
 
 
 @app.route("/startgame", methods=["GET", "POST"])
@@ -68,6 +65,7 @@ def startgame():
 
     return render_template("game.html", name_user=name_user)
 
+
 @app.route("/gameover")
 def gameover():
     servoThread.join()
@@ -81,6 +79,7 @@ def gameover():
     scoreRead.execute("select name, score from Score ORDER BY score DESC LIMIT 10")
     test = scoreRead.fetchall()  # data from database.
     return render_template("gameover.html", test=test, name_user=name_user, score=finalScore)
+
 
 # De pins aanwijzen en instellen
 servoPin = 1
@@ -127,6 +126,7 @@ resetMove = 315
 sound = 0
 name_user = "  "
 
+
 # Countdown for the gameloop
 def countdown():
     global gameCountdown
@@ -137,6 +137,7 @@ def countdown():
         time.sleep(1)
         gameCountdown -= 1
         # print(gameCountdown)
+
 
 # Function for usage of Sound Sensor
 def soundsensor():
@@ -154,6 +155,7 @@ def soundsensor():
             # print("Below Threshold")
         time.sleep(soundDelay)
 
+
 # Function for usage of servo
 def servomovement():
     global gameCountdown
@@ -161,13 +163,14 @@ def servomovement():
     # Start program at 90 degrees
     wpi.pwmWrite(servoPin, resetMove)
     while killTimer > 0:
-            angle = random.randint(minMove, maxMove)
-            move = ((angle / 18) + 2) * 45
-            wpi.pwmWrite(servoPin, int(move))
-            time.sleep(servoDelay)
-            killTimer -= 0.5
+        angle = random.randint(minMove, maxMove)
+        move = ((angle / 18) + 2) * 45
+        wpi.pwmWrite(servoPin, int(move))
+        time.sleep(servoDelay)
+        killTimer -= 0.5
     # End program on 90
     wpi.pwmWrite(servoPin, resetMove)
+
 
 # Function for usage of ldr
 def ldr_func():
@@ -179,12 +182,13 @@ def ldr_func():
 
         output = wpi.digitalRead(9)
         # print(output)
-        
+
         if output < outputOld:
             score = score + 1
         outputOld = output
 
         time.sleep(ldrDelay)
+
 
 # Function for usage of ultrasonic
 def ultrasonic():
@@ -215,7 +219,6 @@ def ultrasonic():
         distance = (TimeElapsed * 34300) / 2
         # if statement that tells if distance is smaller than 100cm lights turn on
 
-
         # if distance <= 100:
         #     wpi.digitalWrite(ultraLedStrip, wpi.HIGH)
         # # else statements that tells if distance is larger than 100 cm light turn off
@@ -234,7 +237,7 @@ def databaseInsert():
             try:
                 while True:
                     dist = distance()
-                     #print("Measured Distance = %.1f cm" % dist)
+                    # print("Measured Distance = %.1f cm" % dist)
                     time.sleep(1)
                     cursor = conn.cursor()
 
@@ -245,6 +248,7 @@ def databaseInsert():
                 # Reset by pressing CTRL + C
             except KeyboardInterrupt:
                 print("measurement stopped by user")
+
 
 def databaseRead():
     with app.app_context():

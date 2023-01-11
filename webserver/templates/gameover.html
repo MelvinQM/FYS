@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GameOver</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+<!-- <h1>{{bruh}}</h1> -->
+<h1>Uiteindelijke score voor {{name_user}} is: {{score}}</h1>
+
+<a href="/">
+  <button class="button">Opnieuw spelen</button>
+</a>
+<br>
+<br>
+<h2>High Scores</h2>
+<table class="table">
+
+            <tr>
+                <th>Naam</th>
+                <th>Score</th>
+            </tr>
+             {% for row in test %}
+                    <tr>
+                        <td>{{row[0]}}</td>
+                        <td>{{row[1]}}</td>
+                    </tr>
+             {% endfor %}
+        </table>
+
+</body>
+</html>

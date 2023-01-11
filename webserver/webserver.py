@@ -6,6 +6,23 @@ import random
 import time
 import threading
 import json
+import mysql.connector
+import spidev
+import ws2812 as ws
+
+
+conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
+
+if conn.is_connected():
+    db_Info = conn.get_server_info()
+    print("Connected to MySQL Server version ", db_Info)
+else:
+    print("Connection failed to establish")
+
+# Variabele voor het bijhouden van de score
+score = 0
+
+data = 0
 
 # Main flask code stuk
 app = Flask(__name__)
@@ -21,24 +38,50 @@ def home():
 # Start de game loop
 @app.route("/api")
 def api():
+    global data
     wpi.wiringPiSetup()
     readldr = wpi.digitalRead(9)
     return jsonify({'score': score,
-                    'email': "email"})
+                    'time': gameCountdown,
+                    'waardeselect': data})
+
+
+@app.route('/admin')
+def databaseRead():
+    with app.app_context():
+        cursorRead = conn.cursor()
+        cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
+        ultrasonicData = cursorRead.fetchall()  # data from database.
+    return render_template("sensoren.html", value=ultrasonicData)
 
 
 @app.route("/startgame", methods=["GET", "POST"])
 def startgame():
+    global name_user
     name_user = request.form['name']
     if ldrThread.is_alive() == False:
         ldrThread.start()
+    if countdownThread.is_alive() == False:
+        countdownThread.start()
+    if servoThread.is_alive() == False:
+        servoThread.start()
+
     return render_template("game.html", name_user=name_user)
 
 
 @app.route("/gameover")
 def gameover():
-    test = "Test"
-    return render_template("gameover.html", test=test)
+    servoThread.join()
+    finalScore = score
+    scoreInsert = conn.cursor()
+    # scoreName = "INSERT INTO Score (name, data) VALUES (?, ?)"
+    scoreInsert.execute("INSERT INTO Score (name, score) VALUES (%s, %s)", (name_user, finalScore))
+    conn.commit()
+
+    scoreRead = conn.cursor()
+    scoreRead.execute("select name, score from Score ORDER BY score DESC LIMIT 10")
+    test = scoreRead.fetchall()  # data from database.
+    return render_template("gameover.html", test=test, name_user=name_user, score=finalScore)
 
 
 # De pins aanwijzen en instellen
@@ -49,7 +92,13 @@ LDR_PIN = 9
 # set WPI Pins
 triggerPin = 7
 echoPin = 0
-ultraLedStrip = 9
+
+#SPI Poort
+spi = spidev.SpiDev()
+spi.open(0,0)
+
+# TODO Assign new pin to ultraLedStrip
+# ultraLedStrip = 9
 
 # Zorgen dat de wpi pins worden gebruikt
 wpi.wiringPiSetup()
@@ -70,24 +119,26 @@ thresholdSound = 1700
 gameCountdown = 120
 
 # Delays
-servoDelay = 0.8
+servoDelay = 0.5
 soundDelay = 0.1
-ldrDelay = 0.01
+ldrDelay = 0.1
 ultraSoundDelay = 0.00001
 
-# Servo min en max
-minMove = 70
+#Kleuren
+stoplichtBlauw = [[0,0,10],[0,0,0],[0,0,0],[0,0,0]]
+stoplichtWit1 = [[0,0,0],[10,10,10],[0,0,0],[0,0,0]]
+stoplichtRood = [[0,0,0],[0,0,0],[0,10,0],[0,0,0]]
+stoplichtWit2 = [[10,10,10],[10,10,10],[10,10,10],[0,0,0]]
+
+# Servo min en max in graden
+minMove = 60
 maxMove = 120
-resetMove = 90
+resetMove = 315
 
 # Variabel initialiseren voor de functie
 sound = 0
+name_user = "  "
 
-# Variabele voor het bijhouden van de score
-score = 0
-
-
-# Opslaan van naam uit html form
 
 # Countdown for the gameloop
 def countdown():
@@ -95,10 +146,10 @@ def countdown():
     while gameCountdown:
         mins, secs = divmod(gameCountdown, 60)
         timer = '{:02d}:{:02d}'.format(mins, secs)
-        print(timer, end="\r")
+        # print(timer, end="\r")
         time.sleep(1)
         gameCountdown -= 1
-        print(timer)
+        # print(gameCountdown)
 
 
 # Function for usage of Sound Sensor
@@ -107,14 +158,14 @@ def soundsensor():
         global sound
         # analogRead leest een float value van de sensor af (Geluid dus)
         sound = wpi.analogRead(soundSensor_PIN)
-        # print("Sound value:", sound)
+        # ("Sound value:", sound)
         # Vergelijk het gelezen value met een preset value die je kan instellen bij oldSound
         if sound > thresholdSound:
             wpi.digitalWrite(LED_PIN, wpi.HIGH)
-            print("Threshold Exceeded")
+            # print("Threshold Exceeded")
         else:
             wpi.digitalWrite(LED_PIN, wpi.LOW)
-            print("Below Threshold")
+            # print("Below Threshold")
         time.sleep(soundDelay)
 
 
@@ -125,10 +176,8 @@ def servomovement():
     # Start program at 90 degrees
     wpi.pwmWrite(servoPin, resetMove)
     while killTimer > 0:
-        # user input beweging optie
-        # angle = float(input('Enter angle between 0 & 180: '))
-        # move = ((angle/18)+2)*45
-        move = random.randint(int((minMove / 18) + 2) * 45, int((maxMove / 18) + 2) * 45)
+        angle = random.randint(minMove, maxMove)
+        move = ((angle / 18) + 2) * 45
         wpi.pwmWrite(servoPin, int(move))
         time.sleep(servoDelay)
         killTimer -= 0.5
@@ -144,12 +193,11 @@ def ldr_func():
     while True:
         # Variabele
 
-        output = wpi.digitalRead(LDR_PIN)
-        print(output)
+        output = wpi.digitalRead(9)
+        # print(output)
 
         if output < outputOld:
             score = score + 1
-            time.sleep(2)
         outputOld = output
 
         time.sleep(ldrDelay)
@@ -183,14 +231,79 @@ def ultrasonic():
         # and divide by 2, because there and back
         distance = (TimeElapsed * 34300) / 2
         # if statement that tells if distance is smaller than 100cm lights turn on
-        if distance <= 100:
-            wpi.digitalWrite(ultraLedStrip, wpi.HIGH)
-        # else statements that tells if distance is larger than 100 cm light turn off
-        else:
-            wpi.digitalWrite(ultraLedStrip, wpi.LOW)
 
-            print("Measured Distance = %.1f cm" % distance)
-        time.sleep(1)
+        # if distance <= 100:
+        #     wpi.digitalWrite(ultraLedStrip, wpi.HIGH)
+        # # else statements that tells if distance is larger than 100 cm light turn off
+        # else:
+        #     wpi.digitalWrite(ultraLedStrip, wpi.LOW)
+
+        return distance
+
+def neopixelUltra():
+    if __name__ == '__main__':
+        while True:
+            # dist is a variable made for distance()
+            dist = ultrasonic()
+            # if statement that tells if distance is smaller than 100cm lights turn on
+            if dist <= 100:
+                ws.write2812(spi, stoplichtBlauw)
+                time.sleep(0.1)
+                ws.write2812(spi, stoplichtWit1)
+                time.sleep(0.1)
+                ws.write2812(spi, stoplichtRood)
+                time.sleep(0.1)
+            # else statements that tells if distance is larger than 100 cm light turn off
+            else:
+                ws.write2812(spi, stoplichtWit2)
+                time.sleep(1)
+
+            print("Measured Distance = %.1f cm" % dist)
+
+
+# def neopixelUltra():
+#     if __name__ == '__main__':
+#         while True:
+#             global dist
+#             # dist is a variable made for distance()
+#             dist = distance
+#             # if statement that tells if distance is smaller than 100cm lights turn on
+#             if dist <= 100:
+#                 ws.write2812(spi, stoplichtBlauw)
+#                 time.sleep(0.1)
+#                 ws.write2812(spi, stoplichtWit)
+#                 time.sleep(0.1)
+#                 ws.write2812(spi, stoplichtRood)
+#             # else statements that tells if distance is larger than 100 cm light turn off
+#             else:
+#                 ws.write2812(spi, stoplichtWit)
+
+
+def databaseInsert():
+    with app.app_context():
+        if __name__ == '__main__':
+            try:
+                while True:
+                    dist = distance()
+                    # print("Measured Distance = %.1f cm" % dist)
+                    time.sleep(1)
+                    cursor = conn.cursor()
+
+                    insert = "INSERT INTO Ultrasonic (data) VALUES (%s)"
+                    cursor.execute(insert, [dist])
+                    conn.commit()
+
+                # Reset by pressing CTRL + C
+            except KeyboardInterrupt:
+                print("measurement stopped by user")
+
+
+def databaseRead():
+    with app.app_context():
+        cursorRead = conn.cursor()
+        cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
+        data = cursorRead.fetchall()  # data from database.
+    return render_template("sensoren.html", value=data)
 
 
 # Making the threads
@@ -199,11 +312,16 @@ soundThread = threading.Thread(target=soundsensor)
 servoThread = threading.Thread(target=servomovement)
 ldrThread = threading.Thread(target=ldr_func)
 ultraSonicThread = threading.Thread(target=ultrasonic)
+insertThread = threading.Thread(target=databaseInsert)
+readThread = threading.Thread(target=databaseRead)
+neopixelThread = threading.Thread(target=neopixelUltra)
+
 
 if __name__ == '__main__':
-    countdownThread.start()
     soundThread.start()
-    servoThread.start()
     ultraSonicThread.start()
     ldrThread.start()
+    insertThread.start()
+    readThread.start()
+    neopixelThread.start()
     app.run(host="0.0.0.0", port=80, debug=True)

@@ -57,12 +57,18 @@ def databaseRead():
 
 @app.route("/startgame", methods=["GET", "POST"])
 def startgame():
+    global gameCountdown
     global name_user
+    #global servoDelay
+    #global score
+    gameCountdown = 10
+    #servoDelay = 0.5
+    #score = 0
     name_user = request.form['name']
     if ldrThread.is_alive() == False:
         ldrThread.start()
-    if countdownThread.is_alive() == False:
-        countdownThread.start()
+    #if countdownThread.is_alive() == False:
+     #   countdownThread.start()
     if servoThread.is_alive() == False:
         servoThread.start()
     if segmentThread.is_alive() == False:
@@ -136,6 +142,7 @@ stoplichtWit2 = [[10,10,10],[10,10,10],[10,10,10],[0,0,0]]
 minMove = 60
 maxMove = 120
 resetMove = 315
+servoDiffCount = 0
 
 # Variabel initialiseren voor de functie
 sound = 0
@@ -144,6 +151,7 @@ name_user = "  "
 
 # Countdown for the gameloop
 def countdown():
+    global servoDelay
     global gameCountdown
     while gameCountdown:
         mins, secs = divmod(gameCountdown, 60)
@@ -152,6 +160,9 @@ def countdown():
         time.sleep(1)
         gameCountdown -= 1
         # print(gameCountdown)
+        # When the counter reaches the halfway point increase servo speed
+        if gameCountdown == (gameCountdown / 2):
+            servoDelay = 0.3
 
 
 # Function for usage of Sound Sensor
@@ -173,6 +184,7 @@ def soundsensor():
 
 # Function for usage of servo
 def servomovement():
+    global servoDelay
     global gameCountdown
     killTimer = gameCountdown
     # Start program at 90 degrees
@@ -182,7 +194,7 @@ def servomovement():
         move = ((angle / 18) + 2) * 45
         wpi.pwmWrite(servoPin, int(move))
         time.sleep(servoDelay)
-        killTimer -= 0.5
+        killTimer -= servoDelay
     # End program on 90
     wpi.pwmWrite(servoPin, resetMove)
 
@@ -242,6 +254,21 @@ def ultrasonic():
 
         return distance
 
+
+def ultrasonicInsert():
+    with app.app_context():
+        if __name__ == '__main__':
+            while True:
+                dist = distance()
+                # print("Measured Distance = %.1f cm" % dist)
+                time.sleep(1)
+                cursor = conn.cursor()
+
+                insert = "INSERT INTO Ultrasonic (data) VALUES (%s)"
+                cursor.execute(insert, [dist])
+                conn.commit()
+
+
 def neopixelUltra():
     if __name__ == '__main__':
         while True:
@@ -260,7 +287,7 @@ def neopixelUltra():
                 ws.write2812(spi, stoplichtWit2)
                 time.sleep(1)
 
-            print("Measured Distance = %.1f cm" % dist)
+            #print("Measured Distance = %.1f cm" % dist)
 
 
 def segmentDisplay():
@@ -321,32 +348,12 @@ def segmentDisplay():
             wpi.digitalWrite(DIGIT_PINS[digit], 1)
 
 
-
-def databaseInsert():
-    with app.app_context():
-        if __name__ == '__main__':
-            try:
-                while True:
-                    dist = distance()
-                    # print("Measured Distance = %.1f cm" % dist)
-                    time.sleep(1)
-                    cursor = conn.cursor()
-
-                    insert = "INSERT INTO Ultrasonic (data) VALUES (%s)"
-                    cursor.execute(insert, [dist])
-                    conn.commit()
-
-                # Reset by pressing CTRL + C
-            except KeyboardInterrupt:
-                print("measurement stopped by user")
-
-
 def databaseRead():
     with app.app_context():
         cursorRead = conn.cursor()
         cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
-        data = cursorRead.fetchall()  # data from database.
-    return render_template("sensoren.html", value=data)
+        ultrasonicData = cursorRead.fetchall()  # data from database.
+    return render_template("sensoren.html", value=ultrasonicData)
 
 
 # Making the threads
@@ -355,16 +362,17 @@ soundThread = threading.Thread(target=soundsensor)
 servoThread = threading.Thread(target=servomovement)
 ldrThread = threading.Thread(target=ldr_func)
 ultraSonicThread = threading.Thread(target=ultrasonic)
-insertThread = threading.Thread(target=databaseInsert)
+insertThread = threading.Thread(target=ultrasonicInsert)
 readThread = threading.Thread(target=databaseRead)
 neopixelThread = threading.Thread(target=neopixelUltra)
 segmentThread = threading.Thread(target=segmentDisplay)
 
+
 if __name__ == '__main__':
     soundThread.start()
     ultraSonicThread.start()
-    # ldrThread.start()
     insertThread.start()
     readThread.start()
     neopixelThread.start()
+    countdownThread.start()
     app.run(host="0.0.0.0", port=80, debug=True)

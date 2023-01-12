@@ -45,6 +45,7 @@ In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na t
     - [Servo](#servo)
     - [LDR](#ldr)
     - [Ultrasonic](#ultrasonic)
+    - [Display](#segment-display)
     - [Score weergave op de website](#score-weergave-op-de-website)
   - [Threading](#threading)
   - [Database](#database)
@@ -65,7 +66,7 @@ Het doel van het project is om een airhockey tafel te maken die werkt met maar 1
 
 ### Aanleiding
 
-Het idee voor dit project is om een entertainment-systeem te maken voor in de resorts en hotels van Corendon. Dit wordt een soort entertainment systeem die mensen kunnen gebruiken op de plekken waar ze lange periodes moeten wachten (bijvoorbeeld op de bus). Dankzij dit systeem zal het wachten een stuk aangenamer worden. Op deze manier zullen deze mensen een betere ervaring beleven bij de hotels en resorts van Corendon, waardoor ze sneller het hotel zullen aanbevelen aan andere mogelijke gasten en zelf vaker terugkomen, waardoor Corendon meer winst verdient.
+Het idee voor dit project is om een entertainment-systeem te maken voor in de resorts en hotels van Corendon. Dit wordt een soort entertainment systeem dat mensen kunnen gebruiken op de plekken waar ze lange periodes moeten wachten (bijvoorbeeld op de bus). Dankzij dit systeem zal het wachten een stuk aangenamer worden. Op deze manier zullen deze mensen een betere ervaring beleven bij de hotels en resorts van Corendon, waardoor ze sneller het hotel zullen aanbevelen aan andere mogelijke gasten en zelf vaker terugkomen, waardoor Corendon meer winst verdient.
 Een groot risico is dat het spel al snel te moeilijk of te makkelijk is. Als het spel te makkelijk is gaan mensen het saai vinden en niet vaak spelen. Als het spel te moeilijk is dan vinden mensen het ook niet leuk. Als het spel te ingewikkeld is dan zijn de gasten niet entertained. Het is dan ook te moeilijk om te begrijpen. Aan de andere kant heeft zo’n spel veel voordelen.
 
 ### Verwachtingen
@@ -74,7 +75,7 @@ Corendon heeft ons ingeschakeld om een entertainment systeem te maken voor in de
 
 ### Oplossing
 
-Ons idee voor dit entertainment systeem is een airhockeytafel met een robot-tegenstander. Aan de ene kant van de tafel staat de speler, zoals bij normaal airhockey. Aan de andere kant staat een robotarm die het andere doel verdedigt. Het doel van het spel is om zo vaak mogelijk te scoren bij de robot in een bepaald tijdslimiet. Wij strijven om een moeilijkheidsgraad te creeeren die zowel uitdagend kan zijn voor volwassenen als voor kinderen. Verder komt er een website waarop verschillende gegevens te zien komen. Voor de gebruikers komen de huidige score, high scores en de snelheid zichtbaar op de website. De snelheid is hoe snel de puck het doel in gaat. Op de andere webpagina (niet voor spelers) staan andere gegevens, namelijk hoe vaak het spel gespeeld is en hoe luid het spel en omgevingsgeluid zijn.
+Ons idee voor dit entertainment systeem is een airhockeytafel met een robot-tegenstander. Aan de ene kant van de tafel staat de speler, zoals bij normaal airhockey. Aan de andere kant staat een robotarm die het andere doel verdedigt. Het doel van het spel is om zo vaak mogelijk te scoren bij de robot in een bepaald tijdslimiet. Ons doel is om een moeilijkheidsgraad te creeeren die zowel uitdagend kan zijn voor volwassenen als voor kinderen. Verder komt er een website waarop verschillende gegevens te zien komen. Voor de gebruikers komen de huidige score, high scores en de snelheid zichtbaar op de website. De snelheid is hoe snel de puck het doel in gaat. Op de andere webpagina (niet voor spelers) staan andere gegevens, namelijk hoe vaak het spel gespeeld is en hoe luid het spel en omgevingsgeluid zijn.
 
 ### Voordelen
 
@@ -361,6 +362,73 @@ def distance():
 De ultrasonic sensor kan afstanden en bewegingen meten door pulsen van geluid uit te zenden en de tijd meten voor ze terugkomen. Door de triggerPin een kort signaal te geven wordt er een puls van geluid uitgezonden. Wanneer de echoPin een signaal ontvangt wordt de eindtijd opgeslagen. De tijd die voorbij ging is de starttijd - eindtijd. Met de geluidssnelheid (343 m/s) wordt dan de afstand berekend.
 
 Uiteindelijk gaan de lichten branden als de afstand minder is dan onze vastgestelde grens. Zonder beweging veranderd het licht in een neutrale kleur.
+
+### Segment display
+
+![image](assets/images/segmentdisplay.jpg)
+
+Hierboven is de 7-segment display te zien. Deze zit aan de kant van de speler. De huidige score is er op te zien wanneer het spel bezig is.
+
+Om het display aan te sturen is eerst een stukje setup nodig.
+
+Het schermpje heeft 12 pins. 8 zijn voor de segmenten zelf (7 segmenten in een getal en 1 voor de punt) en de andere 4 zijn voor de 4 cijfers op het scherm. Al deze pins geven we als eerste aan en ze gaan allemaal op output:
+
+```python
+    # fysieke pins: 13, 15, (36), 16, 29, 31, 33, 35
+    SEGMENT_PINS = (2, 3, 27, 4, 21, 22, 23, 24)
+    # fysieke pins 18, 22, 26, 32
+    DIGIT_PINS = (5, 6, 11, 26)
+
+    # setup voor de pins van de segmenten
+    for segment in SEGMENT_PINS:
+        wpi.pinMode(segment, wpi.OUTPUT)
+        wpi.digitalWrite(segment, 0)
+
+    # setup voor de pins van de 4 digits
+    for digit in DIGIT_PINS:
+        wpi.pinMode(digit, wpi.OUTPUT)
+        wpi.digitalWrite(digit, 1)
+```
+
+Vervolgens moeten we aangeven welke van de 8 segment-pins aan moeten voor de verschillende getallen, door middel van deze array:
+
+```python
+    # geeft aan welke pins aan gaan voor elk getal
+    getalArray = {' ': (0, 0, 0, 0, 0, 0, 0, 0),
+                  '0': (1, 1, 0, 1, 0, 1, 1, 1),
+                  '1': (0, 0, 0, 1, 0, 1, 0, 0),
+                  '2': (1, 1, 0, 0, 1, 1, 0, 1),
+                  '3': (0, 1, 0, 1, 1, 1, 0, 1),
+                  '4': (0, 0, 0, 1, 1, 1, 1, 0),
+                  '5': (0, 1, 0, 1, 1, 0, 1, 1),
+                  '6': (1, 1, 0, 1, 1, 0, 1, 1),
+                  '7': (0, 0, 0, 1, 0, 1, 0, 1),
+                  '8': (1, 1, 0, 1, 1, 1, 1, 1),
+                  '9': (0, 1, 0, 1, 1, 1, 1, 1)}
+
+```
+
+Na alle setup kunnen we getallen laten zien op het display:
+
+```python
+while True:
+    # Omdat de rechter 2 digits niet aangesloten zijn, gaat de score keer 100 zodat het 2 digits naar links komt te staan.
+    getal = score * 100
+    # het getal wordt omgezet in een string van lengte 4 zodat de getallen als chars opgezocht kunnen worden in de getalArray
+    getalString = str(getal).rjust(4)
+
+    # gaat langs alle 4 digits in getalString, zet de juiste segmenten aan en loopt ook door de 4 digit pins
+    for digit in range(4):
+        for i in range(0, 8):
+            wpi.digitalWrite(SEGMENT_PINS[i], getalArray[getalString[digit]][i])
+        # zet de juiste digit aan voor 0.001 seconde, zodat op elke digit een ander getal kan staan
+        wpi.digitalWrite(DIGIT_PINS[digit], 0)
+        time.sleep(0.001)
+        wpi.digitalWrite(DIGIT_PINS[digit], 1)
+```
+
+Afhankelijk van welke digit-pin je aanzet gaat er een andere digit op het scherm branden. Door snel door ze heen te loopen (0.001 seconden) kan je op elk cijfer op het scherm iets anders laten zien, in dit geval verschillende getallen.
+
 
 ### Score weergave op de website
 

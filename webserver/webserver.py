@@ -281,7 +281,7 @@ def segmentDisplay():
 
     # geeft aan welke pins aan gaan voor elk getal
     getalArray = {' ': (0, 0, 0, 0, 0, 0, 0, 0),
-                  '0': (1, 1, 0, 1, 1, 1, 1, 0),
+                  '0': (1, 1, 0, 1, 0, 1, 1, 1),
                   '1': (0, 0, 0, 1, 0, 1, 0, 0),
                   '2': (1, 1, 0, 0, 1, 1, 0, 1),
                   '3': (0, 1, 0, 1, 1, 1, 0, 1),
@@ -305,11 +305,10 @@ def segmentDisplay():
         wpi.pinMode(digit, wpi.OUTPUT)
         wpi.digitalWrite(digit, 1)
     # het getal dat op de display moet staan, wordt ook een string zodat elk getal kan worden opgezocht in de array
-    getal = 1234
-    getalString = str(getal).rjust(4)
 
-    #try:
-        # de loop die de juiste pins aan zet voor elk getal op de display
+
+
+     # de loop die de juiste pins aan zet voor elk getal op de display
     while True:
         getal = score * 100
         getalString = str(getal).rjust(4)
@@ -321,8 +320,6 @@ def segmentDisplay():
             time.sleep(0.001)
             wpi.digitalWrite(DIGIT_PINS[digit], 1)
 
-    #except KeyboardInterrupt:
-        #wpi.ditigalWrite(SEGMENT_PINS, wpi.LOW)
 
 
 def databaseInsert():

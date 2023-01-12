@@ -203,37 +203,39 @@ Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de 
 
 ### Ultrasonic
 
-![image](assets/images/ultrasound.png)
+![Alt Text](/assets/gif/ezgif.com-gif-maker.gif)
 
 Hierboven is te zien hoe de ultrasound in de tafel is vastgezet. Deze sensor zit aan de spelers kant met complete zicht op zijn omgeving zodat zodra een persoon langs loopt of op de tafel zelf afloopt er een signaal gestuurd wordt naar de odroid zodat er een lampje aangaat. Hierdoor kunnen we het aantrekkelijker maken om het spel te gaan spelen.
 
-Deze functie wordt gebruikt om de afstand te meten met de ultrasonic sensor die dan licht geeft via de NeoPixel strip.
+Deze functie wordt gebruikt om Robohocky te verlichten wanneer er iemand in de buurt staat.
+
 
 ```python
-#Kleuren voor ledstrip
-stoplichtGroen = [[10,0,0],[0,0,0],[0,0,0],[0,0,0]]
-stoplichtOranje = [[0,0,0],[10,10,0],[0,0,0],[0,0,0]]
+#Kleuren
+stoplichtGroen = [[0,0,10],[0,0,0],[0,0,0],[0,0,0]]
+stoplichtOranje = [[0,0,0],[10,10,10],[0,0,0],[0,0,0]]
 stoplichtRood = [[0,0,0],[0,0,0],[0,10,0],[0,0,0]]
+stoplichtWit = [[10,10,10],[10,10,10],[10,10,10],[0,0,0]]
 
 
 
 def distance():
     # set Trigger to HIGH
-    GPIO.digitalWrite(GPIO_TRIGGER, GPIO.HIGH)
+    wpi.digitalWrite(GPIO_TRIGGER, wpi.HIGH)
 
     # set Trigger after 0.01ms to LOW
     time.sleep(0.00001)
-    GPIO.digitalWrite(GPIO_TRIGGER, GPIO.LOW)
+    wpi.digitalWrite(GPIO_TRIGGER, wpi.LOW)
 
     StartTime = time.time()
     StopTime = time.time()
 
     # save StartTime
-    while GPIO.digitalRead(GPIO_ECHO) == 0:
+    while wpi.digitalRead(GPIO_ECHO) == 0:
         StartTime = time.time()
 
     # save time of arrival
-    while GPIO.digitalRead(GPIO_ECHO) == 1:
+    while wpi.digitalRead(GPIO_ECHO) == 1:
         StopTime = time.time()
 
     # time difference between start and arrival
@@ -242,41 +244,30 @@ def distance():
     # and divide by 2, because there and back
     distance = (TimeElapsed * 34300) / 2
 
-    return distance
-
-
-
-if __name__ == '__main__':
-    try:
+    if __name__ == '__main__':
         while True:
             # dist is a variable made for distance()
             dist = distance()
             # if statement that tells if distance is smaller than 100cm lights turn on
             if dist <= 100:
-                ws.write2812(spi,stoplichtGroen)
-                time.sleep(1)
-		ws.write2812(spi,stoplichtOranje)
-                time.sleep(1)
-		ws.write2812(spi,stoplichtOranje)
-                time.sleep(1)
+                ws.write2812(spi, stoplichtGroen)
+                time.sleep(0.1)
+                ws.write2812(spi, stoplichtOranje)
+                time.sleep(0.1)
+                ws.write2812(spi, stoplichtRood)
             # else statements that tells if distance is larger than 100 cm light turn off
             else:
-		GPIO.digitalWrite(GPIO_CONN, GPIO.LOW)
-                
-            print("Measured Distance = %.1f cm" % dist)
-            time.sleep(1)
+                ws.write2812(spi, stoplichtWit)
 
-        # Reset by pressing CTRL + C
-    except KeyboardInterrupt:
-        print("Measurement stopped by User")
+            print("Measured Distance = %.1f cm" % dist)
+
+    return distance
 
 ``` 
 
-De ultrasonic sensor kan afstand meten door pulsen van geluid uit te zenden en de tijd meten voor ze terugkomen. Door de triggerPin een kort signaal te geven wordt er een puls van geluid uitgezonden. Wanneer de echoPin een signaal ontvangt wordt de eindtijd opgeslagen. De tijd die voorbij ging is de starttijd - eindtijd. Met de geluidssnelheid (343 m/s) wordt dan de afstand berekend.
+De ultrasonic sensor kan afstanden en bewegingen meten door pulsen van geluid uit te zenden en de tijd meten voor ze terugkomen. Door de triggerPin een kort signaal te geven wordt er een puls van geluid uitgezonden. Wanneer de echoPin een signaal ontvangt wordt de eindtijd opgeslagen. De tijd die voorbij ging is de starttijd - eindtijd. Met de geluidssnelheid (343 m/s) wordt dan de afstand berekend.
 
-Uiteindelijk gaan de lichten branden als de afstand minder is dan onze vastgestelde grens.
-Als er geen beweging is vallen de lichten weer uit.
-
+Uiteindelijk gaan de lichten branden als de afstand minder is dan onze vastgestelde grens. Zonder beweging veranderd het licht in een neutrale kleur
 ### Score weergave op de website
 
 ## Threading

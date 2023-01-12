@@ -4,7 +4,8 @@
 <img src="assets/images/conceptlogo.png"  width="250" height="250">
 <img src="assets/images/eindproduct_render.gif"  width="250" height="250">
 
-## Introductie 
+## Introductie
+
 <img src="assets/images/Melvin.png"  width="250" height="250">
 <img src="assets/images/Koen.png"  width="250" height="250">
 <img src="assets/images/Nick.png"  width="250" height="250">
@@ -22,26 +23,39 @@ In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na t
 
 ## Inhoudsopgave
 
-- [Beschrijving](#beschrijving)
-- [Business case](#busines-case)
-- [Benodigdheden](#benodigdheden)
-- [Beeldmateriaal](#beeldmateriaal)
-- [Installatie](#installatie)
-- [Functies](#functies)
+- [Fasten your seatbelts](#fasten-your-seatbelts)
+  - [Introductie](#introductie)
+  - [Concept logo](#concept-logo)
+  - [Inleiding](#inleiding)
+  - [Inhoudsopgave](#inhoudsopgave)
+  - [Beschrijving](#beschrijving)
+  - [Busines Case](#busines-case)
+    - [Aanleiding](#aanleiding)
+    - [Verwachtingen](#verwachtingen)
+    - [Oplossing](#oplossing)
+    - [Voordelen](#voordelen)
+  - [Benodigdheden](#benodigdheden)
+  - [Beeldmateriaal](#beeldmateriaal)
+  - [Installatie](#installatie)
+    - [Odroid installattie](#odroid-installattie)
+    - [Python en packages](#python-en-packages)
+  - [Functies](#functies)
     - [Countdown](#countdown)
     - [Soundsensor](#soundsensor)
     - [Servo](#servo)
     - [LDR](#ldr)
     - [Ultrasonic](#ultrasonic)
-    - [Score weergeven op website](#score-weergave-op-de-website)
-- [Threading](#threading)
-- [Database](#documentatie-database)
-    - [MySQL installeren](#mysql-installatie)
+    - [Score weergave op de website](#score-weergave-op-de-website)
+  - [Threading](#threading)
+  - [Database](#database)
+    - [MYSQL installatie](#mysql-installatie)
     - [Database Connectie](#database-connectie)
-    - [Database Query's](#database-query)
-- [Support](#support)
-- [Ontwikkelaars](#ontwikkelaars)
-- [Bronnen](#bronnen)
+    - [Database Query's](#database-querys)
+      - [Insert Query](#insert-query)
+      - [Select Query](#select-query)
+  - [Support](#support)
+  - [Ontwikkelaars](#ontwikkelaars)
+  - [Bronnen](#bronnen)
 
 ## Beschrijving
 
@@ -50,7 +64,8 @@ Het doel van het project is om een airhockey tafel te maken die werkt met maar 1
 ## Busines Case
 
 ### Aanleiding
-Het idee voor dit project is om een entertainment-systeem te maken voor in de resorts en hotels van Corendon. Dit wordt een soort entertainment systeem die mensen kunnen gebruiken op de plekken waar ze lange periodes moeten wachten (bijvoorbeeld op de bus). Dankzij dit systeem zal het wachten een stuk aangenamer worden. Op deze manier zullen deze mensen een betere ervaring beleven bij de hotels en resorts van Corendon, waardoor ze sneller het hotel zullen aanbevelen aan andere mogelijke gasten en zelf vaker terugkomen, waardoor Corendon meer winst verdient. 
+
+Het idee voor dit project is om een entertainment-systeem te maken voor in de resorts en hotels van Corendon. Dit wordt een soort entertainment systeem die mensen kunnen gebruiken op de plekken waar ze lange periodes moeten wachten (bijvoorbeeld op de bus). Dankzij dit systeem zal het wachten een stuk aangenamer worden. Op deze manier zullen deze mensen een betere ervaring beleven bij de hotels en resorts van Corendon, waardoor ze sneller het hotel zullen aanbevelen aan andere mogelijke gasten en zelf vaker terugkomen, waardoor Corendon meer winst verdient.
 Een groot risico is dat het spel al snel te moeilijk of te makkelijk is. Als het spel te makkelijk is gaan mensen het saai vinden en niet vaak spelen. Als het spel te moeilijk is dan vinden mensen het ook niet leuk. Als het spel te ingewikkeld is dan zijn de gasten niet entertained. Het is dan ook te moeilijk om te begrijpen. Aan de andere kant heeft zo’n spel veel voordelen.
 
 ### Verwachtingen
@@ -64,7 +79,6 @@ Ons idee voor dit entertainment systeem is een airhockeytafel met een robot-tege
 ### Voordelen
 
 Airhockey is een heel bekend spel, iedereen weet hoe het werkt. Door een robot toe te voegen aan een airhockeytafel ontstaan er meerdere voordelen. Je kan een highscore halen en die terug zien op de website, zo kunnen spelers alsnog tegen elkaar spelen. Door de andere gegevens op de website is te zien of het spel veel gespeeld wordt en dus of het populair genoeg is. Ook is te zien of het spel nog goed werkt door een foutmelding te geven als er iets niet werkt.
-
 
 ## Benodigdheden
 
@@ -86,6 +100,86 @@ Airhockey is een heel bekend spel, iedereen weet hoe het werkt. Door een robot t
 ![image](assets/images/fys_project_bb_v2.png)
 
 ## Installatie
+
+### Odroid installattie
+
+1. Flash [ubuntu minimal](https://edu.nl/hdjcd) naar een SD kaart.
+2. Doe de SD kaart in de odroid en verbind de odroid met een ethernetkabel aan je laptop.
+3. Gebruik in je windows terminal `arp -a` om het IP-adres te achterhalen. Het IP-adres wat je zoekt begint met `192.168.137.`. De volgende IP-adressen zijn het **NIET**:
+   - IP-adressen die eindigen op .255.250 of .255
+   - IP-adressen die niet beginnen met 192.168.137.
+   - Mac-adressen welke bestaan uit ff-ff-ff.
+4. login via ssh met het commando `ssh root@[ip adres]` waar in je `[ip adres]` vervangt door wat je hebt opgezocht in stap 3.
+5. Nu willen we een statisch IP-adres toevoegen. voer het commando `nano /etc/netplan/01-netcfg.yaml` uit en voeg de onderstaande configuratie uit. **LET OP**: indents bestaan uit 2 spaties, geen tabs.
+
+```yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: no
+      addresses: [192.168.137.2/24]
+      nameservers:
+        addresses: [8.8.8.8]
+```
+
+6. Voer het commando `netplan apply` uit.
+7. Om nu de odroid te laten verbinden aan een wifi netwerk, voegen we nog een stuk configuratie aan net `.yaml` bestand. Je .yaml bestand komt er nu zo uit te zien:
+
+```yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: no
+      addresses: [192.168.137.2/24]
+      nameservers:
+        addresses: [8.8.8.8]
+  wifis:
+    wlan0:
+      optional: true
+      access-points:
+        “iotroam”:
+          password: “12345678”
+      dhcp4: true
+```
+
+8. Voer het commado `netplan apply` nog een keer uit
+
+### Python en packages
+
+1. Check eerst of je python3 hebt geinstalleerd met het commandom `python3`. Hier zie je ook de geinstalleerde versie van python. Als je geen python hebt geinstalleerd, voer je het volgende commando uit:
+
+```bash
+apt-get install python3
+```
+
+2. Installeer python pip met de volgende commando's.
+
+```shell
+apt-get install libwiringpi-dev
+apt-get install odroid-wiringpi
+apt-get install python3-pip
+```
+
+3. Als je de error "the following packages have unmet dependencies..." krijgt, run je het commando `apt –fix-broken install`.
+4. Voer de volgende commando's uit om odroid-wiringpi te installeren
+
+```bash
+apt-get install software-properties-common
+add-apt-repository ppa:hardkernel/ppa
+apt-get update
+apt-get install odroid-wiringpi-python
+```
+
+5. Verder moet je nog een paar pychon libraries installeren:
+
+```python
+pip install flask
+pip install mysql-connector-python
+```
 
 - Fetch uitleg
 - Threading uitleg
@@ -209,7 +303,6 @@ Hierboven is te zien hoe de ultrasound in de tafel is vastgezet. Deze sensor zit
 
 Deze functie wordt gebruikt om Robohocky te verlichten wanneer er iemand in de buurt staat.
 
-
 ```python
 #Kleuren
 stoplichtGroen = [[0,0,10],[0,0,0],[0,0,0],[0,0,0]]
@@ -263,11 +356,12 @@ def distance():
 
     return distance
 
-``` 
+```
 
 De ultrasonic sensor kan afstanden en bewegingen meten door pulsen van geluid uit te zenden en de tijd meten voor ze terugkomen. Door de triggerPin een kort signaal te geven wordt er een puls van geluid uitgezonden. Wanneer de echoPin een signaal ontvangt wordt de eindtijd opgeslagen. De tijd die voorbij ging is de starttijd - eindtijd. Met de geluidssnelheid (343 m/s) wordt dan de afstand berekend.
 
-Uiteindelijk gaan de lichten branden als de afstand minder is dan onze vastgestelde grens. Zonder beweging veranderd het licht in een neutrale kleur
+Uiteindelijk gaan de lichten branden als de afstand minder is dan onze vastgestelde grens. Zonder beweging veranderd het licht in een neutrale kleur.
+
 ### Score weergave op de website
 
 ## Threading
@@ -281,19 +375,62 @@ soundThread = threading.Thread(target=soundsensor)
 servoThread = threading.Thread(target=servomovement)
 ldrThread = threading.Thread(target=ldr_func)
 ultraSonicThread = threading.Thread(target=ultrasonic)
+insertThread = threading.Thread(target=databaseInsert)
+readThread = threading.Thread(target=databaseRead)
+neopixelThread = threading.Thread(target=neopixelUltra)
+segmentThread = threading.Thread(target=segmentDisplay)
 ```
 
 Nadat de threads zijn aangemaakt worden de threads gestart. Wat dit eigenlijk betekent is dat er aparte stukken code runnen naast de main code. Hierdoor kunnen wij meerdere codes met bijvoorbeeld verschillende delays toevoegen, wat niet mogelijk zou zijn zonder threading.
 
 ```python
 # Starting the threading
-countdownThread.start()
-soundThread.start()
-servoThread.start()
-ldrThread.start()
-ultraSonicThread.start()
+if __name__ == '__main__':
+    soundThread.start()
+    ultraSonicThread.start()
+    # ldrThread.start()
+    insertThread.start()
+    readThread.start()
+    neopixelThread.start()
+    app.run(host="0.0.0.0", port=80, debug=True)
 ```
+Sommige threads worden aangezet doormiddel van het knopje op de website hieronder zie je hoe dit gedaan is.
+```python
+@app.route("/startgame", methods=["GET", "POST"])
+def startgame():
+    global name_user
+    name_user = request.form['name']
+    if ldrThread.is_alive() == False:
+        ldrThread.start()
+    if countdownThread.is_alive() == False:
+        countdownThread.start()
+    if servoThread.is_alive() == False:
+        servoThread.start()
+    if segmentThread.is_alive() == False:
+        segmentThread.start()
 
+    return render_template("game.html", name_user=name_user)
+```
+Deze threads moeten ook weer terug naar main joinen voordat er een nieuw potje begint anders krijgen we een runtime error dit doen wij op deze manier:
+```python
+@app.route("/gameover")
+def gameover():
+    ldrThread.join()
+    countdownThread.join()
+    servoThread.join()
+    segmentThread.join()
+    finalScore = score
+    scoreInsert = conn.cursor()
+    # scoreName = "INSERT INTO Score (name, data) VALUES (?, ?)"
+    scoreInsert.execute("INSERT INTO Score (name, score) VALUES (%s, %s)", (name_user, finalScore))
+    conn.commit()
+
+    scoreRead = conn.cursor()
+    scoreRead.execute("select name, score from Score ORDER BY score DESC LIMIT 10")
+    test = scoreRead.fetchall()  # data from database.
+    return render_template("gameover.html", test=test, name_user=name_user, score=finalScore)
+
+```
 ## Database
 
 ### MYSQL installatie

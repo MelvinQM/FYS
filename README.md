@@ -92,18 +92,6 @@ Airhockey is een heel bekend spel, iedereen weet hoe het werkt. Door een robot t
 - 1x Speelgoed Airhockey tafel
 - 1x Diverse 3d geprinte onderdelen
 
-
-## Benodigdheden
-
-- 1x Odroid N2+
-- 1x Servo SG90
-- 1x Afstand Sensor HC-SR04
-- 2x LDR and laser
-- 1x Sound sensor
-- 1x Segment display
-- 1x Speelgoed Airhockey tafel
-- 1x Diverse 3d geprinte onderdelen
-
 ## Beeldmateriaal
 
 > Hieronder is een animatie te zien van hoe het product er ongeveer uit moet gaan zien.

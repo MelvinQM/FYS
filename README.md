@@ -1,8 +1,5 @@
 # Fasten your seatbelts
 
-<img src="assets/images/printlogo.png"  width="250" height="250">
-<img src="assets/images/conceptlogo.png"  width="250" height="250">
-<img src="assets/images/eindproduct_render.gif"  width="250" height="250">
 
 ## Introductie
 
@@ -16,6 +13,9 @@
 ## Concept logo
 
 Dit was ons eerste logo Idee: een robot met een airhockey pusher op zijn hoofd. We hebben ook een naam bedacht: Rob! Dat is een afkorting van ROBot. We zijn dit logo daarna gaan uitwerken en uiteindelijk is het ons uiteindelijke logo geworden:
+
+<img src="assets/images/printlogo.png"  width="250" height="250">
+<img src="assets/images/conceptlogo.png"  width="250" height="250">
 
 ## Inleiding
 
@@ -75,7 +75,7 @@ Corendon heeft ons ingeschakeld om een entertainment systeem te maken voor in de
 
 ### Oplossing
 
-Ons idee voor dit entertainment systeem is een airhockeytafel met een robot-tegenstander. Aan de ene kant van de tafel staat de speler, zoals bij normaal airhockey. Aan de andere kant staat een robotarm die het andere doel verdedigt. Het doel van het spel is om zo vaak mogelijk te scoren bij de robot in een bepaald tijdslimiet. Ons doel is om een moeilijkheidsgraad te creeeren die zowel uitdagend kan zijn voor volwassenen als voor kinderen. Verder komt er een website waarop verschillende gegevens te zien komen. Voor de gebruikers komen de huidige score, high scores en de snelheid zichtbaar op de website. De snelheid is hoe snel de puck het doel in gaat. Op de andere webpagina (niet voor spelers) staan andere gegevens, namelijk hoe vaak het spel gespeeld is en hoe luid het spel en omgevingsgeluid zijn.
+Ons idee voor dit entertainment systeem is een airhockeytafel met een robot-tegenstander. Aan de ene kant van de tafel staat de speler, zoals bij normaal airhockey. Aan de andere kant staat een robotarm die het andere doel verdedigt. Het doel van het spel is om zo vaak mogelijk te scoren bij de robot in een bepaald tijdslimiet. Ons doel is om een moeilijkheidsgraad te creeeren die zowel uitdagend kan zijn voor volwassenen als voor kinderen. Verder komt er een website waarop verschillende gegevens te zien komen. Voor de gebruikers komen de huidige score en high scores op de website. Op de andere webpagina (niet voor spelers) staan andere gegevens, namelijk hoe vaak het spel gespeeld is en hoe luid het spel en omgevingsgeluid zijn.
 
 ### Voordelen
 
@@ -98,7 +98,7 @@ Airhockey is een heel bekend spel, iedereen weet hoe het werkt. Door een robot t
 ![Ontwerp Eindproduct.gif](assets/gif/Ontwerp Eindproduct.gif)
 > Hieronder is te zien hoe het prototype er in realiteit uit ziet.
 > Hieronder is het aansluitschema te zien. Dit is hoe we alle onderdelen aan de Odroid hebben aangesloten.
-![image](assets/images/fys_project_bb_v2.png)
+![image](assets/images/aansluitschema.png)
 
 ## Installatie
 
@@ -294,7 +294,28 @@ def ldr_func():
         time.sleep(ldrDelay)
 ```
 
-Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de vorige waarde. De LDR is een variabele weerstand, de output wordt hoger als er licht op schijnt. Door de output te vergelijken kunnen we aflezen of er wel of geen licht op schijnt, dus of de laser onderbroken wordt. Wanneer er een onderbreking gedetecteerd wordt de globale variabele `score` met 1 verhoogd. Deze word met javascript fetch vanuit de html opgelaald om de halve seconde (Zie webserver uitleg).
+Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de vorige waarde. De LDR is een variabele weerstand, de output wordt hoger als er licht op schijnt. Door de output te vergelijken kunnen we aflezen of er wel of geen licht op schijnt, dus of de laser onderbroken wordt. Wanneer er een onderbreking gedetecteerd wordt de globale variabele `score` met 1 verhoogd. Deze word met javascript fetch vanuit de html opgelaald om de halve seconde.
+
+Hieronder is het stukje javascript die dit regelt te zien.
+```html
+        <script>
+            var returnValue = function () {
+                fetch('/api')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        document.getElementById("scoreID").innerHTML = data.score;
+                        document.getElementById("timerID").innerHTML = data.time;
+                        if (data.time <= 0) {
+                            // Simulate a mouse click:
+                            window.location.replace("gameover");
+                        }
+                    });
+                
+            }
+            setInterval(returnValue, 500)
+        </script>
+```
 
 ### Ultrasonic
 
@@ -561,6 +582,9 @@ data = cursorRead.fetchall()  # data from database.
 ```
 
 
+## Terugkoppeling van de requirements
+
+De eisen van Corendon om minimaal 3 sensoren te gebruiken en een actuator in het ontwerp te verwerken worden gehaald door het gebruik van sensoren in de airhockey tafel voor het detecteren van de positie van de puck en de robotarm. De actuator zal worden gebruikt om de robotarm te besturen om de puck te verdedigen. De eis om een website met een bijbehorende database te maken zal ook worden gehaald door het aanbieden van een website waarop de huidige score en high scores zichtbaar zijn voor spelers, en waarop de beheerder op de admin pagina gegevens over de gebruiksfrequentie en geluidsniveaus kan bekijken.
 
 ## Support
 

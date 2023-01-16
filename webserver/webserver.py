@@ -10,15 +10,16 @@ import mysql.connector
 import spidev
 import ws2812 as ws
 
-
 conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
 
-if conn.is_connected():
-    db_Info = conn.get_server_info()
-    print("Connected to MySQL Server version ", db_Info)
-else:
-    print("Connection failed to establish")
 
+def databaseConn():
+    while True:
+        if not conn.is_connected():
+            conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
+        else:
+            db_Info = conn.get_server_info()
+            print("Connected to MySQL Server version ", db_Info)
 # Variabele voor het bijhouden van de score
 score = 0
 
@@ -60,26 +61,31 @@ def startgame():
     global gameCountdown
     global name_user
     #global servoDelay
-    #global score
-    gameCountdown = 10
+    global score
+    gameCountdown = 120
     #servoDelay = 0.5
-    #score = 0
+    score = 0
     name_user = request.form['name']
-    if ldrThread.is_alive() == False:
+    if not ldrThread.is_alive():
         ldrThread.start()
-    #if countdownThread.is_alive() == False:
-     #   countdownThread.start()
-    if servoThread.is_alive() == False:
-        servoThread.start()
-    if segmentThread.is_alive() == False:
+
+    if not countdownThread.is_alive():
+        countdownThread.start()
+
+    if not segmentThread.is_alive():
         segmentThread.start()
+    if not servoThread.is_alive():
+        servoThread.start()
 
     return render_template("game.html", name_user=name_user)
 
 
 @app.route("/gameover")
 def gameover():
-    servoThread.join()
+    # servoThread.join()
+    # ldrThread.join()
+    # segmentThread.join()
+    # # countdownThread.join()
     finalScore = score
     scoreInsert = conn.cursor()
     # scoreName = "INSERT INTO Score (name, data) VALUES (?, ?)"
@@ -366,6 +372,7 @@ insertThread = threading.Thread(target=ultrasonicInsert)
 readThread = threading.Thread(target=databaseRead)
 neopixelThread = threading.Thread(target=neopixelUltra)
 segmentThread = threading.Thread(target=segmentDisplay)
+databaseconnThread = threading.Thread(target=databaseConn)
 
 
 if __name__ == '__main__':
@@ -375,4 +382,5 @@ if __name__ == '__main__':
     readThread.start()
     neopixelThread.start()
     countdownThread.start()
+    databaseconnThread.start()
     app.run(host="0.0.0.0", port=80, debug=True)

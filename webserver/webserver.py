@@ -10,7 +10,69 @@ import mysql.connector
 import spidev
 import ws2812 as ws
 
+# De pins aanwijzen en instellen
+servoPin = 1
+soundSensor_PIN = 25
+LED_PIN = 0
+LDR_PIN = 9
+# set WPI Pins
+triggerPin = 7
+echoPin = 0
+
+#SPI Poort
+spi = spidev.SpiDev()
+spi.open(0,0)
+
+# TODO Assign new pin to ultraLedStrip
+# ultraLedStrip = 9
+
+# Zorgen dat de wpi pins worden gebruikt
+wpi.wiringPiSetup()
+
+wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
+wpi.pinMode(LED_PIN, wpi.OUTPUT)
+wpi.pinMode(LDR_PIN, wpi.INPUT)
+
+# set WPI direction (IN / OUT)
+wpi.pinMode(triggerPin, wpi.OUTPUT)
+wpi.pinMode(echoPin, wpi.INPUT)
+# wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
+
+# Thresholds instellingen voor soundsensor
+thresholdSound = 1700
+
+# Game timer
+gameCountdown = 0
+
+# Delays
+servoDelay = 0.5
+soundDelay = 0.1
+ldrDelay = 0.1
+ultraSoundDelay = 0.00001
+
+#Kleuren
+stoplichtBlauw = [[0,0,10],[0,0,0],[0,0,0],[0,0,0]]
+stoplichtWit1 = [[0,0,0],[10,10,10],[0,0,0],[0,0,0]]
+stoplichtRood = [[0,0,0],[0,0,0],[0,10,0],[0,0,0]]
+stoplichtWit2 = [[10,10,10],[10,10,10],[10,10,10],[0,0,0]]
+
+# Servo min en max in graden
+minMove = 60
+maxMove = 120
+resetMove = 315
+
+# Variabel initialiseren voor de functie
+sound = 0
+name_user = "  "
+
 conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
+
+# Variabele voor het bijhouden van de score
+score = 0
+data = 0
+
+# Main flask code stuk
+app = Flask(__name__)
 
 
 def databaseConn():
@@ -20,13 +82,6 @@ def databaseConn():
         else:
             db_Info = conn.get_server_info()
             print("Connected to MySQL Server version ", db_Info)
-# Variabele voor het bijhouden van de score
-score = 0
-
-data = 0
-
-# Main flask code stuk
-app = Flask(__name__)
 
 
 # Home Page
@@ -60,35 +115,27 @@ def databaseRead():
 def startgame():
     global gameCountdown
     global name_user
-    #global servoDelay
+    global servoDelay
     global score
-    gameCountdown = 120
-    #servoDelay = 0.5
+    global killTimer
+
+    # Resetting all the variables to starting values
+    gameCountdown = 20
+    servoDelay = 0.5
     score = 0
+    killTimer = 20
+
     name_user = request.form['name']
-    if not ldrThread.is_alive():
-        ldrThread.start()
-
-    if not countdownThread.is_alive():
-        countdownThread.start()
-
-    if not segmentThread.is_alive():
-        segmentThread.start()
-    if not servoThread.is_alive():
-        servoThread.start()
-
     return render_template("game.html", name_user=name_user)
 
 
 @app.route("/gameover")
 def gameover():
-    # servoThread.join()
-    # ldrThread.join()
-    # segmentThread.join()
-    # # countdownThread.join()
+    # End program on 90
+    wpi.pwmWrite(servoPin, resetMove)
     finalScore = score
     scoreInsert = conn.cursor()
-    # scoreName = "INSERT INTO Score (name, data) VALUES (?, ?)"
+
     scoreInsert.execute("INSERT INTO Score (name, score) VALUES (%s, %s)", (name_user, finalScore))
     conn.commit()
 
@@ -98,77 +145,18 @@ def gameover():
     return render_template("gameover.html", test=test, name_user=name_user, score=finalScore)
 
 
-# De pins aanwijzen en instellen
-servoPin = 1
-soundSensor_PIN = 25
-LED_PIN = 0
-LDR_PIN = 9
-# set WPI Pins
-triggerPin = 7
-echoPin = 0
-
-#SPI Poort
-spi = spidev.SpiDev()
-spi.open(0,0)
-
-# TODO Assign new pin to ultraLedStrip
-# ultraLedStrip = 9
-
-# Zorgen dat de wpi pins worden gebruikt
-wpi.wiringPiSetup()
-
-wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
-wpi.pinMode(LED_PIN, wpi.OUTPUT)
-wpi.pinMode(LDR_PIN, wpi.INPUT)
-
-# set WPI direction (IN / OUT)
-wpi.pinMode(triggerPin, wpi.OUTPUT)
-wpi.pinMode(echoPin, wpi.INPUT)
-# wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
-
-# Thresholds instellingen voor soundsensor
-thresholdSound = 1700
-
-# Game timer
-gameCountdown = 120
-
-# Delays
-servoDelay = 0.5
-soundDelay = 0.1
-ldrDelay = 0.1
-ultraSoundDelay = 0.00001
-
-#Kleuren
-stoplichtBlauw = [[0,0,10],[0,0,0],[0,0,0],[0,0,0]]
-stoplichtWit1 = [[0,0,0],[10,10,10],[0,0,0],[0,0,0]]
-stoplichtRood = [[0,0,0],[0,0,0],[0,10,0],[0,0,0]]
-stoplichtWit2 = [[10,10,10],[10,10,10],[10,10,10],[0,0,0]]
-
-# Servo min en max in graden
-minMove = 60
-maxMove = 120
-resetMove = 315
-servoDiffCount = 0
-
-# Variabel initialiseren voor de functie
-sound = 0
-name_user = "  "
-
-
 # Countdown for the gameloop
 def countdown():
     global servoDelay
     global gameCountdown
-    while gameCountdown:
-        mins, secs = divmod(gameCountdown, 60)
-        timer = '{:02d}:{:02d}'.format(mins, secs)
-        # print(timer, end="\r")
-        time.sleep(1)
-        gameCountdown -= 1
-        # print(gameCountdown)
-        # When the counter reaches the halfway point increase servo speed
-        if gameCountdown == (gameCountdown / 2):
-            servoDelay = 0.3
+    while True:
+        while gameCountdown >= 0:
+            time.sleep(1)
+            gameCountdown -= 1
+            # print(gameCountdown)
+            # When the counter reaches the halfway point increase servo speed
+            if gameCountdown == 60:
+                servoDelay = 0.3
 
 
 # Function for usage of Sound Sensor
@@ -190,19 +178,20 @@ def soundsensor():
 
 # Function for usage of servo
 def servomovement():
-    global servoDelay
     global gameCountdown
+    global servoDelay
+    # global killTimer
     killTimer = gameCountdown
     # Start program at 90 degrees
     wpi.pwmWrite(servoPin, resetMove)
-    while killTimer > 0:
-        angle = random.randint(minMove, maxMove)
-        move = ((angle / 18) + 2) * 45
-        wpi.pwmWrite(servoPin, int(move))
-        time.sleep(servoDelay)
-        killTimer -= servoDelay
-    # End program on 90
-    wpi.pwmWrite(servoPin, resetMove)
+    while True:
+        while gameCountdown > 0:
+            print(killTimer)
+            angle = random.randint(minMove, maxMove)
+            move = ((angle / 18) + 2) * 45
+            wpi.pwmWrite(servoPin, int(move))
+            time.sleep(servoDelay)
+            killTimer -= servoDelay
 
 
 # Function for usage of ldr
@@ -212,14 +201,11 @@ def ldr_func():
     outputOld = 0
     while True:
         # Variabele
-
         output = wpi.digitalRead(9)
         # print(output)
-
         if output < outputOld:
             score = score + 1
         outputOld = output
-
         time.sleep(ldrDelay)
 
 
@@ -302,17 +288,17 @@ def segmentDisplay():
     # fysieke pins 18, 22, 26, 32
     DIGIT_PINS = (5, 6, 11, 26)
 
-    # setup voor de pins van de segmenten
+    # Setup voor de pins van de segmenten
     for segment in SEGMENT_PINS:
         wpi.pinMode(segment, wpi.OUTPUT)
         wpi.digitalWrite(segment, 0)
 
-    # setup voor de pins van de 4 digits
+    # Setup voor de pins van de 4 digits
     for digit in DIGIT_PINS:
         wpi.pinMode(digit, wpi.OUTPUT)
         wpi.digitalWrite(digit, 1)
 
-    # geeft aan welke pins aan gaan voor elk getal
+    # Geeft aan welke pins aan gaan voor elk getal
     getalArray = {' ': (0, 0, 0, 0, 0, 0, 0, 0),
                   '0': (1, 1, 0, 1, 0, 1, 1, 1),
                   '1': (0, 0, 0, 1, 0, 1, 0, 0),
@@ -338,10 +324,7 @@ def segmentDisplay():
         wpi.pinMode(digit, wpi.OUTPUT)
         wpi.digitalWrite(digit, 1)
     # het getal dat op de display moet staan, wordt ook een string zodat elk getal kan worden opgezocht in de array
-
-
-
-     # de loop die de juiste pins aan zet voor elk getal op de display
+    # de loop die de juiste pins aan zet voor elk getal op de display
     while True:
         getal = score * 100
         getalString = str(getal).rjust(4)
@@ -354,25 +337,17 @@ def segmentDisplay():
             wpi.digitalWrite(DIGIT_PINS[digit], 1)
 
 
-def databaseRead():
-    with app.app_context():
-        cursorRead = conn.cursor()
-        cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
-        ultrasonicData = cursorRead.fetchall()  # data from database.
-    return render_template("sensoren.html", value=ultrasonicData)
-
-
 # Making the threads
-countdownThread = threading.Thread(target=countdown)
 soundThread = threading.Thread(target=soundsensor)
-servoThread = threading.Thread(target=servomovement)
-ldrThread = threading.Thread(target=ldr_func)
+databaseconnThread = threading.Thread(target=databaseConn)
 ultraSonicThread = threading.Thread(target=ultrasonic)
 insertThread = threading.Thread(target=ultrasonicInsert)
 readThread = threading.Thread(target=databaseRead)
 neopixelThread = threading.Thread(target=neopixelUltra)
+servoThread = threading.Thread(target=servomovement)
+countdownThread = threading.Thread(target=countdown)
 segmentThread = threading.Thread(target=segmentDisplay)
-databaseconnThread = threading.Thread(target=databaseConn)
+ldrThread = threading.Thread(target=ldr_func)
 
 
 if __name__ == '__main__':
@@ -381,6 +356,10 @@ if __name__ == '__main__':
     insertThread.start()
     readThread.start()
     neopixelThread.start()
-    countdownThread.start()
     databaseconnThread.start()
+    countdownThread.start()
+    servoThread.start()
+    ldrThread.start()
+    segmentThread.start()
+
     app.run(host="0.0.0.0", port=80, debug=True)

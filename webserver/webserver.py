@@ -12,7 +12,7 @@ import ws2812 as ws
 
 # De pins aanwijzen en instellen
 servoPin = 1
-soundSensor_PIN = 25
+soundSensor_PIN = 29
 LED_PIN = 0
 LDR_PIN = 9
 # set WPI Pins
@@ -44,7 +44,7 @@ gameCountdown = 0
 servoDelay = 0.5
 soundDelay = 0.1
 ldrDelay = 0.1
-ultraSoundDelay = 0.00001
+ultraSoundDelay = 0.001
 
 #Kleuren
 stoplichtBlauw = [[0,0,10],[0,0,0],[0,0,0],[0,0,0]]
@@ -58,11 +58,11 @@ maxMove = 120
 resetMove = 315
 
 # Variabel initialiseren voor de functie
+oldSound = 0
 sound = 0
 name_user = "  "
 distance = 0
 
-conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
 
 # Variabele voor het bijhouden van de score
 score = 0
@@ -71,14 +71,12 @@ data = 0
 # Main flask code stuk
 app = Flask(__name__)
 
+conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
+
 
 def databaseConn():
-    while True:
-        if not conn.is_connected():
-            conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
-        else:
-            db_Info = conn.get_server_info()
-            print("Connected to MySQL Server version ", db_Info)
+    if not conn.is_connected():
+        mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
 
 
 # Home Page
@@ -92,10 +90,11 @@ def home():
 @app.route("/api")
 def api():
     global data
+    global gameCountdown
     wpi.wiringPiSetup()
     readldr = wpi.digitalRead(9)
     return jsonify({'score': score,
-                    'time': gameCountdown,
+                    'timer': gameCountdown,
                     'waardeselect': data})
 
 
@@ -103,9 +102,9 @@ def api():
 def databaseRead():
     with app.app_context():
         cursorRead = conn.cursor()
-        cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
-        ultrasonicData = cursorRead.fetchall()  # data from database.
-    return render_template("sensoren.html", value=ultrasonicData)
+        cursorRead.execute("select * from Sound ORDER BY id DESC LIMIT 20")
+        soundData = cursorRead.fetchall()  # data from database.
+    return render_template("sensoren.html", value=soundData)
 
 
 @app.route("/startgame", methods=["GET", "POST"])
@@ -115,12 +114,14 @@ def startgame():
     global servoDelay
     global score
     global killTimer
+    global oldSound
 
     # Resetting all the variables to starting values
-    gameCountdown = 20
+    gameCountdown = 50
     servoDelay = 0.5
     score = 0
-    killTimer = 20
+    killTimer = gameCountdown
+    oldSound = 0
 
     name_user = request.form['name']
     return render_template("game.html", name_user=name_user)
@@ -128,17 +129,23 @@ def startgame():
 
 @app.route("/gameover")
 def gameover():
-    # End program on 90
-    wpi.pwmWrite(servoPin, resetMove)
-    finalScore = score
-    scoreInsert = conn.cursor()
+    with app.app_context():
+        global conn
+        # End program on 90
+        wpi.pwmWrite(servoPin, resetMove)
+        finalScore = score
 
-    scoreInsert.execute("INSERT INTO Score (name, score) VALUES (%s, %s)", (name_user, finalScore))
-    conn.commit()
+        scoreInsert = conn.cursor()
+        scoreInsert.execute("INSERT INTO Score (name, score) VALUES (%s, %s)", (name_user, finalScore))
+        conn.commit()
 
-    scoreRead = conn.cursor()
-    scoreRead.execute("select name, score from Score ORDER BY score DESC LIMIT 10")
-    test = scoreRead.fetchall()  # data from database.
+        soundInsert = conn.cursor()
+        soundInsert.execute("INSERT INTO Sound (sound) VALUES (%s)", ([oldSound]))
+        conn.commit()
+
+        scoreRead = conn.cursor()
+        scoreRead.execute("select name, score from Score ORDER BY score DESC LIMIT 10")
+        test = scoreRead.fetchall()  # data from database.
     return render_template("gameover.html", test=test, name_user=name_user, score=finalScore)
 
 
@@ -153,25 +160,20 @@ def countdown():
             # print(gameCountdown)
             # When the counter reaches the halfway point increase servo speed
             if gameCountdown == 60:
-                servoDelay = 0.3
+                servoDelay = 0.4
 
 
 # Function for usage of Sound Sensor
 def soundsensor():
+    global oldSound
     while True:
         global sound
         # analogRead leest een float value van de sensor af (Geluid dus)
         sound = wpi.analogRead(soundSensor_PIN)
-        # ("Sound value:", sound)
-        # Vergelijk het gelezen value met een preset value die je kan instellen bij oldSound
-        if sound > thresholdSound:
-            wpi.digitalWrite(LED_PIN, wpi.HIGH)
-            # print("Threshold Exceeded")
-        else:
-            wpi.digitalWrite(LED_PIN, wpi.LOW)
-            # print("Below Threshold")
         time.sleep(soundDelay)
-
+        if oldSound < sound:
+            oldSound = sound
+        # print(sound)
 
 # Function for usage of servo
 def servomovement():
@@ -183,7 +185,6 @@ def servomovement():
     wpi.pwmWrite(servoPin, resetMove)
     while True:
         while gameCountdown > 0:
-            print(killTimer)
             angle = random.randint(minMove, maxMove)
             move = ((angle / 18) + 2) * 45
             wpi.pwmWrite(servoPin, int(move))
@@ -209,32 +210,37 @@ def ldr_func():
 # Function for usage of ultrasonic
 def ultrasonic():
     global distance
-    while True:
-        print("Measured distance: ",distance)
-        # dist is a variable made for distance()
-        # set Trigger to HIGH
-        wpi.digitalWrite(triggerPin, wpi.HIGH)
+    try:
+        while True:
+            print("kaas")
+            time.sleep(0.1)
+            print("Measured distance: ",distance)
+            # dist is a variable made for distance()
+            # set Trigger to HIGH
+            wpi.digitalWrite(triggerPin, wpi.HIGH)
 
-        # set Trigger after 0.01ms to LOW
-        time.sleep(ultraSoundDelay)
-        wpi.digitalWrite(triggerPin, wpi.LOW)
+            # set Trigger after 0.01ms to LOW
+            time.sleep(ultraSoundDelay)
+            wpi.digitalWrite(triggerPin, wpi.LOW)
 
-        StartTime = time.time()
-        StopTime = time.time()
-
-        # save StartTime
-        while wpi.digitalRead(echoPin) == 0:
             StartTime = time.time()
-
-        # save time of arrival
-        while wpi.digitalRead(echoPin) == 1:
             StopTime = time.time()
 
-        # time difference between start and arrival
-        TimeElapsed = StopTime - StartTime
-        # multiply with the sonic speed (34300 cm/s)
-        # and divide by 2, because there and back
-        distance = (TimeElapsed * 34300) / 2
+            # save StartTime
+            while wpi.digitalRead(echoPin) == 0:
+                StartTime = time.time()
+
+            # save time of arrival
+            while wpi.digitalRead(echoPin) == 1:
+                StopTime = time.time()
+
+            # time difference between start and arrival
+            TimeElapsed = StopTime - StartTime
+            # multiply with the sonic speed (34300 cm/s)
+            # and divide by 2, because there and back
+            distance = (TimeElapsed * 34300) / 2
+    except e:
+        print(e)
         #return distance
 
 
@@ -243,13 +249,12 @@ def ultrasonicInsert():
     with app.app_context():
         if __name__ == '__main__':
             while True:
-                dist = distance
                 # print("Measured Distance = %.1f cm" % dist)
                 time.sleep(1)
-                cursor = conn.cursor()
 
+                cursor = conn.cursor()
                 insert = "INSERT INTO Ultrasonic (data) VALUES (%s)"
-                cursor.execute(insert, [dist])
+                cursor.execute(insert, [distance])
                 conn.commit()
 
 
@@ -344,10 +349,10 @@ ldrThread = threading.Thread(target=ldr_func)
 if __name__ == '__main__':
     soundThread.start()
     ultraSonicThread.start()
-    insertThread.start()
+    # insertThread.start()
     readThread.start()
     neopixelThread.start()
-    databaseconnThread.start()
+    # databaseconnThread.start()
     countdownThread.start()
     servoThread.start()
     ldrThread.start()

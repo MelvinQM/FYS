@@ -23,9 +23,6 @@ echoPin = 0
 spi = spidev.SpiDev()
 spi.open(0,0)
 
-# TODO Assign new pin to ultraLedStrip
-# ultraLedStrip = 9
-
 # Zorgen dat de wpi pins worden gebruikt
 wpi.wiringPiSetup()
 
@@ -36,7 +33,6 @@ wpi.pinMode(LDR_PIN, wpi.INPUT)
 # set WPI direction (IN / OUT)
 wpi.pinMode(triggerPin, wpi.OUTPUT)
 wpi.pinMode(echoPin, wpi.INPUT)
-# wpi.pinMode(ultraLedStrip, wpi.OUTPUT)
 
 # Thresholds instellingen voor soundsensor
 thresholdSound = 1700
@@ -64,6 +60,7 @@ resetMove = 315
 # Variabel initialiseren voor de functie
 sound = 0
 name_user = "  "
+distance = 0
 
 conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
 
@@ -211,7 +208,9 @@ def ldr_func():
 
 # Function for usage of ultrasonic
 def ultrasonic():
+    global distance
     while True:
+        print("Measured distance: ",distance)
         # dist is a variable made for distance()
         # set Trigger to HIGH
         wpi.digitalWrite(triggerPin, wpi.HIGH)
@@ -236,22 +235,15 @@ def ultrasonic():
         # multiply with the sonic speed (34300 cm/s)
         # and divide by 2, because there and back
         distance = (TimeElapsed * 34300) / 2
-        # if statement that tells if distance is smaller than 100cm lights turn on
-
-        # if distance <= 100:
-        #     wpi.digitalWrite(ultraLedStrip, wpi.HIGH)
-        # # else statements that tells if distance is larger than 100 cm light turn off
-        # else:
-        #     wpi.digitalWrite(ultraLedStrip, wpi.LOW)
-
-        return distance
+        #return distance
 
 
 def ultrasonicInsert():
+    global distance
     with app.app_context():
         if __name__ == '__main__':
             while True:
-                dist = distance()
+                dist = distance
                 # print("Measured Distance = %.1f cm" % dist)
                 time.sleep(1)
                 cursor = conn.cursor()
@@ -262,24 +254,23 @@ def ultrasonicInsert():
 
 
 def neopixelUltra():
-    if __name__ == '__main__':
-        while True:
-            # dist is a variable made for distance()
-            dist = ultrasonic()
-            # if statement that tells if distance is smaller than 100cm lights turn on
-            if dist <= 100:
-                ws.write2812(spi, stoplichtBlauw)
-                time.sleep(0.1)
-                ws.write2812(spi, stoplichtWit1)
-                time.sleep(0.1)
-                ws.write2812(spi, stoplichtRood)
-                time.sleep(0.1)
-            # else statements that tells if distance is larger than 100 cm light turn off
-            else:
-                ws.write2812(spi, stoplichtWit2)
-                time.sleep(1)
+    global distance
+    while True:
+        # dist is a variable made for distance()
+        # dist = ultrasonic()
 
-            #print("Measured Distance = %.1f cm" % dist)
+        # if statement that tells if distance is smaller than 100cm lights turn on
+        if distance <= 100:
+            ws.write2812(spi, stoplichtBlauw)
+            time.sleep(0.1)
+            ws.write2812(spi, stoplichtWit1)
+            time.sleep(0.1)
+            ws.write2812(spi, stoplichtRood)
+            time.sleep(0.1)
+        # else statements that tells if distance is larger than 100 cm light turn off
+        else:
+            ws.write2812(spi, stoplichtWit2)
+            time.sleep(1)
 
 
 def segmentDisplay():

@@ -1,10 +1,8 @@
 # Fasten your seatbelts
 
-<img src="assets/images/printlogo.png"  width="250" height="250">
-<img src="assets/images/conceptlogo.png"  width="250" height="250">
-<img src="assets/images/eindproduct_render.gif"  width="250" height="250">
 
-## Introductie 
+## Introductie
+
 <img src="assets/images/Melvin.png"  width="250" height="250">
 <img src="assets/images/Koen.png"  width="250" height="250">
 <img src="assets/images/Nick.png"  width="250" height="250">
@@ -16,32 +14,49 @@
 
 Dit was ons eerste logo Idee: een robot met een airhockey pusher op zijn hoofd. We hebben ook een naam bedacht: Rob! Dat is een afkorting van ROBot. We zijn dit logo daarna gaan uitwerken en uiteindelijk is het ons uiteindelijke logo geworden:
 
+<img src="assets/images/printlogo.png"  width="250" height="250">
+<img src="assets/images/conceptlogo.png"  width="250" height="250">
+
 ## Inleiding
 
 In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na te maken. Dit project is een onderdeel van de studie Techtnische Informatica op de HVA. Dit project is gemaakt door de volgende eerste jaars TI studenten: Koen Lammers, Melvin Moes, Jayden van Oorschot, Simon Zweers, Nick schokker en Jurrien Simmons.
 
 ## Inhoudsopgave
 
-- [Beschrijving](#beschrijving)
-- [Business case](#busines-case)
-- [Benodigdheden](#benodigdheden)
-- [Beeldmateriaal](#beeldmateriaal)
-- [Installatie](#installatie)
-- [Functies](#functies)
+- [Fasten your seatbelts](#fasten-your-seatbelts)
+  - [Introductie](#introductie)
+  - [Concept logo](#concept-logo)
+  - [Inleiding](#inleiding)
+  - [Inhoudsopgave](#inhoudsopgave)
+  - [Beschrijving](#beschrijving)
+  - [Busines Case](#busines-case)
+    - [Aanleiding](#aanleiding)
+    - [Verwachtingen](#verwachtingen)
+    - [Oplossing](#oplossing)
+    - [Voordelen](#voordelen)
+  - [Benodigdheden](#benodigdheden)
+  - [Beeldmateriaal](#beeldmateriaal)
+  - [Installatie](#installatie)
+    - [Odroid installattie](#odroid-installattie)
+    - [Python en packages](#python-en-packages)
+  - [Functies](#functies)
     - [Countdown](#countdown)
     - [Soundsensor](#soundsensor)
     - [Servo](#servo)
     - [LDR](#ldr)
     - [Ultrasonic](#ultrasonic)
-    - [Score weergeven op website](#score-weergave-op-de-website)
-- [Threading](#threading)
-- [Database](#documentatie-database)
-    - [MySQL installeren](#mysql-installatie)
+    - [Display](#segment-display)
+    - [Score weergave op de website](#score-weergave-op-de-website)
+  - [Threading](#threading)
+  - [Database](#database)
+    - [MYSQL installatie](#mysql-installatie)
     - [Database Connectie](#database-connectie)
-    - [Database Query's](#database-query)
-- [Support](#support)
-- [Ontwikkelaars](#ontwikkelaars)
-- [Bronnen](#bronnen)
+    - [Database Query's](#database-querys)
+      - [Insert Query](#insert-query)
+      - [Select Query](#select-query)
+  - [Support](#support)
+  - [Ontwikkelaars](#ontwikkelaars)
+  - [Bronnen](#bronnen)
 
 ## Beschrijving
 
@@ -50,7 +65,8 @@ Het doel van het project is om een airhockey tafel te maken die werkt met maar 1
 ## Busines Case
 
 ### Aanleiding
-Het idee voor dit project is om een entertainment-systeem te maken voor in de resorts en hotels van Corendon. Dit wordt een soort entertainment systeem die mensen kunnen gebruiken op de plekken waar ze lange periodes moeten wachten (bijvoorbeeld op de bus). Dankzij dit systeem zal het wachten een stuk aangenamer worden. Op deze manier zullen deze mensen een betere ervaring beleven bij de hotels en resorts van Corendon, waardoor ze sneller het hotel zullen aanbevelen aan andere mogelijke gasten en zelf vaker terugkomen, waardoor Corendon meer winst verdient. 
+
+Het idee voor dit project is om een entertainment-systeem te maken voor in de resorts en hotels van Corendon. Dit wordt een soort entertainment systeem dat mensen kunnen gebruiken op de plekken waar ze lange periodes moeten wachten (bijvoorbeeld op de bus). Dankzij dit systeem zal het wachten een stuk aangenamer worden. Op deze manier zullen deze mensen een betere ervaring beleven bij de hotels en resorts van Corendon, waardoor ze sneller het hotel zullen aanbevelen aan andere mogelijke gasten en zelf vaker terugkomen, waardoor Corendon meer winst verdient.
 Een groot risico is dat het spel al snel te moeilijk of te makkelijk is. Als het spel te makkelijk is gaan mensen het saai vinden en niet vaak spelen. Als het spel te moeilijk is dan vinden mensen het ook niet leuk. Als het spel te ingewikkeld is dan zijn de gasten niet entertained. Het is dan ook te moeilijk om te begrijpen. Aan de andere kant heeft zo’n spel veel voordelen.
 
 ### Verwachtingen
@@ -59,12 +75,11 @@ Corendon heeft ons ingeschakeld om een entertainment systeem te maken voor in de
 
 ### Oplossing
 
-Ons idee voor dit entertainment systeem is een airhockeytafel met een robot-tegenstander. Aan de ene kant van de tafel staat de speler, zoals bij normaal airhockey. Aan de andere kant staat een robotarm die het andere doel verdedigt. Het doel van het spel is om zo vaak mogelijk te scoren bij de robot in een bepaald tijdslimiet. Wij strijven om een moeilijkheidsgraad te creeeren die zowel uitdagend kan zijn voor volwassenen als voor kinderen. Verder komt er een website waarop verschillende gegevens te zien komen. Voor de gebruikers komen de huidige score, high scores en de snelheid zichtbaar op de website. De snelheid is hoe snel de puck het doel in gaat. Op de andere webpagina (niet voor spelers) staan andere gegevens, namelijk hoe vaak het spel gespeeld is en hoe luid het spel en omgevingsgeluid zijn.
+Ons idee voor dit entertainment systeem is een airhockeytafel met een robot-tegenstander. Aan de ene kant van de tafel staat de speler, zoals bij normaal airhockey. Aan de andere kant staat een robotarm die het andere doel verdedigt. Het doel van het spel is om zo vaak mogelijk te scoren bij de robot in een bepaald tijdslimiet. Ons doel is om een moeilijkheidsgraad te creeeren die zowel uitdagend kan zijn voor volwassenen als voor kinderen. Verder komt er een website waarop verschillende gegevens te zien komen. Voor de gebruikers komen de huidige score en high scores op de website. Op de andere webpagina (niet voor spelers) staan andere gegevens, namelijk hoe vaak het spel gespeeld is en hoe luid het spel en omgevingsgeluid zijn.
 
 ### Voordelen
 
 Airhockey is een heel bekend spel, iedereen weet hoe het werkt. Door een robot toe te voegen aan een airhockeytafel ontstaan er meerdere voordelen. Je kan een highscore halen en die terug zien op de website, zo kunnen spelers alsnog tegen elkaar spelen. Door de andere gegevens op de website is te zien of het spel veel gespeeld wordt en dus of het populair genoeg is. Ook is te zien of het spel nog goed werkt door een foutmelding te geven als er iets niet werkt.
-
 
 ## Benodigdheden
 
@@ -83,9 +98,89 @@ Airhockey is een heel bekend spel, iedereen weet hoe het werkt. Door een robot t
 ![Ontwerp Eindproduct.gif](assets/gif/Ontwerp Eindproduct.gif)
 > Hieronder is te zien hoe het prototype er in realiteit uit ziet.
 > Hieronder is het aansluitschema te zien. Dit is hoe we alle onderdelen aan de Odroid hebben aangesloten.
-![image](assets/images/fys_project_bb_v2.png)
+![image](assets/images/aansluitschema.png)
 
 ## Installatie
+
+### Odroid installattie
+
+1. Flash [ubuntu minimal](https://edu.nl/hdjcd) naar een SD kaart.
+2. Doe de SD kaart in de odroid en verbind de odroid met een ethernetkabel aan je laptop.
+3. Gebruik in je windows terminal `arp -a` om het IP-adres te achterhalen. Het IP-adres wat je zoekt begint met `192.168.137.`. De volgende IP-adressen zijn het **NIET**:
+   - IP-adressen die eindigen op .255.250 of .255
+   - IP-adressen die niet beginnen met 192.168.137.
+   - Mac-adressen welke bestaan uit ff-ff-ff.
+4. login via ssh met het commando `ssh root@[ip adres]` waar in je `[ip adres]` vervangt door wat je hebt opgezocht in stap 3.
+5. Nu willen we een statisch IP-adres toevoegen. voer het commando `nano /etc/netplan/01-netcfg.yaml` uit en voeg de onderstaande configuratie uit. **LET OP**: indents bestaan uit 2 spaties, geen tabs.
+
+```yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: no
+      addresses: [192.168.137.2/24]
+      nameservers:
+        addresses: [8.8.8.8]
+```
+
+6. Voer het commando `netplan apply` uit.
+7. Om nu de odroid te laten verbinden aan een wifi netwerk, voegen we nog een stuk configuratie aan net `.yaml` bestand. Je .yaml bestand komt er nu zo uit te zien:
+
+```yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: no
+      addresses: [192.168.137.2/24]
+      nameservers:
+        addresses: [8.8.8.8]
+  wifis:
+    wlan0:
+      optional: true
+      access-points:
+        “iotroam”:
+          password: “12345678”
+      dhcp4: true
+```
+
+8. Voer het commado `netplan apply` nog een keer uit
+
+### Python en packages
+
+1. Check eerst of je python3 hebt geinstalleerd met het commandom `python3`. Hier zie je ook de geinstalleerde versie van python. Als je geen python hebt geinstalleerd, voer je het volgende commando uit:
+
+```bash
+apt-get install python3
+```
+
+2. Installeer python pip met de volgende commando's.
+
+```shell
+apt-get install libwiringpi-dev
+apt-get install odroid-wiringpi
+apt-get install python3-pip
+```
+
+3. Als je de error "the following packages have unmet dependencies..." krijgt, run je het commando `apt –fix-broken install`.
+4. Voer de volgende commando's uit om odroid-wiringpi te installeren
+
+```bash
+apt-get install software-properties-common
+add-apt-repository ppa:hardkernel/ppa
+apt-get update
+apt-get install odroid-wiringpi-python
+```
+
+5. Verder moet je nog een paar pychon libraries installeren:
+
+```python
+pip install flask
+pip install mysql-connector-python
+```
 
 - Fetch uitleg
 - Threading uitleg
@@ -199,7 +294,28 @@ def ldr_func():
         time.sleep(ldrDelay)
 ```
 
-Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de vorige waarde. De LDR is een variabele weerstand, de output wordt hoger als er licht op schijnt. Door de output te vergelijken kunnen we aflezen of er wel of geen licht op schijnt, dus of de laser onderbroken wordt. Wanneer er een onderbreking gedetecteerd wordt de globale variabele `score` met 1 verhoogd. Deze word met javascript fetch vanuit de html opgelaald om de halve seconde (Zie webserver uitleg).
+Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de vorige waarde. De LDR is een variabele weerstand, de output wordt hoger als er licht op schijnt. Door de output te vergelijken kunnen we aflezen of er wel of geen licht op schijnt, dus of de laser onderbroken wordt. Wanneer er een onderbreking gedetecteerd wordt de globale variabele `score` met 1 verhoogd. Deze word met javascript fetch vanuit de html opgelaald om de halve seconde.
+
+Hieronder is het stukje javascript die dit regelt te zien.
+```html
+        <script>
+            var returnValue = function () {
+                fetch('/api')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        document.getElementById("scoreID").innerHTML = data.score;
+                        document.getElementById("timerID").innerHTML = data.time;
+                        if (data.time <= 0) {
+                            // Simulate a mouse click:
+                            window.location.replace("gameover");
+                        }
+                    });
+                
+            }
+            setInterval(returnValue, 500)
+        </script>
+```
 
 ### Ultrasonic
 
@@ -208,7 +324,6 @@ Deze functie leest de waarde van de LDR op de LDR_PIN en vergelijkt deze met de 
 Hierboven is te zien hoe de ultrasound in de tafel is vastgezet. Deze sensor zit aan de spelers kant met complete zicht op zijn omgeving zodat zodra een persoon langs loopt of op de tafel zelf afloopt er een signaal gestuurd wordt naar de odroid zodat er een lampje aangaat. Hierdoor kunnen we het aantrekkelijker maken om het spel te gaan spelen.
 
 Deze functie wordt gebruikt om Robohocky te verlichten wanneer er iemand in de buurt staat.
-
 
 ```python
 #Kleuren
@@ -263,11 +378,79 @@ def distance():
 
     return distance
 
-``` 
+```
 
 De ultrasonic sensor kan afstanden en bewegingen meten door pulsen van geluid uit te zenden en de tijd meten voor ze terugkomen. Door de triggerPin een kort signaal te geven wordt er een puls van geluid uitgezonden. Wanneer de echoPin een signaal ontvangt wordt de eindtijd opgeslagen. De tijd die voorbij ging is de starttijd - eindtijd. Met de geluidssnelheid (343 m/s) wordt dan de afstand berekend.
 
-Uiteindelijk gaan de lichten branden als de afstand minder is dan onze vastgestelde grens. Zonder beweging veranderd het licht in een neutrale kleur
+Uiteindelijk gaan de lichten branden als de afstand minder is dan onze vastgestelde grens. Zonder beweging veranderd het licht in een neutrale kleur.
+
+### Segment display
+
+![image](assets/images/segmentdisplay.jpg)
+
+Hierboven is de 7-segment display te zien. Deze zit aan de kant van de speler. De huidige score is er op te zien wanneer het spel bezig is.
+
+Om het display aan te sturen is eerst een stukje setup nodig.
+
+Het schermpje heeft 12 pins. 8 zijn voor de segmenten zelf (7 segmenten in een getal en 1 voor de punt) en de andere 4 zijn voor de 4 cijfers op het scherm. Al deze pins geven we als eerste aan en ze gaan allemaal op output:
+
+```python
+    # fysieke pins: 13, 15, (36), 16, 29, 31, 33, 35
+    SEGMENT_PINS = (2, 3, 27, 4, 21, 22, 23, 24)
+    # fysieke pins 18, 22, 26, 32
+    DIGIT_PINS = (5, 6, 11, 26)
+
+    # setup voor de pins van de segmenten
+    for segment in SEGMENT_PINS:
+        wpi.pinMode(segment, wpi.OUTPUT)
+        wpi.digitalWrite(segment, 0)
+
+    # setup voor de pins van de 4 digits
+    for digit in DIGIT_PINS:
+        wpi.pinMode(digit, wpi.OUTPUT)
+        wpi.digitalWrite(digit, 1)
+```
+
+Vervolgens moeten we aangeven welke van de 8 segment-pins aan moeten voor de verschillende getallen, door middel van deze array:
+
+```python
+    # geeft aan welke pins aan gaan voor elk getal
+    getalArray = {' ': (0, 0, 0, 0, 0, 0, 0, 0),
+                  '0': (1, 1, 0, 1, 0, 1, 1, 1),
+                  '1': (0, 0, 0, 1, 0, 1, 0, 0),
+                  '2': (1, 1, 0, 0, 1, 1, 0, 1),
+                  '3': (0, 1, 0, 1, 1, 1, 0, 1),
+                  '4': (0, 0, 0, 1, 1, 1, 1, 0),
+                  '5': (0, 1, 0, 1, 1, 0, 1, 1),
+                  '6': (1, 1, 0, 1, 1, 0, 1, 1),
+                  '7': (0, 0, 0, 1, 0, 1, 0, 1),
+                  '8': (1, 1, 0, 1, 1, 1, 1, 1),
+                  '9': (0, 1, 0, 1, 1, 1, 1, 1)}
+
+```
+
+Na alle setup kunnen we getallen laten zien op het display:
+
+```python
+while True:
+    # Omdat de rechter 2 digits niet aangesloten zijn, gaat de score keer 100 zodat het 2 digits naar links komt te staan.
+    getal = score * 100
+    # het getal wordt omgezet in een string van lengte 4 zodat de getallen als chars opgezocht kunnen worden in de getalArray
+    getalString = str(getal).rjust(4)
+
+    # gaat langs alle 4 digits in getalString, zet de juiste segmenten aan en loopt ook door de 4 digit pins
+    for digit in range(4):
+        for i in range(0, 8):
+            wpi.digitalWrite(SEGMENT_PINS[i], getalArray[getalString[digit]][i])
+        # zet de juiste digit aan voor 0.001 seconde, zodat op elke digit een ander getal kan staan
+        wpi.digitalWrite(DIGIT_PINS[digit], 0)
+        time.sleep(0.001)
+        wpi.digitalWrite(DIGIT_PINS[digit], 1)
+```
+
+Afhankelijk van welke digit-pin je aanzet gaat er een andere digit op het scherm branden. Door snel door ze heen te loopen (0.001 seconden) kan je op elk cijfer op het scherm iets anders laten zien, in dit geval verschillende getallen.
+
+
 ### Score weergave op de website
 
 ## Threading
@@ -281,19 +464,62 @@ soundThread = threading.Thread(target=soundsensor)
 servoThread = threading.Thread(target=servomovement)
 ldrThread = threading.Thread(target=ldr_func)
 ultraSonicThread = threading.Thread(target=ultrasonic)
+insertThread = threading.Thread(target=databaseInsert)
+readThread = threading.Thread(target=databaseRead)
+neopixelThread = threading.Thread(target=neopixelUltra)
+segmentThread = threading.Thread(target=segmentDisplay)
 ```
 
 Nadat de threads zijn aangemaakt worden de threads gestart. Wat dit eigenlijk betekent is dat er aparte stukken code runnen naast de main code. Hierdoor kunnen wij meerdere codes met bijvoorbeeld verschillende delays toevoegen, wat niet mogelijk zou zijn zonder threading.
 
 ```python
 # Starting the threading
-countdownThread.start()
-soundThread.start()
-servoThread.start()
-ldrThread.start()
-ultraSonicThread.start()
+if __name__ == '__main__':
+    soundThread.start()
+    ultraSonicThread.start()
+    # ldrThread.start()
+    insertThread.start()
+    readThread.start()
+    neopixelThread.start()
+    app.run(host="0.0.0.0", port=80, debug=True)
 ```
+Sommige threads worden aangezet doormiddel van het knopje op de website hieronder zie je hoe dit gedaan is.
+```python
+@app.route("/startgame", methods=["GET", "POST"])
+def startgame():
+    global name_user
+    name_user = request.form['name']
+    if ldrThread.is_alive() == False:
+        ldrThread.start()
+    if countdownThread.is_alive() == False:
+        countdownThread.start()
+    if servoThread.is_alive() == False:
+        servoThread.start()
+    if segmentThread.is_alive() == False:
+        segmentThread.start()
 
+    return render_template("game.html", name_user=name_user)
+```
+Deze threads moeten ook weer terug naar main joinen voordat er een nieuw potje begint anders krijgen we een runtime error dit doen wij op deze manier:
+```python
+@app.route("/gameover")
+def gameover():
+    ldrThread.join()
+    countdownThread.join()
+    servoThread.join()
+    segmentThread.join()
+    finalScore = score
+    scoreInsert = conn.cursor()
+    # scoreName = "INSERT INTO Score (name, data) VALUES (?, ?)"
+    scoreInsert.execute("INSERT INTO Score (name, score) VALUES (%s, %s)", (name_user, finalScore))
+    conn.commit()
+
+    scoreRead = conn.cursor()
+    scoreRead.execute("select name, score from Score ORDER BY score DESC LIMIT 10")
+    test = scoreRead.fetchall()  # data from database.
+    return render_template("gameover.html", test=test, name_user=name_user, score=finalScore)
+
+```
 ## Database
 
 ### MYSQL installatie
@@ -356,6 +582,9 @@ data = cursorRead.fetchall()  # data from database.
 ```
 
 
+## Terugkoppeling van de requirements
+
+De eisen van Corendon om minimaal 3 sensoren te gebruiken en een actuator in het ontwerp te verwerken worden gehaald door het gebruik van sensoren in de airhockey tafel voor het detecteren van de positie van de puck en de robotarm. De actuator zal worden gebruikt om de robotarm te besturen om de puck te verdedigen. De eis om een website met een bijbehorende database te maken zal ook worden gehaald door het aanbieden van een website waarop de huidige score en high scores zichtbaar zijn voor spelers, en waarop de beheerder op de admin pagina gegevens over de gebruiksfrequentie en geluidsniveaus kan bekijken.
 
 ## Support
 

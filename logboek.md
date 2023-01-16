@@ -256,3 +256,31 @@ Vakantie
 - Simon
 - Jayden
 - Nick
+
+## Week 17
+### Wat hebben we gedaan
+- pootjes gemaakt
+- ledstrip toegevoegd
+- segemtn display toegevoegd
+- beugel geprint
+- alle code samengevoegd
+
+### Wie waren aanwezig
+- Melvin (3x)
+- Koen (2x)
+- Simon (2x)
+- Jayden (3x)
+- Nick (3x)
+- Jurrien (1x)
+
+## Week 18
+### Wat hebben we gedaan
+- documentatie bijgewerkt
+- troubleshooting code
+
+### Wie waren aanwazig
+- Melvin
+- Koen
+- Simon
+- Jayden
+- Nick

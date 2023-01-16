@@ -10,13 +10,6 @@
 <img src="assets/images/Jayden.png"  width="250" height="250">
 <img src="assets/images/Jurr.png"  width="250" height="250">
 
-## Concept logo
-
-Dit was ons eerste logo Idee: een robot met een airhockey pusher op zijn hoofd. We hebben ook een naam bedacht: Rob! Dat is een afkorting van ROBot. We zijn dit logo daarna gaan uitwerken en uiteindelijk is het ons uiteindelijke logo geworden:
-
-<img src="assets/images/printlogo.png"  width="250" height="250">
-<img src="assets/images/conceptlogo.png"  width="250" height="250">
-
 ## Inleiding
 
 In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na te maken. Dit project is een onderdeel van de studie Techtnische Informatica op de HVA. Dit project is gemaakt door de volgende eerste jaars TI studenten: Koen Lammers, Melvin Moes, Jayden van Oorschot, Simon Zweers, Nick schokker en Jurrien Simmons.
@@ -25,10 +18,10 @@ In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na t
 
 - [Fasten your seatbelts](#fasten-your-seatbelts)
   - [Introductie](#introductie)
-  - [Concept logo](#concept-logo)
   - [Inleiding](#inleiding)
   - [Inhoudsopgave](#inhoudsopgave)
   - [Beschrijving](#beschrijving)
+  - [Concept logo](#concept-logo)
   - [Busines Case](#busines-case)
     - [Aanleiding](#aanleiding)
     - [Verwachtingen](#verwachtingen)
@@ -45,7 +38,7 @@ In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na t
     - [Servo](#servo)
     - [LDR](#ldr)
     - [Ultrasonic](#ultrasonic)
-    - [Display](#segment-display)
+    - [Segment display](#segment-display)
     - [Score weergave op de website](#score-weergave-op-de-website)
   - [Threading](#threading)
   - [Database](#database)
@@ -54,6 +47,7 @@ In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na t
     - [Database Query's](#database-querys)
       - [Insert Query](#insert-query)
       - [Select Query](#select-query)
+  - [Terugkoppeling van de requirements](#terugkoppeling-van-de-requirements)
   - [Support](#support)
   - [Ontwikkelaars](#ontwikkelaars)
   - [Bronnen](#bronnen)
@@ -61,6 +55,13 @@ In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na t
 ## Beschrijving
 
 Het doel van het project is om een airhockey tafel te maken die werkt met maar 1 deelnemer. Je kan dan spelen tegen een automatische tegenstander die de puck terug zal kaatsen. De benodigdheden kan je hieronder zien. Het prototype dat gemaakt is, is een verkleinde versie van onze echte visie. Dus de lijst zal in de realiteit wel kunnen variëren.
+
+## Concept logo
+
+Dit was ons eerste logo Idee: een robot met een airhockey pusher op zijn hoofd. We hebben ook een naam bedacht: Rob! Dat is een afkorting van ROBot. We zijn dit logo daarna gaan uitwerken en uiteindelijk is het ons uiteindelijke logo geworden:
+
+<img src="assets/images/printlogo.png"  width="250" height="250">
+<img src="assets/images/conceptlogo.png"  width="250" height="250">
 
 ## Busines Case
 
@@ -83,20 +84,23 @@ Airhockey is een heel bekend spel, iedereen weet hoe het werkt. Door een robot t
 
 ## Benodigdheden
 
-- 1x Odroid N2+
-- 1x Servo SG90
-- 1x Afstand Sensor HC-SR04
-- 2x LDR and laser
-- 1x Sound sensor
-- 1x Segment display
-- 1x Speelgoed Airhockey tafel
-- 1x Diverse 3d geprinte onderdelen
+- [ ] Odroid N2+
+- [ ] Servo SG90
+- [ ] Afstand Sensor HC-SR04
+- [ ] LDR and laser
+- [ ] Sound sensor
+- [ ] Segment display
+- [ ] Speelgoed Airhockey tafel
+- [ ] Diverse 3d geprinte onderdelen
 
 ## Beeldmateriaal
 
 > Hieronder is een animatie te zien van hoe het product er ongeveer uit moet gaan zien.
-![Ontwerp Eindproduct.gif](assets/gif/Ontwerp Eindproduct.gif)
+![Ontwerp Eindproduct.gif](assets/images/eindproduct_render.gif)
+
 > Hieronder is te zien hoe het prototype er in realiteit uit ziet.
+![Ontwerp prototype](assets/images/prototype.jpg)
+
 > Hieronder is het aansluitschema te zien. Dit is hoe we alle onderdelen aan de Odroid hebben aangesloten.
 ![image](assets/images/aansluitschema.png)
 
@@ -181,15 +185,6 @@ apt-get install odroid-wiringpi-python
 pip install flask
 pip install mysql-connector-python
 ```
-
-- Fetch uitleg
-- Threading uitleg
-- Bekabeling Uitleg
-- Database
-- Git documentatie
-- Webserver uitleg
-- Technisch ontwerp
-- Gebruik
 
 ## Functies
 

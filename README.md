@@ -42,7 +42,7 @@ In deze git vind je alles wat nodig is om ons idee voor een airhockey tafel na t
     - [Score weergave op de website](#score-weergave-op-de-website)
   - [Threading](#threading)
   - [Database](#database)
-    - [MYSQL installatie](#mysql-installatie)
+    - [Oege database](#oege-database)
     - [Database Connectie](#database-connectie)
     - [Database Query's](#database-querys)
       - [Insert Query](#insert-query)
@@ -517,21 +517,9 @@ def gameover():
 ```
 ## Database
 
-### MYSQL installatie
+### Oege database
 
-1. `sudo apt update` // Dit refresh apt zodat de source list up to date is.
-2. `sudo apt install mysql-server` // Dit installeerd MYSQL op het systeem. Om vervolgens de MYSQL status te verkrijgen voer je `sudo systemctl status mysql` in.
-3. sudo `mysql_secure_installation` // Dit zorgt ervoor dat MYSQL word beveiligd met een wac-htwoord. Hierin volgen een aantal stappen:
-Yes wanneer er word gevraagt om wachtwoord validatie.
-LOW (0) Wanneer er word gevraagd om welke niveau van wachtwoord validatie.
-Gebruikte password : `odroid`
-4. `mysql -u root -p` //Hiermee log je in met root rechten in MYSQL
-5.  
-    - CREATE DATABASE FYS; // Creeerd een database ‘sensoren’
-    - CREATE USER 'admin'@'localhost' IDENTIFIED by ‘odroid123’;  // Creeerd een gebruiker ‘admin’ met als wachtwoord odroid123. Hiermee loggen we in later in PHPMYADMIN
-    - GRANT ALL on FYS.* to 'admin'@'localhost';  //Dit geeft account admin volledige rechten over de database sensoren.
-    - flush privileges  //Dit zorgt ervoor dat alles wat we zojuist hebben aangepast word verwerkt in de server.
-6. CREATE TABLE Sensoren (id int NOT NULL AUTO_INCREMENT, ultrasonic int NOT NULL, ldr int NOT NULL, soundsenor int , PRIMARY KEY (id) );
+Wij krijgen van school een database, die we ook voor het vak "Databases". We hebben besloten deze te gebruiken voor het opslaan van speldata zoals Naam, score etc. In het programma MySQL workbench hebben wij een schema gamaakt, wat je [hier](./assets/database/fys-db-model.mwb) kan zien.
 
 ### Database Connectie
 
@@ -540,7 +528,7 @@ Nadat we de mysql hebt geïnstalleerd en de database hebt aan gemaakt. Hebben we
 ```python
 import mysql.connector
 
-conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
+conn = mysql.connector.connect(host="oege.ie.hva.nl", user="<user>", password="<password>", database="<database>")
 
 if conn.is_connected():
     db_Info = conn.get_server_info()
@@ -550,6 +538,7 @@ else:
 ```
 
 <a name="database-query"></a>
+
 ### Database Query's
 
 hieronder zal ik een paar query's laten zien die we hebben gebruikt in het project.
@@ -575,7 +564,6 @@ cursorRead = conn.cursor()
 cursorRead.execute("select * from Ultrasonic ORDER BY id DESC LIMIT 20")
 data = cursorRead.fetchall()  # data from database.
 ```
-
 
 ## Terugkoppeling van de requirements
 

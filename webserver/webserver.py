@@ -71,12 +71,13 @@ data = 0
 # Main flask code stuk
 app = Flask(__name__)
 
-conn = mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
+conn = mysql.connector.connect(host="oege.ie.hva.nl", user="moesmq", password="P3$JQTmF#Vr2WH", database="zmoesmq")
 
 
 def databaseConn():
+    global conn
     if not conn.is_connected():
-        mysql.connector.connect(host="localhost", user="admin", password="odroid123", database="FYS")
+       conn = mysql.connector.connect(host="oege.ie.hva.nl", user="moesmq", password="P3$JQTmF#Vr2WH", database="zmoesmq")
 
 
 # Home Page
@@ -352,7 +353,7 @@ if __name__ == '__main__':
     # insertThread.start()
     readThread.start()
     neopixelThread.start()
-    # databaseconnThread.start()
+    databaseconnThread.start()
     countdownThread.start()
     servoThread.start()
     ldrThread.start()

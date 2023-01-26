@@ -5,36 +5,31 @@ import odroid_wiringpi as wpi
 import random
 import time
 import threading
-import json
 import mysql.connector
 import spidev
 import ws2812 as ws
 
 # De pins aanwijzen en instellen
 servoPin = 1
-soundSensor_PIN = 29
-LED_PIN = 0
-LDR_PIN = 9
-# set WPI Pins
+soundPin = 29
+ldrPin = 9
 triggerPin = 7
 echoPin = 0
 
-#SPI Poort
+# SPI Poort
 spi = spidev.SpiDev()
 spi.open(0,0)
 
-# Zorgen dat de wpi pins worden gebruikt
 wpi.wiringPiSetup()
 
 wpi.pinMode(servoPin, wpi.PWM_OUTPUT)
-wpi.pinMode(LED_PIN, wpi.OUTPUT)
-wpi.pinMode(LDR_PIN, wpi.INPUT)
+wpi.pinMode(ldrPin, wpi.INPUT)
 
-# set WPI direction (IN / OUT)
+# Set WPI direction (IN / OUT)
 wpi.pinMode(triggerPin, wpi.OUTPUT)
 wpi.pinMode(echoPin, wpi.INPUT)
 
-# Thresholds instellingen voor soundsensor
+# Thresholds settings for the soundsensor
 thresholdSound = 1700
 
 # Game timer
@@ -44,36 +39,35 @@ gameCountdown = 0
 servoDelay = 0.5
 soundDelay = 0.1
 ldrDelay = 0.1
-ultraSoundDelay = 0.001
+ultraSoundDelay = 0.1
 
-#Kleuren
+# Colors
 stoplichtBlauw = [[0,0,10],[0,0,0],[0,0,0],[0,0,0]]
 stoplichtWit1 = [[0,0,0],[10,10,10],[0,0,0],[0,0,0]]
 stoplichtRood = [[0,0,0],[0,0,0],[0,10,0],[0,0,0]]
 stoplichtWit2 = [[10,10,10],[10,10,10],[10,10,10],[0,0,0]]
 
-# Servo min en max in graden
+# Servo min and max in degrees
 minMove = 60
 maxMove = 120
 resetMove = 315
 
-# Variabel initialiseren voor de functie
+# Variabels initialized for function usage
 oldSound = 0
 sound = 0
-name_user = "  "
+nameUser = "  "
 distance = 0
 
 
-# Variabele voor het bijhouden van de score
+# Variabel for keeping track of the score
 score = 0
 data = 0
 
-# Main flask code stuk
+# Initialize flask app and connect to the database on oege
 app = Flask(__name__)
-
 conn = mysql.connector.connect(host="oege.ie.hva.nl", user="moesmq", password="P3$JQTmF#Vr2WH", database="zmoesmq")
 
-
+# Function that checks if the database is connected if not connect again
 def databaseConn():
     global conn
     if not conn.is_connected():
@@ -92,13 +86,12 @@ def home():
 def api():
     global data
     global gameCountdown
-    wpi.wiringPiSetup()
-    readldr = wpi.digitalRead(9)
     return jsonify({'score': score,
                     'timer': gameCountdown,
                     'waardeselect': data})
 
 
+# Function that created a cursor that is used to fetch the values of sound using a select query.
 @app.route('/admin')
 def databaseRead():
     with app.app_context():
@@ -111,7 +104,7 @@ def databaseRead():
 @app.route("/startgame", methods=["GET", "POST"])
 def startgame():
     global gameCountdown
-    global name_user
+    global nameUser
     global servoDelay
     global score
     global killTimer
@@ -124,8 +117,8 @@ def startgame():
     killTimer = gameCountdown
     oldSound = 0
 
-    name_user = request.form['name']
-    return render_template("game.html", name_user=name_user)
+    nameUser = request.form['name']
+    return render_template("game.html", nameUser=nameUser)
 
 
 @app.route("/gameover")
@@ -137,17 +130,18 @@ def gameover():
         finalScore = score
 
         scoreInsert = conn.cursor()
-        scoreInsert.execute("INSERT INTO Score (name, score) VALUES (%s, %s)", (name_user, finalScore))
+        scoreInsert.execute("INSERT INTO Score (name, score) VALUES (%s, %s)", (nameUser, finalScore))
         conn.commit()
 
         soundInsert = conn.cursor()
         soundInsert.execute("INSERT INTO Sound (sound) VALUES (%s)", ([oldSound]))
         conn.commit()
 
+        # Fetching values from database to display in the leaderboard
         scoreRead = conn.cursor()
         scoreRead.execute("select name, score from Score ORDER BY score DESC LIMIT 10")
         test = scoreRead.fetchall()  # data from database.
-    return render_template("gameover.html", test=test, name_user=name_user, score=finalScore)
+    return render_template("gameover.html", test=test, nameUser=nameUser, score=finalScore)
 
 
 # Countdown for the gameloop
@@ -158,7 +152,7 @@ def countdown():
         while gameCountdown >= 0:
             time.sleep(1)
             gameCountdown -= 1
-            # print(gameCountdown)
+
             # When the counter reaches the halfway point increase servo speed
             if gameCountdown == 60:
                 servoDelay = 0.4
@@ -170,17 +164,16 @@ def soundsensor():
     while True:
         global sound
         # analogRead leest een float value van de sensor af (Geluid dus)
-        sound = wpi.analogRead(soundSensor_PIN)
+        sound = wpi.analogRead(soundPin)
         time.sleep(soundDelay)
         if oldSound < sound:
             oldSound = sound
-        # print(sound)
+
 
 # Function for usage of servo
 def servomovement():
     global gameCountdown
     global servoDelay
-    # global killTimer
     killTimer = gameCountdown
     # Start program at 90 degrees
     wpi.pwmWrite(servoPin, resetMove)
@@ -195,13 +188,11 @@ def servomovement():
 
 # Function for usage of ldr
 def ldr_func():
-    global LDR_PIN
+    global ldrPin
     global score
     outputOld = 0
     while True:
-        # Variabele
-        output = wpi.digitalRead(9)
-        # print(output)
+        output = wpi.digitalRead(ldrPin)
         if output < outputOld:
             score = score + 1
         outputOld = output
@@ -213,10 +204,8 @@ def ultrasonic():
     global distance
     try:
         while True:
-            print("kaas")
-            time.sleep(0.1)
-            print("Measured distance: ",distance)
-            # dist is a variable made for distance()
+            time.sleep(ultraSoundDelay)
+
             # set Trigger to HIGH
             wpi.digitalWrite(triggerPin, wpi.HIGH)
 
@@ -235,14 +224,13 @@ def ultrasonic():
             while wpi.digitalRead(echoPin) == 1:
                 StopTime = time.time()
 
-            # time difference between start and arrival
+            # Time difference between start and arrival
             TimeElapsed = StopTime - StartTime
-            # multiply with the sonic speed (34300 cm/s)
-            # and divide by 2, because there and back
+            # Multiply with the sonic speed (34300 cm/s) and divide by 2, because there and back
             distance = (TimeElapsed * 34300) / 2
-    except e:
-        print(e)
-        #return distance
+    except:
+        print("Ultrasonic is not functioning properly")
+
 
 
 def ultrasonicInsert():
@@ -250,7 +238,6 @@ def ultrasonicInsert():
     with app.app_context():
         if __name__ == '__main__':
             while True:
-                # print("Measured Distance = %.1f cm" % dist)
                 time.sleep(1)
 
                 cursor = conn.cursor()
@@ -262,40 +249,37 @@ def ultrasonicInsert():
 def neopixelUltra():
     global distance
     while True:
-        # dist is a variable made for distance()
-        # dist = ultrasonic()
-
-        # if statement that tells if distance is smaller than 100cm lights turn on
+        # If statement that tells if distance is smaller than 100cm lights turn on
         if distance <= 100:
             ws.write2812(spi, stoplichtBlauw)
-            time.sleep(0.1)
+            time.sleep(ultraSoundDelay)
             ws.write2812(spi, stoplichtWit1)
-            time.sleep(0.1)
+            time.sleep(ultraSoundDelay)
             ws.write2812(spi, stoplichtRood)
-            time.sleep(0.1)
-        # else statements that tells if distance is larger than 100 cm light turn off
+            time.sleep(ultraSoundDelay)
+        # Else statements that tells if distance is larger than 100 cm light turn off
         else:
             ws.write2812(spi, stoplichtWit2)
             time.sleep(1)
 
 
 def segmentDisplay():
-    # fysieke pins: 13, 15, (36), 16, 29, 31, 33, 35
-    SEGMENT_PINS = (2, 3, 27, 4, 21, 22, 23, 24)
-    # fysieke pins 18, 22, 26, 32
-    DIGIT_PINS = (5, 6, 11, 26)
+    # Physical pins: 13, 15, (36), 16, 29, 31, 33, 35
+    segmentPins = (2, 3, 27, 4, 21, 22, 23, 24)
+    # Physical pins 18, 22, 26, 32
+    digitPins = (5, 6, 11, 26)
 
-    # Setup voor de pins van de segmenten
-    for segment in SEGMENT_PINS:
+    # Setup for the pins for the segments
+    for segment in segmentPins:
         wpi.pinMode(segment, wpi.OUTPUT)
         wpi.digitalWrite(segment, 0)
 
-    # Setup voor de pins van de 4 digits
-    for digit in DIGIT_PINS:
+    # Setup for the pins of the 4 digits
+    for digit in digitPins:
         wpi.pinMode(digit, wpi.OUTPUT)
         wpi.digitalWrite(digit, 1)
 
-    # Geeft aan welke pins aan gaan voor elk getal
+    # Determines which leds turn on for every respective number
     getalArray = {' ': (0, 0, 0, 0, 0, 0, 0, 0),
                   '0': (1, 1, 0, 1, 0, 1, 1, 1),
                   '1': (0, 0, 0, 1, 0, 1, 0, 0),
@@ -308,37 +292,34 @@ def segmentDisplay():
                   '8': (1, 1, 0, 1, 1, 1, 1, 1),
                   '9': (0, 1, 0, 1, 1, 1, 1, 1)}
 
-    # het getal dat op de display moet staan, wordt ook een string zodat elk getal kan worden opgezocht in de array
-
-
     # Setup for the segments
-    for segment in SEGMENT_PINS:
+    for segment in segmentPins:
         wpi.pinMode(segment, wpi.OUTPUT)
         wpi.digitalWrite(segment, 0)
 
     # Setup for the 4 digits
-    for digit in DIGIT_PINS:
+    for digit in digitPins:
         wpi.pinMode(digit, wpi.OUTPUT)
         wpi.digitalWrite(digit, 1)
-    # het getal dat op de display moet staan, wordt ook een string zodat elk getal kan worden opgezocht in de array
-    # de loop die de juiste pins aan zet voor elk getal op de display
+
+    # The loop that turns on the right pins for each number on the display
     while True:
         getal = score * 100
         getalString = str(getal).rjust(4)
         for digit in range(4):
             for loop in range(0, 8):
-                wpi.digitalWrite(SEGMENT_PINS[loop], getalArray[getalString[digit]][loop])
-            # zet de juiste digit aan voor 0.001 seconde, zodat op elke digit een ander getal kan staan
-            wpi.digitalWrite(DIGIT_PINS[digit], 0)
+                wpi.digitalWrite(segmentPins[loop], getalArray[getalString[digit]][loop])
+            # Turn on the right digit for 0.001 seconds, so that on every digit there can be a different number
+            wpi.digitalWrite(digitPins[digit], 0)
             time.sleep(0.001)
-            wpi.digitalWrite(DIGIT_PINS[digit], 1)
+            wpi.digitalWrite(digitPins[digit], 1)
 
 
 # Making the threads
 soundThread = threading.Thread(target=soundsensor)
 databaseconnThread = threading.Thread(target=databaseConn)
 ultraSonicThread = threading.Thread(target=ultrasonic)
-insertThread = threading.Thread(target=ultrasonicInsert)
+# insertThread = threading.Thread(target=ultrasonicInsert)
 readThread = threading.Thread(target=databaseRead)
 neopixelThread = threading.Thread(target=neopixelUltra)
 servoThread = threading.Thread(target=servomovement)

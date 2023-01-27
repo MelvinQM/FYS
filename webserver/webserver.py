@@ -236,7 +236,6 @@ def ultrasonic():
 def ultrasonicInsert():
     global distance
     with app.app_context():
-        if __name__ == '__main__':
             while True:
                 time.sleep(1)
 
